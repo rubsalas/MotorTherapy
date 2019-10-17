@@ -32,63 +32,54 @@ yDR = displaySeparation * 2 + selectionHeight
 xS = displaySeparation * 3 + selectionWidth * 2
 yS = displaySeparation
 
-# Frames per Second para Clock
-fps = 60
-
-
-# Verifica en que seccion se encuentra posicionado para seleccionarlo
-def inSelection(mX, mY):
-
-    inPlace = False
-
-    if xUL <= mX <= (xUL + selectionWidth) and yUL <= mY <= (yUL + selectionHeight):
-        inPlace = True
-        print("UL: Raqueta Globo")
-        runUL()
-
-    elif xUR <= mX <= (xUR + selectionWidth) and yUR <= mY <= (yUR + selectionHeight):
-        inPlace = True
-        print("UR: Usando los Pies")
-        runUR()
-
-    elif xDL <= mX <= (xDL + selectionWidth) and yDL <= mY <= (yDL + selectionHeight):
-        inPlace = True
-        print("DL: Telaraña")
-        runDL()
-
-    elif xDR <= mX <= (xDR + selectionWidth) and yDR <= mY <= (yDR + selectionHeight):
-        inPlace = True
-        print("DR: Alcanzando el Objetivo")
-        runDR()
-
-    elif xS <= mX <= (xS + settingsWidth) and yS <= mY <= (yS + settingsHeight):
-        inPlace = True
-        print("S")
-        runS()
-
-    else:
-        print("Not an option")
-
-    return inPlace
-
-
-# Colores en RGB (R,G,B)
-black = (0, 0, 0)
-white = (255, 255, 255)
-red = (255, 0, 0)
-
 # Surface principal
 initialWindow = pygame.display.set_mode((displayWidth, displayHeight))
 
 # Titulo de la Ventana
 pygame.display.set_caption("MotorTherapy")
 
+# Colores en RGB (R,G,B)
+black = (0, 0, 0)
+white = (255, 255, 255)
+red = (255, 0, 0)
+
 # Reloj que controla el tiempo para animaciones y logica, fps
 clock = pygame.time.Clock()
 
+# Frames per Second para Clock
+fps = 60
+
+# Variables de Raqueta Globo
+rg_alt = 2
+rg_lat = 4
+rg_cantidad = 5
+#def Balloon
+#def Inc
+#def Dec
+
+# Variables de Usando los Pies
+up_colores = ["", "", "", "", "", "", "", "", "", ""]
+up_puntaje = ["", "", "", "", "", "", "", "", "", ""]
+up_tiempo = 60
+up_cantidad = 3
+#def Random
+#def Inc
+#def Dec
+
+# Variables de Telaraña
+ta_mi_arreglo = ["", "", "", "", ""]
+ta_mi_puntaje = ["", "", "", "", ""]
+ta_mi_fila = 5
+ta_mi_col = 5
+
+# Variables de Alcanzando el Objetivo
+ao_altura = 2
+ao_distancias = [2, 5, 1, 7, 1]
+ao_tiempo = 25
+#def Object
 
 # Muestra los rectangulos de las opciones en menu principal
-def showRects():
+def show_rects():
     # Dibuja un rectangulo -> Arriba izquierda [UL]
     pygame.draw.rect(initialWindow, (255, 49, 31),
                      (xUL, yUL, selectionWidth, selectionHeight))
@@ -110,23 +101,62 @@ def showRects():
                      (xS, yS, settingsWidth, settingsHeight))
 
 
-# Corre la seleccion de Up Left: Raqueta Globo
-def runUL(): #_alt, _lat):
+# Verifica en que seccion se encuentra posicionado para seleccionarlo
+# @param m_x : Posicion en x
+# @param m_y : Posicion en y
+def in_selection(m_x, m_y):
+
+    in_place = False
+
+    if xUL <= m_x <= (xUL + selectionWidth) and yUL <= m_y <= (yUL + selectionHeight):
+        in_place = True
+        print("UL: Raqueta Globo")
+        run_ul()
+
+    elif xUR <= m_x <= (xUR + selectionWidth) and yUR <= m_y <= (yUR + selectionHeight):
+        in_place = True
+        print("UR: Usando los Pies")
+        run_ur()
+
+    elif xDL <= m_x <= (xDL + selectionWidth) and yDL <= m_y <= (yDL + selectionHeight):
+        in_place = True
+        print("DL: Telaraña")
+        run_dl()
+
+    elif xDR <= m_x <= (xDR + selectionWidth) and yDR <= m_y <= (yDR + selectionHeight):
+        in_place = True
+        print("DR: Alcanzando el Objetivo")
+        run_dr()
+
+    elif xS <= m_x <= (xS + settingsWidth) and yS <= m_y <= (yS + settingsHeight):
+        in_place = True
+        print("S")
+        run_s()
+
+    else:
+        print("Not an option")
+
+    return in_place
+
+
+# Raqueta Globo
+# Corre la seleccion de Up Left
+def run_ul():  # alt, _lat):
 
     print("Raqueta Globo")
 
     # Altura del Globo
-   # alt = _alt
-   # lat = _lat
+    # alt = _alt
+    # lat = _lat
 
     # create a new Surface
-    uLSurface = pygame.Surface((displayWidth, displayHeight))
+    ul_surface = pygame.Surface((displayWidth, displayHeight))
 
     # change its background color
-    uLSurface.fill((55, 155, 255))
+    ul_surface.fill((55, 155, 255))
 
-    # blit uLSurface onto the main screen at the position (0, 0)
-    initialWindow.blit(uLSurface, (0, 0))
+    # blit ul_surface onto the main screen at the position (0, 0)
+    initialWindow.blit(ul_surface, (0, 0))
 
     pygame.font.init()  # you have to call this at the start,
     # if you want to use this module.
@@ -134,7 +164,7 @@ def runUL(): #_alt, _lat):
 
     textsurface = myfont.render('Some Text', False, (0, 0, 0))
 
-    uLSurface.blit(textsurface, (50,50))
+    ul_surface.blit(textsurface, (50,50))
 
     running = True
 
@@ -153,23 +183,49 @@ def runUL(): #_alt, _lat):
             if event.type == pygame.MOUSEBUTTONDOWN:
                 running = False
 
+
+        Balloon(rg_alt,rg_cantidad)
+
+
+
         # Update display (Actualiza _todo el surface)
         pygame.display.update()
 
 
+def Balloon(altura, latitud):
+
+    # Show Balloon en (alt,lat)
+
+    hit = False
+
+    while not hit:
+
+        hit = True
+
+        # Check and record hits
+
+        # if hitted
+            # + puntaje
+            # hit = True
+
+
+
+
+
+
 # Corre la seleccion de Up Right: Usando los Pies
-def runUR():
+def run_ur():
 
     print("Usando los Pies")
 
     # create a new Surface
-    uRSurface = pygame.Surface((displayWidth, displayHeight))
+    ur_surface = pygame.Surface((displayWidth, displayHeight))
 
     # change its background color
-    uRSurface.fill((255, 122, 172))
+    ur_surface.fill((255, 122, 172))
 
     # blit uLSurface onto the main screen at the position (0, 0)
-    initialWindow.blit(uRSurface, (0, 0))
+    initialWindow.blit(ur_surface, (0, 0))
 
     running = True
 
@@ -193,18 +249,18 @@ def runUR():
 
 
 # Corre la seleccion de Down Left
-def runDL():
+def run_dl():
 
     print("Telaraña")
 
     # create a new Surface
-    dLSurface = pygame.Surface((displayWidth, displayHeight))
+    dl_surface = pygame.Surface((displayWidth, displayHeight))
 
     # change its background color
-    dLSurface.fill((85, 255, 150))
+    dl_surface.fill((85, 255, 150))
 
     # blit uLSurface onto the main screen at the position (0, 0)
-    initialWindow.blit(dLSurface, (0, 0))
+    initialWindow.blit(dl_surface, (0, 0))
 
     running = True
 
@@ -228,18 +284,18 @@ def runDL():
 
 
 # Corre la seleccion de Down Right
-def runDR():
+def run_dr():
 
     print("Alcanzando el Objetivo")
 
     # create a new Surface
-    dRSurface = pygame.Surface((displayWidth, displayHeight))
+    dr_surface = pygame.Surface((displayWidth, displayHeight))
 
     # change its background color
-    dRSurface.fill((85, 255, 150))
+    dr_surface.fill((85, 255, 150))
 
     # blit uLSurface onto the main screen at the position (0, 0)
-    initialWindow.blit(dRSurface, (0, 0))
+    initialWindow.blit(dr_surface, (0, 0))
 
     running = True
 
@@ -263,18 +319,18 @@ def runDR():
 
 
 # Corre la seleccion de Down Right
-def runS():
+def run_s():
 
     print("Settings")
 
     # create a new Surface
-    sSurface = pygame.Surface((displayWidth, displayHeight))
+    s_surface = pygame.Surface((displayWidth, displayHeight))
 
     # change its background color
-    sSurface.fill((0, 0, 255))
+    s_surface.fill((0, 0, 255))
 
     # blit uLSurface onto the main screen at the position (0, 0)
-    initialWindow.blit(sSurface, (0, 0))
+    initialWindow.blit(s_surface, (0, 0))
 
     running = True
 
@@ -300,16 +356,16 @@ def runS():
 n = 1
 
 # Flag
-crashed = False
+playing = True
 
 # Loop
-while not crashed:
+while playing:
 
     # Cambia el fondo de la superficie
     initialWindow.fill(black)
 
     # Muestra las posibles cuadros de las opciones de los juegos
-    showRects()
+    show_rects()
 
     # Pygame verifica todos los events
     for event in pygame.event.get():
@@ -317,7 +373,7 @@ while not crashed:
         # Si se cierra la ventana
         if event.type == pygame.QUIT:
             # Va a salir del while
-            crashed = True
+            playing = False
             print("QUIT")
 
         # Al presionar el mouse
@@ -325,17 +381,17 @@ while not crashed:
             # Obtiene las posiciones actuales del mouse
             mousex, mousey = pygame.mouse.get_pos()
             # Verifica si puede ingresar a una opcion
-            inSelection(mousex, mousey)
+            in_selection(mousex, mousey)
 
     # Update display (Actualiza _todo el surface)
     pygame.display.update()
 
-   # Para iniciar a contar los segundos para seleccionar una opcion con la mano
-   # if n < fps:
-   #     n += 1
-   # else:
-   #     n = 0
-   # print(str(n))
+    # Para iniciar a contar los segundos para seleccionar una opcion con la mano
+    # if n < fps:
+    #     n += 1
+    # else:
+    #     n = 0
+    # print(str(n))
 
     # Parametro serian la cantidad de frames en un segundo (fps)
     clock.tick(fps)
