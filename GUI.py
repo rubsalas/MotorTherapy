@@ -99,26 +99,30 @@ def main_selection(m_x, m_y):
     if xUL <= m_x <= (xUL + selectionWidth) and yUL <= m_y <= (yUL + selectionHeight):
         in_place = True
         print("UL: Raqueta Globo")
-        show_rg_menu()
+        show_game_menu("rg")
+        # show_rg_menu()
         # run_ul()
 
     elif xUR <= m_x <= (xUR + selectionWidth) and yUR <= m_y <= (yUR + selectionHeight):
         in_place = True
         print("UR: Usando los Pies")
+        show_game_menu("up")
         # show_up_menu()
-        run_ur()
+        # run_up()
 
     elif xDL <= m_x <= (xDL + selectionWidth) and yDL <= m_y <= (yDL + selectionHeight):
         in_place = True
         print("DL: Telaraña")
+        show_game_menu("ta")
         # show_ta_menu()
-        run_dl()
+        # run_dl()
 
     elif xDR <= m_x <= (xDR + selectionWidth) and yDR <= m_y <= (yDR + selectionHeight):
         in_place = True
         print("DR: Alcanzando el Objetivo")
+        show_game_menu("ao")
         # show_ao_menu()
-        run_dr()
+        # run_dr()
 
     elif xS <= m_x <= (xS + settingsWidth) and yS <= m_y <= (yS + settingsHeight):
         in_place = True
@@ -131,34 +135,27 @@ def main_selection(m_x, m_y):
     return in_place
 
 
-###############################################################################
-#                                                                             #
-#                               RAQUETA GLOBO                                 #
-#                                                                             #
-###############################################################################
+# Muestra el menu de cada juego
+def show_game_menu(game):
 
-
-# Muestra el menu del juego Raqueta Globo
-def show_rg_menu():
-
-    print("Raqueta Globo: Menu")
+    print(game + ": Menu")
 
     # Superficie del menu
-    rg_menu_surface = pygame.Surface((displayWidth, displayHeight))
+    game_menu_surface = pygame.Surface((displayWidth, displayHeight))
 
     # Flag para mantener el menu del juego corriendo
-    running_rg_menu = True
+    running_game_menu = True
 
-    while running_rg_menu:
+    while running_game_menu:
 
         # Background Color
-        rg_menu_surface.fill((255, 155, 55))
+        game_menu_surface.fill((255, 155, 55))
 
         # Muestra la superficie encima de initialWindow
-        initialWindow.blit(rg_menu_surface, (0, 0))
+        initialWindow.blit(game_menu_surface, (0, 0))
 
         # Muestra las opciones del menu
-        show_rg_menu_options()
+        show_game_menu_options(game)
 
         # Pygame verifica todos los events
         for event in pygame.event.get():
@@ -166,7 +163,7 @@ def show_rg_menu():
             # Si se cierra la ventana
             if event.type == pygame.QUIT:
                 # Va a salir del while
-                running_rg_menu = False
+                running_game_menu = False
                 print("QUIT")
 
             # Al presionar el mouse
@@ -174,14 +171,31 @@ def show_rg_menu():
                 # Obtiene las posiciones actuales del mouse
                 mousex, mousey = pygame.mouse.get_pos()
                 # Verifica si puede ingresar a una opcion
-                running_rg_menu = rg_menu_selection(mousex, mousey)
+                running_game_menu = game_menu_selection(mousex, mousey, game)
 
         # Update display (Actualiza _todo el surface)
         pygame.display.update()
 
 
-# Muestra los cuadros de seleccion del menu
-def show_rg_menu_options():
+# Muestra los cuadros de seleccion del menu del juego XXX xx XXX
+def show_game_menu_options(game):
+
+    # Dependiendo del juego mostrara diferentes titulos y layouts de las opciones
+    if game == "rg":
+        # print("rg")
+        True
+    elif game == "up":
+        # print("up")
+        True
+    elif game == "ta":
+        # print("ta")
+        True
+    elif game == "ao":
+        # print("ao")
+        True
+    else:
+        print("Error in show_game_menu_options(game)")
+
     # Dibuja un rectangulo -> Titulo
     pygame.draw.rect(initialWindow, (255, 49, 31),
                      (xTitulo, yTitulo, game_title_width, game_title_height))
@@ -196,7 +210,7 @@ def show_rg_menu_options():
 
 
 # Verifica la seleccion en el menu del juego cuando se selecciona
-def rg_menu_selection(m_x, m_y):
+def game_menu_selection(m_x, m_y, game):
 
     selection = True
 
@@ -204,15 +218,29 @@ def rg_menu_selection(m_x, m_y):
             yOption_left + game_option_height):
         # Opcion izquierda
         # Opcion Start
-        run_ul()
-        # Mantiene True el Flag para que al salirse de la ventana del juego vuelva al menu
+
+        # Corre el juego al que le pertenece el menu
+        if game == "rg":
+            run_ul()
+        elif game == "up":
+            run_up()
+        elif game == "ta":
+            run_dl()
+        elif game == "ao":
+            run_dr()
+        else:
+            print("Error in game_menu_selection(m_x, m_y, game)")
+
+        # Mantiene True el Flag para que al salirse de la ventana del juego vuelva al menu del juego
         selection = True
 
     elif xOption_right <= m_x <= (xOption_right + game_option_width) and yOption_right <= m_y <= (
             yOption_right + game_option_height):
-        selection = False
         # Opcion derecha
         # Opcion Back
+
+        # Hace selection False para retornar al menu principal
+        selection = False
 
     else:
         print("Not an option")
@@ -220,13 +248,25 @@ def rg_menu_selection(m_x, m_y):
     return selection
 
 
+###############################################################################
+#                                                                             #
+#                               RAQUETA GLOBO                                 #
+#                                                                             #
+###############################################################################
+
+
 # Variables de Raqueta Globo
-rg_alt = 2
-rg_lat = 4
+rg_alt = 100 * 4
+rg_lat = 100 * 2
 rg_cantidad = 5
 # def balloon
 # def Inc
 # def Dec
+
+# Largo de balloon
+balloon_width = 62 // 1
+# Ancho de balloon
+balloon_height = 120 // 1
 
 
 # Corre la seleccion de Raqueta Globo
@@ -248,6 +288,10 @@ def run_ul():  # alt, _lat):
     # blit ul_surface onto the main screen at the position (0, 0)
     initialWindow.blit(ul_surface, (0, 0))
 
+    # Para el sprite del globo
+    n = 1
+
+    # Flag del juego
     running = True
 
     while running:
@@ -255,8 +299,17 @@ def run_ul():  # alt, _lat):
         # change its background color
         ul_surface.fill((55, 155, 255))
 
-        # blit ul_surface onto the main screen at the position (0, 0)
+        # blit uLSurface onto the main screen at the position (0, 0)
         initialWindow.blit(ul_surface, (0, 0))
+
+        # Muestra el globo
+        place_balloon(rg_alt, rg_lat, n)
+
+        # Para cambiar el sprite del globo
+        if n < 2:
+            n += 1
+        else:
+            n = 1
 
         # Pygame verifica todos los events
         for event in pygame.event.get():
@@ -271,17 +324,41 @@ def run_ul():  # alt, _lat):
             if event.type == pygame.MOUSEBUTTONDOWN:
                 running = False
 
+        # Parametro serian la cantidad de frames en un segundo (fps)
+        clock.tick(6)
+
         # Update display (Actualiza _todo el surface)
         pygame.display.update()
+
+
+# Posiciona el globo y muestra el sprite que se necesite
+# @param x
+# @param y
+# @param n: sprite de la bandera
+def place_balloon(x, y, n):
+
+    # Directorio de la imagen por mostrar actual
+    directory = "Resources/Balloon/balloon" + str(n) + ".png"
+
+    # Imagen cargada
+    balloon_n = pygame.image.load(directory)  # Carga la imagen de la carpeta
+    # Imagen escalada
+    balloon_n = pygame.transform.scale(balloon_n, (balloon_width, balloon_height))  # Escala la imagen al size deseado
+
+    # Muestra la imagen en pantalla con las coordenadas preestablecidas
+    initialWindow.blit(balloon_n, (x, y))
 
 
 def balloon(altura, latitud):
     # Show balloon en (alt,lat)
 
+    n = 1
+
     hit = False
 
     while not hit:
-        hit = True
+
+        hit = False
 
         # Check and record hits
 
@@ -305,15 +382,8 @@ def dec():
 ###############################################################################
 
 
-'''
-show_xx_menu():
-show_xx_menu_options():
-xx_menu_selection(m_x, m_y):
-'''
-
-
 # Variables de Usando los Pies
-up_colores = ["", "", "", "", "", "", "", "", "", ""]
+up_colores = ["blanco", "rosado", "rojo", "anaranjado", "amarillo", "verde_claro", "verde_oscuro", "celeste", "azul", "morado"]
 up_puntaje = ["", "", "", "", "", "", "", "", "", ""]
 up_tiempo = 60
 up_cantidad = 3
@@ -322,10 +392,10 @@ up_cantidad = 3
 # def Dec
 
 
-# Largo del sosten de las banderas
-stick_width = displayWidth * 0.4
+# Largo del sosten de las banderas (cambiar multiplier para cambiar el largo solamente)
+stick_width = displayWidth * 0.8
 # Altura del sosten de las banderas
-stick_y = 300
+stick_y = displayHeight // 2 - 50
 
 # Largo de bandera
 flag_width = 80 // 2
@@ -336,7 +406,7 @@ space_per_flag = stick_width // 10
 
 
 # Corre la seleccion de Up Right: Usando los Pies
-def run_ur():
+def run_up():
     print("Usando los Pies")
 
     # create a new Surface
@@ -376,10 +446,8 @@ def run_ur():
             if event.type == pygame.MOUSEBUTTONDOWN:
                 running = False
 
-        # balloon(rg_alt,rg_cantidad)
-
         # Update display (Actualiza _todo el surface)
-        pygame.display.update()
+        # pygame.display.update()
 
         # Parametro serian la cantidad de frames en un segundo (fps)
         clock.tick(10)
@@ -404,7 +472,7 @@ def place_flags(display, flag_cant, n):
 
     while flag_cant > 0:
         # Directorio de la imagen por mostrar actual
-        directory = "Resources/Flag" + str(flag_cant - 1) + "/F" + str(flag_cant - 1) + str(n) + ".png"
+        directory = "Resources/Flags/Flag" + str(flag_cant - 1) + "/F" + str(flag_cant - 1) + str(n) + ".png"
 
         # Imagen cargada
         flag_n = pygame.image.load(directory)  # Carga la imagen de la carpeta
@@ -428,13 +496,6 @@ def place_flags(display, flag_cant, n):
 ###############################################################################
 
 
-'''
-show_xx_menu():
-show_xx_menu_options():
-xx_menu_selection(m_x, m_y):
-'''
-
-
 # Variables de Telaraña
 ta_mi_arreglo = ["", "", "", "", ""]
 ta_mi_puntaje = ["", "", "", "", ""]
@@ -449,15 +510,15 @@ def run_dl():
     # create a new Surface
     dl_surface = pygame.Surface((displayWidth, displayHeight))
 
-    # change its background color
-    dl_surface.fill((85, 255, 150))
-
-    # blit uLSurface onto the main screen at the position (0, 0)
-    initialWindow.blit(dl_surface, (0, 0))
-
     running = True
 
     while running:
+
+        # change its background color
+        dl_surface.fill((85, 255, 150))
+
+        # blit uLSurface onto the main screen at the position (0, 0)
+        initialWindow.blit(dl_surface, (0, 0))
 
         # Pygame verifica todos los events
         for event in pygame.event.get():
@@ -474,6 +535,9 @@ def run_dl():
 
         # Update display (Actualiza _todo el surface)
         pygame.display.update()
+
+
+
 
 
 ###############################################################################
@@ -482,13 +546,9 @@ def run_dl():
 #                                                                             #
 ###############################################################################
 
-
-'''
-show_xx_menu():
-show_xx_menu_options():
-xx_menu_selection(m_x, m_y):
-'''
-
+#Variables de Alcanzando el Objetivo
+ao_object_x = 400
+ao_object_y = 200
 
 # Corre la seleccion de Down Right
 def run_dr():
@@ -497,15 +557,27 @@ def run_dr():
     # create a new Surface
     dr_surface = pygame.Surface((displayWidth, displayHeight))
 
-    # change its background color
-    dr_surface.fill((85, 255, 0))
-
-    # blit uLSurface onto the main screen at the position (0, 0)
-    initialWindow.blit(dr_surface, (0, 0))
+    # Para el sprite del object
+    n = 1
 
     running = True
 
     while running:
+
+        # change its background color
+        dr_surface.fill((85, 255, 0))
+
+        # blit uLSurface onto the main screen at the position (0, 0)
+        initialWindow.blit(dr_surface, (0, 0))
+
+        # Muestra el globo
+        place_object(ao_object_x, ao_object_y, n)
+
+        # Para cambiar el sprite del globo
+        if n < 2:
+            n += 1
+        else:
+            n = 1
 
         # Pygame verifica todos los events
         for event in pygame.event.get():
@@ -520,8 +592,29 @@ def run_dr():
             if event.type == pygame.MOUSEBUTTONDOWN:
                 running = False
 
+        # Parametro serian la cantidad de frames en un segundo (fps)
+        clock.tick(6)
+
         # Update display (Actualiza _todo el surface)
         pygame.display.update()
+
+
+# Posiciona el objeto y muestra el sprite que se necesite
+# @param x
+# @param y
+# @param n: sprite del objeto
+def place_object(x, y, n):
+
+    # Directorio de la imagen por mostrar actual
+    directory = "Resources/Balloon/balloon" + str(n) + ".png"
+
+    # Imagen cargada
+    balloon_n = pygame.image.load(directory)  # Carga la imagen de la carpeta
+    # Imagen escalada
+    balloon_n = pygame.transform.scale(balloon_n, (balloon_width, balloon_height))  # Escala la imagen al size deseado
+
+    # Muestra la imagen en pantalla con las coordenadas preestablecidas
+    initialWindow.blit(balloon_n, (x, y))
 
 
 # Corre la seleccion de Settings
