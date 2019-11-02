@@ -70,23 +70,60 @@ fps = 60
 # Muestra los rectangulos de las opciones en menu principal
 def show_main_options():
     # Dibuja un rectangulo -> Arriba izquierda [UL]
-    pygame.draw.rect(initialWindow, (255, 49, 31),
-                     (xUL, yUL, selectionWidth, selectionHeight))
+    # pygame.draw.rect(initialWindow, (255, 49, 31),
+    #                 (xUL, yUL, selectionWidth, selectionHeight))
+
+    # Directorio de la imagen por mostrar actual
+    rg_directory = "Resources/Menu/Raqueta_Globo.png"
+    # Imagen cargada
+    rg_title = pygame.image.load(rg_directory)  # Carga la imagen de la carpeta
+    # Imagen escalada
+    rg_title = pygame.transform.scale(rg_title, (selectionWidth, selectionHeight))  # Escala la imagen al size deseado
+    # Muestra la imagen en pantalla con las coordenadas preestablecidas
+    initialWindow.blit(rg_title, (xUL, yUL))
 
     # Dibuja un rectangulo -> Arriba derecha [UR]
-    pygame.draw.rect(initialWindow, (67, 255, 52),
-                     (xUR, yUR, selectionWidth, selectionHeight))
+    # pygame.draw.rect(initialWindow, (67, 255, 52),
+    #                 (xUR, yUR, selectionWidth, selectionHeight))
+
+    # Directorio de la imagen por mostrar actual
+    up_directory = "Resources/Menu/Usando_Los_Pies.png"
+    # Imagen cargada
+    up_title = pygame.image.load(up_directory)  # Carga la imagen de la carpeta
+    # Imagen escalada
+    up_title = pygame.transform.scale(up_title, (selectionWidth, selectionHeight))  # Escala la imagen al size deseado
+    # Muestra la imagen en pantalla con las coordenadas preestablecidas
+    initialWindow.blit(up_title, (xUR, yUR))
 
     # Dibuja un rectangulo -> Abajo izquierda [DL]
-    pygame.draw.rect(initialWindow, (165, 77, 255),
-                     (xDL, yDL, selectionWidth, selectionHeight))
+    # pygame.draw.rect(initialWindow, (165, 77, 255),
+    #                 (xDL, yDL, selectionWidth, selectionHeight))
+
+    # Directorio de la imagen por mostrar actual
+    ta_directory = "Resources/Menu/Telarana.png"
+    # Imagen cargada
+    ta_title = pygame.image.load(ta_directory)  # Carga la imagen de la carpeta
+    # Imagen escalada
+    ta_title = pygame.transform.scale(ta_title, (selectionWidth, selectionHeight))  # Escala la imagen al size deseado
+    # Muestra la imagen en pantalla con las coordenadas preestablecidas
+    initialWindow.blit(ta_title, (xDL, yDL))
 
     # Dibuja un rectangulo -> Abajo derecha [DR]
-    pygame.draw.rect(initialWindow, (52, 181, 255),
-                     (xDR, yDR, selectionWidth, selectionHeight))
+    # pygame.draw.rect(initialWindow, (52, 181, 255),
+    #                 (xDR, yDR, selectionWidth, selectionHeight))
+
+    # Directorio de la imagen por mostrar actual
+    ao_directory = "Resources/Menu/Alcanzando_El_Objetivo.png"
+    # Imagen cargada
+    ao_title = pygame.image.load(ao_directory)  # Carga la imagen de la carpeta
+    # Imagen escalada
+    ao_title = pygame.transform.scale(ao_title, (selectionWidth, selectionHeight))  # Escala la imagen al size deseado
+    # Muestra la imagen en pantalla con las coordenadas preestablecidas
+    initialWindow.blit(ao_title, (xDR, yDR))
+
 
     # Dibuja un rectangulo -> Settings [S]
-    pygame.draw.rect(initialWindow, (255, 255, 0),
+    pygame.draw.rect(initialWindow, (255, 255, 255),
                      (xS, yS, settingsWidth, settingsHeight))
 
 
@@ -137,11 +174,13 @@ def main_selection(m_x, m_y):
 
 # Muestra el menu de cada juego
 def show_game_menu(game):
-
     print(game + ": Menu")
 
     # Superficie del menu
     game_menu_surface = pygame.Surface((displayWidth, displayHeight))
+
+    # Second Surface
+    game_menu_second_surface = pygame.Surface(((displayWidth - displaySeparation*2), (displayHeight - displaySeparation*2)))
 
     # Flag para mantener el menu del juego corriendo
     running_game_menu = True
@@ -149,10 +188,12 @@ def show_game_menu(game):
     while running_game_menu:
 
         # Background Color
-        game_menu_surface.fill((255, 155, 55))
+        game_menu_surface.fill((0, 0, 0))
+        game_menu_second_surface.fill((255, 255, 255))
 
         # Muestra la superficie encima de initialWindow
         initialWindow.blit(game_menu_surface, (0, 0))
+        initialWindow.blit(game_menu_second_surface, (displaySeparation, displaySeparation))
 
         # Muestra las opciones del menu
         show_game_menu_options(game)
@@ -179,7 +220,6 @@ def show_game_menu(game):
 
 # Muestra los cuadros de seleccion del menu del juego XXX xx XXX
 def show_game_menu_options(game):
-
     # Dependiendo del juego mostrara diferentes titulos y layouts de las opciones
     if game == "rg":
         # print("rg")
@@ -197,21 +237,39 @@ def show_game_menu_options(game):
         print("Error in show_game_menu_options(game)")
 
     # Dibuja un rectangulo -> Titulo
-    pygame.draw.rect(initialWindow, (255, 49, 31),
+    pygame.draw.rect(initialWindow, (0, 0, 0),
                      (xTitulo, yTitulo, game_title_width, game_title_height))
 
     # Dibuja un rectangulo -> Start (Izquierda)
-    pygame.draw.rect(initialWindow, (67, 255, 52),
-                     (xOption_left, yOption_left, game_option_width, game_option_height))
+    # pygame.draw.rect(initialWindow, (67, 255, 52),
+    #                 (xOption_left, yOption_left, game_option_width, game_option_height))
+
+    # Directorio de la imagen por mostrar actual
+    start_button_directory = "Resources/Menu/" + game + "_Start_Button.png"
+    # Imagen cargada
+    start_button = pygame.image.load(start_button_directory)  # Carga la imagen de la carpeta
+    # Imagen escalada
+    start_button = pygame.transform.scale(start_button, (game_option_width, game_option_height))  # Escala la imagen al size deseado
+    # Muestra la imagen en pantalla con las coordenadas preestablecidas
+    initialWindow.blit(start_button, (xOption_left, yOption_left))
 
     # Dibuja un rectangulo -> Main Menu (Derecha)
-    pygame.draw.rect(initialWindow, (165, 77, 255),
-                     (xOption_right, yOption_right, game_option_width, game_option_height))
+    # pygame.draw.rect(initialWindow, (165, 77, 255),
+    #                 (xOption_right, yOption_right, game_option_width, game_option_height))
+
+    # Directorio de la imagen por mostrar actual
+    back_button_directory = "Resources/Menu/" + game + "_Back_Button.png"
+    # Imagen cargada
+    back_button = pygame.image.load(back_button_directory)  # Carga la imagen de la carpeta
+    # Imagen escalada
+    back_button = pygame.transform.scale(back_button,
+                                          (game_option_width, game_option_height))  # Escala la imagen al size deseado
+    # Muestra la imagen en pantalla con las coordenadas preestablecidas
+    initialWindow.blit(back_button, (xOption_right, yOption_right))
 
 
 # Verifica la seleccion en el menu del juego cuando se selecciona
 def game_menu_selection(m_x, m_y, game):
-
     selection = True
 
     if xOption_left <= m_x <= (xOption_left + game_option_width) and yOption_left <= m_y <= (
@@ -336,7 +394,6 @@ def run_ul():  # alt, _lat):
 # @param y
 # @param n: sprite de la bandera
 def place_balloon(x, y, n):
-
     # Directorio de la imagen por mostrar actual
     directory = "Resources/Balloon/balloon" + str(n) + ".png"
 
@@ -357,7 +414,6 @@ def balloon(altura, latitud):
     hit = False
 
     while not hit:
-
         hit = False
 
         # Check and record hits
@@ -383,7 +439,8 @@ def dec():
 
 
 # Variables de Usando los Pies
-up_colores = ["blanco", "rosado", "rojo", "anaranjado", "amarillo", "verde_claro", "verde_oscuro", "celeste", "azul", "morado"]
+up_colores = ["blanco", "rosado", "rojo", "anaranjado", "amarillo", "verde_claro", "verde_oscuro", "celeste", "azul",
+              "morado"]
 up_puntaje = ["", "", "", "", "", "", "", "", "", ""]
 up_tiempo = 60
 up_cantidad = 3
@@ -427,7 +484,7 @@ def run_up():
         # Muestra y pone las banderas en pantalla
         place_flags(initialWindow, 10, n)
 
-        # Para iniciar a contar los segundos para seleccionar una opcion con la mano
+        # n para seleccionar el tipo de sprite
         if n < 5:
             n += 1
         else:
@@ -468,7 +525,7 @@ def place_flags(display, flag_cant, n):
     #    - (Mitad del space_per_flag por bandera que exista)
     #    + (Espacio sobrante en space_per_flag con la bandera, solo de un lado)
     flag_x = ((displayWidth - stick_width) // 2) + (stick_width // 2) - ((space_per_flag * flag_cant) // 2) + (
-                (space_per_flag - flag_width) // 2)
+            (space_per_flag - flag_width) // 2)
 
     while flag_cant > 0:
         # Directorio de la imagen por mostrar actual
@@ -499,16 +556,29 @@ def place_flags(display, flag_cant, n):
 # Variables de Telaraña
 ta_mi_arreglo = ["", "", "", "", ""]
 ta_mi_puntaje = ["", "", "", "", ""]
-ta_mi_fila = 5
-ta_mi_col = 5
+ta_mi_fila = 10
+ta_mi_col = 10
+
+# Cambios de posicion
+dx = 0
+dy = 0
 
 
 # Corre la seleccion de Down Left
 def run_dl():
     print("Telaraña")
 
-    # create a new Surface
+    # Definicion de las variables globales que se necesitan modificar
+    global dx
+    global dy
+    global web_x
+    global web_y
+
+    # Crea una superficie
     dl_surface = pygame.Surface((displayWidth, displayHeight))
+
+    # Verifica las posiciones iniciales de la red
+    set_starting_point(ta_mi_fila, ta_mi_col)
 
     running = True
 
@@ -519,6 +589,22 @@ def run_dl():
 
         # blit uLSurface onto the main screen at the position (0, 0)
         initialWindow.blit(dl_surface, (0, 0))
+
+        # Mostrara la telaraña en pantalla
+        place_web(ta_mi_fila, ta_mi_col)
+
+        # Muestra los pies del niño
+        place_feet()
+
+        # Ingresa una palabra
+        asign_word(0, 3, "Word1", 5000)
+        asign_word(5, 0, "Word1", 5000)
+        asign_word(1, 1, "Word1", 5000)
+        asign_word(3, 6, "Word1", 5000)
+        asign_word(7, 4, "Word1", 5000)
+        asign_word(9, 9, "Word1", 5000)
+        asign_word(4, 9, "Word1", 5000)
+        asign_word(5, 9, "Word1", 5000)
 
         # Pygame verifica todos los events
         for event in pygame.event.get():
@@ -533,11 +619,116 @@ def run_dl():
             if event.type == pygame.MOUSEBUTTONDOWN:
                 running = False
 
+            # Si se presiona una tecla
+            if event.type == pygame.KEYDOWN:
+                # Cambia la direccion del movimiento
+                if event.key == pygame.K_LEFT:  # T. Izquierda
+                    dx = 5
+                if event.key == pygame.K_RIGHT:  # T. Derecha
+                    dx = -5
+                if event.key == pygame.K_UP:  # T. Izquierda
+                    dy = 5
+                if event.key == pygame.K_DOWN:  # T. Derecha
+                    dy = -5
+
+            # Si se suelta una tecla
+            if event.type == pygame.KEYUP:
+                # Retorna el movimiento a 0, lo hace estatico de nuevo
+                if event.key == pygame.K_LEFT or event.key == pygame.K_RIGHT \
+                        or event.key == pygame.K_UP or event.key == pygame.K_DOWN:  # T. Izquierda o T. Derecha
+                    dx = 0
+                    dy = 0
+
+        # Actualiza la posicion de la web
+        web_x += dx
+        web_y += dy
+
         # Update display (Actualiza _todo el surface)
         pygame.display.update()
 
 
+multiplier = 1
+web_width = 50
+web_separation = displayWidth
+web_row_width = displayWidth
+web_column_width = displayWidth
+web_x = 0
+web_y = 0
 
+
+# Muestra la telaraña en pantalla
+def place_web(rows, columns):
+
+    for x in range(0, rows):
+        # Dibuja rect(posX, posY, width, ancho)
+        pygame.draw.rect(initialWindow, (255, 255, 255),
+                         (web_x * multiplier, (web_y + web_separation * (x + 0)) * multiplier,
+                          (web_separation + web_separation * (columns - 2) + web_width) * multiplier, web_width * multiplier))
+
+    for y in range(0, columns):
+        # Dibuja rect(posX, posY, ancho, height)
+        pygame.draw.rect(initialWindow, (255, 255, 255),
+                         ((web_x + web_separation * (y + 0)) * multiplier, web_y * multiplier,
+                          web_width * multiplier, (web_separation + web_separation * (rows - 2)) * multiplier))
+
+
+# Define el punto de inicio de la web
+def set_starting_point(rows, columns):
+
+    global web_x
+    global web_y
+
+    web_x = 0
+    web_y = 0
+
+    x = - ((web_separation + web_separation * (columns - 2)) // 2 - web_separation // 2 + web_width // 2) * multiplier
+    y = - (web_separation + web_separation * (rows - 2) - web_separation // 4 - web_width) * multiplier
+
+    web_x += x
+    web_y += y
+
+
+shoe_width = 774 // 8
+shoe_height = 1920 // 8
+shoe_l_x = (displayWidth // 2) - (shoe_width) - 50
+shoe_l_y = displayHeight - (displayWidth * 3 // 7)
+shoe_r_x = (displayWidth // 2) + 50  # + (shoe_width)
+shoe_r_y = shoe_l_y
+
+
+def place_feet():
+    # Directorio de la imagen por mostrar actual
+    shoe_l_directory = "Resources/Character/topShoeL.png"
+    # Imagen cargada
+    shoe_l = pygame.image.load(shoe_l_directory)  # Carga la imagen de la carpeta
+    # Imagen escalada
+    shoe_l = pygame.transform.scale(shoe_l, (shoe_width, shoe_height))  # Escala la imagen al size deseado
+    # Muestra la imagen en pantalla con las coordenadas preestablecidas
+    initialWindow.blit(shoe_l, (shoe_l_x, shoe_l_y))
+
+    # Directorio de la imagen por mostrar actual
+    shoe_r_directory = "Resources/Character/topShoeR.png"
+    # Imagen cargada
+    shoe_r = pygame.image.load(shoe_r_directory)  # Carga la imagen de la carpeta
+    # Imagen escalada
+    shoe_r = pygame.transform.scale(shoe_r, (shoe_width, shoe_height))  # Escala la imagen al size deseado
+    # Muestra la imagen en pantalla con las coordenadas preestablecidas
+    initialWindow.blit(shoe_r, (shoe_r_x, shoe_r_y))
+
+
+word_width = 250
+word_height = 150
+
+
+# Muestra el cuadro de la palabra en la web
+def asign_word(row, column, word, score):
+
+    # print("row: " + str(row) + "\ncolumn: " + str(column) + "\nword: " + word + "\nscore: " + str(score))
+
+    pygame.draw.rect(initialWindow, (255, 127, 127),
+                     ((web_x + web_separation * row - word_width // 2 + web_width // 2) * multiplier,
+                      (web_y + web_separation * column - word_height // 2 + web_width // 2) * multiplier,
+                      word_width * multiplier, word_height * multiplier))
 
 
 ###############################################################################
@@ -546,9 +737,10 @@ def run_dl():
 #                                                                             #
 ###############################################################################
 
-#Variables de Alcanzando el Objetivo
+# Variables de Alcanzando el Objetivo
 ao_object_x = 400
 ao_object_y = 200
+
 
 # Corre la seleccion de Down Right
 def run_dr():
@@ -604,7 +796,6 @@ def run_dr():
 # @param y
 # @param n: sprite del objeto
 def place_object(x, y, n):
-
     # Directorio de la imagen por mostrar actual
     directory = "Resources/Balloon/balloon" + str(n) + ".png"
 
@@ -634,6 +825,9 @@ def run_s():
 
     while running:
 
+        # Muestra el personaje en pantalla
+        show_character()
+
         # Pygame verifica todos los events
         for event in pygame.event.get():
 
@@ -651,7 +845,71 @@ def run_s():
         pygame.display.update()
 
 
-# n = 1
+# Muestra el personaje en pantalla
+def show_character():
+
+    body_parts = ["head", "body", "handL", "handR", "shoeL", "shoeR"]
+
+    hm = 3
+    hw = 452 // hm
+    hh = 359 // hm
+    hx = displayWidth // 2 - hw // 2
+    hy = displayHeight - displayHeight * 0.8
+    # Directorio de la cabeza
+    head_directory = "Resources/Character/head.png"
+    head = pygame.image.load(head_directory)
+    head = pygame.transform.scale(head, (hw, hh))
+    initialWindow.blit(head, (hx, hy))
+
+    bm = 3
+    bw = 319 // bm
+    bh = 369 // bm
+    bx = displayWidth // 2 - 40
+    by = hy + hh + 10
+    # Directorio del cuerpo
+    body_directory = "Resources/Character/body.png"
+    body = pygame.image.load(body_directory)
+    body = pygame.transform.scale(body, (bw, bh))
+    initialWindow.blit(body, (bx, by))
+
+    hdm = 40
+    hdw = 900 // hdm
+    hdh = 900 // hdm
+    hdlx = bx - 30
+    hdly = by + 50
+    # Directorio de la mano izquierda
+    hand_l_directory = "Resources/Character/handL.png"
+    hand_l = pygame.image.load(hand_l_directory)
+    hand_l = pygame.transform.scale(hand_l, (hdw, hdh))
+    initialWindow.blit(hand_l, (hdlx, hdly))
+
+    hdrx = hdlx + bw + 30
+    hdry = hdly
+    # Directorio de la mano derecha
+    hand_r_directory = "Resources/Character/handR.png"
+    hand_r = pygame.image.load(hand_r_directory)
+    hand_r = pygame.transform.scale(hand_r, (hdw, hdh))
+    initialWindow.blit(hand_r, (hdrx, hdry))
+
+    sm = 13
+    sw = 400 // sm
+    sh = 460 // sm
+    slx = bx + 10
+    sly = by + 150
+    # Directorio del pie izquierdo
+    shoe_l_directory = "Resources/Character/shoeL.png"
+    shoe_l = pygame.image.load(shoe_l_directory)
+    shoe_l = pygame.transform.scale(shoe_l, (sw, sh))
+    initialWindow.blit(shoe_l, (slx, sly))
+
+    srx = slx + 50
+    sry = sly
+    # Directorio del pie derecho
+    shoe_r_directory = "Resources/Character/shoeR.png"
+    shoe_r = pygame.image.load(shoe_r_directory)
+    shoe_r = pygame.transform.scale(shoe_r, (sw, sh))
+    initialWindow.blit(shoe_r, (srx, sry))
+
 
 # Flag
 playing = True
