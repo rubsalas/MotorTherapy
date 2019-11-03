@@ -1,3 +1,7 @@
+import random
+import threading
+import time
+
 import pygame
 
 # Inicializa Pygame y todos sus modulos
@@ -9,8 +13,8 @@ displayHeight = 650
 displaySeparation = 16
 
 # Medidas de cuadro de seleccion de menu principal
-selectionWidth = (displayWidth - 75 - displaySeparation * 3) // 2
-selectionHeight = (displayHeight - displaySeparation * 3) // 2
+selectionWidth = (displayWidth - 75 - displaySeparation * 3) // 2    # 439 px
+selectionHeight = (displayHeight - displaySeparation * 3) // 2       # 301 px
 
 # Medidas de cuadro de settings de menu principal
 settingsWidth = 100 - displaySeparation * 2.5
@@ -74,7 +78,7 @@ def show_main_options():
     #                 (xUL, yUL, selectionWidth, selectionHeight))
 
     # Directorio de la imagen por mostrar actual
-    rg_directory = "Resources/Menu/Raqueta_Globo.png"
+    rg_directory = "Resources/Menu/Raqueta_Globo_small.png"
     # Imagen cargada
     rg_title = pygame.image.load(rg_directory)  # Carga la imagen de la carpeta
     # Imagen escalada
@@ -87,7 +91,7 @@ def show_main_options():
     #                 (xUR, yUR, selectionWidth, selectionHeight))
 
     # Directorio de la imagen por mostrar actual
-    up_directory = "Resources/Menu/Usando_Los_Pies.png"
+    up_directory = "Resources/Menu/Usando_Los_Pies_small.png"
     # Imagen cargada
     up_title = pygame.image.load(up_directory)  # Carga la imagen de la carpeta
     # Imagen escalada
@@ -100,7 +104,7 @@ def show_main_options():
     #                 (xDL, yDL, selectionWidth, selectionHeight))
 
     # Directorio de la imagen por mostrar actual
-    ta_directory = "Resources/Menu/Telarana.png"
+    ta_directory = "Resources/Menu/Telarana_small.png"
     # Imagen cargada
     ta_title = pygame.image.load(ta_directory)  # Carga la imagen de la carpeta
     # Imagen escalada
@@ -113,14 +117,13 @@ def show_main_options():
     #                 (xDR, yDR, selectionWidth, selectionHeight))
 
     # Directorio de la imagen por mostrar actual
-    ao_directory = "Resources/Menu/Alcanzando_El_Objetivo.png"
+    ao_directory = "Resources/Menu/Alcanzando_El_Objetivo_small.png"
     # Imagen cargada
     ao_title = pygame.image.load(ao_directory)  # Carga la imagen de la carpeta
     # Imagen escalada
     ao_title = pygame.transform.scale(ao_title, (selectionWidth, selectionHeight))  # Escala la imagen al size deseado
     # Muestra la imagen en pantalla con las coordenadas preestablecidas
     initialWindow.blit(ao_title, (xDR, yDR))
-
 
     # Dibuja un rectangulo -> Settings [S]
     pygame.draw.rect(initialWindow, (255, 255, 255),
@@ -135,35 +138,26 @@ def main_selection(m_x, m_y):
 
     if xUL <= m_x <= (xUL + selectionWidth) and yUL <= m_y <= (yUL + selectionHeight):
         in_place = True
-        print("UL: Raqueta Globo")
+        # print("UL: Raqueta Globo")
         show_game_menu("rg")
-        # show_rg_menu()
-        # run_ul()
 
     elif xUR <= m_x <= (xUR + selectionWidth) and yUR <= m_y <= (yUR + selectionHeight):
         in_place = True
-        print("UR: Usando los Pies")
+        # print("UR: Usando los Pies")
         show_game_menu("up")
-        # show_up_menu()
-        # run_up()
 
     elif xDL <= m_x <= (xDL + selectionWidth) and yDL <= m_y <= (yDL + selectionHeight):
         in_place = True
-        print("DL: Telaraña")
+        # print("DL: Telaraña")
         show_game_menu("ta")
-        # show_ta_menu()
-        # run_dl()
 
     elif xDR <= m_x <= (xDR + selectionWidth) and yDR <= m_y <= (yDR + selectionHeight):
         in_place = True
-        print("DR: Alcanzando el Objetivo")
+        # print("DR: Alcanzando el Objetivo")
         show_game_menu("ao")
-        # show_ao_menu()
-        # run_dr()
 
     elif xS <= m_x <= (xS + settingsWidth) and yS <= m_y <= (yS + settingsHeight):
         in_place = True
-        print("S")
         run_s()
 
     else:
@@ -197,6 +191,11 @@ def show_game_menu(game):
 
         # Muestra las opciones del menu
         show_game_menu_options(game)
+
+        # Muestra la mano derecha para seleccionar una opcion
+        show_hand_selection()
+        # Obtiene las nuevas coordinadas del Kinect
+        get_coordinates()
 
         # Pygame verifica todos los events
         for event in pygame.event.get():
@@ -306,6 +305,17 @@ def game_menu_selection(m_x, m_y, game):
     return selection
 
 
+# Muestra el fondo para cada juego
+def show_backroom():
+    # Directorio de la imagen por mostrar actual
+    background_directory = "Resources/Background/white_room.png"
+    # Imagen cargada
+    background = pygame.image.load(background_directory)  # Carga la imagen de la carpeta
+    # Imagen escalada
+    background = pygame.transform.scale(background, (displayWidth, displayHeight))  # Escala la imagen al size deseado
+    # Muestra la imagen en pantalla con las coordenadas preestablecidas
+    initialWindow.blit(background, (0, 0))
+
 ###############################################################################
 #                                                                             #
 #                               RAQUETA GLOBO                                 #
@@ -340,12 +350,6 @@ def run_ul():  # alt, _lat):
     # create a new Surface
     ul_surface = pygame.Surface((displayWidth, displayHeight))
 
-    # change its background color
-    ul_surface.fill((55, 155, 255))
-
-    # blit ul_surface onto the main screen at the position (0, 0)
-    initialWindow.blit(ul_surface, (0, 0))
-
     # Para el sprite del globo
     n = 1
 
@@ -355,19 +359,27 @@ def run_ul():  # alt, _lat):
     while running:
 
         # change its background color
-        ul_surface.fill((55, 155, 255))
+        # ul_surface.fill((55, 155, 255))
 
-        # blit uLSurface onto the main screen at the position (0, 0)
-        initialWindow.blit(ul_surface, (0, 0))
+        # blit ul_surface onto the main screen at the position (0, 0)
+        # initialWindow.blit(ul_surface, (0, 0))
+
+        # Muestra el background
+        show_backroom()
 
         # Muestra el globo
-        place_balloon(rg_alt, rg_lat, n)
+        place_balloon(rg_lat, rg_alt, n)
 
         # Para cambiar el sprite del globo
         if n < 2:
             n += 1
         else:
             n = 1
+
+        # Obtiene las nuevas coordinadas del Kinect
+        get_coordinates()
+        # Muestra el personaje en pantalla
+        show_character()
 
         # Pygame verifica todos los events
         for event in pygame.event.get():
@@ -383,10 +395,13 @@ def run_ul():  # alt, _lat):
                 running = False
 
         # Parametro serian la cantidad de frames en un segundo (fps)
-        clock.tick(6)
+        clock.tick(fps)
 
         # Update display (Actualiza _todo el surface)
         pygame.display.update()
+
+        # Verificar la colision
+        check_balloon_hit()
 
 
 # Posiciona el globo y muestra el sprite que se necesite
@@ -404,6 +419,22 @@ def place_balloon(x, y, n):
 
     # Muestra la imagen en pantalla con las coordenadas preestablecidas
     initialWindow.blit(balloon_n, (x, y))
+
+
+# Verifica si el personaje ha impactado al globo
+def check_balloon_hit():
+
+    if rhy < rg_alt + balloon_height and rhy > rg_alt or rhy + hdh < rg_alt + balloon_height and rhy + hdh > rg_alt:
+
+        if rhx > rg_lat and rhx < rg_lat + balloon_width or rhx + hdw > rg_lat and rhx + hdw < rg_lat + balloon_width:
+            print("Rigth Hand Collision")
+            # time.sleep(8)
+
+    elif lhy < rg_alt + balloon_height and lhy > rg_alt or lhy + hdh < rg_alt + balloon_height and lhy + hdh > rg_alt:
+
+        if lhx > rg_lat and lhx < rg_lat + balloon_width or lhx + hdw > rg_lat and lhx + hdw < rg_lat + balloon_width:
+            print("Left Hand Collision")
+            # time.sleep(8)
 
 
 def balloon(altura, latitud):
@@ -439,11 +470,11 @@ def dec():
 
 
 # Variables de Usando los Pies
-up_colores = ["blanco", "rosado", "rojo", "anaranjado", "amarillo", "verde_claro", "verde_oscuro", "celeste", "azul",
+up_colores = ["rosado", "rojo", "anaranjado", "amarillo", "verde_claro", "verde_oscuro", "turqueza", "celeste", "azul",
               "morado"]
 up_puntaje = ["", "", "", "", "", "", "", "", "", ""]
 up_tiempo = 60
-up_cantidad = 3
+up_cantidad = 10
 # def Random
 # def Inc
 # def Dec
@@ -451,8 +482,11 @@ up_cantidad = 3
 
 # Largo del sosten de las banderas (cambiar multiplier para cambiar el largo solamente)
 stick_width = displayWidth * 0.8
+# Lugar en la pared donde estara el sosten
+stick_x = (displayWidth - stick_width) // 2
 # Altura del sosten de las banderas
-stick_y = displayHeight // 2 - 50
+stick_y = displayHeight // 2 + 130
+
 
 # Largo de bandera
 flag_width = 80 // 2
@@ -476,19 +510,30 @@ def run_up():
     while running:
 
         # change its background color
-        ur_surface.fill((255, 122, 172))
+        # ur_surface.fill((255, 122, 172))
 
         # blit uLSurface onto the main screen at the position (0, 0)
-        initialWindow.blit(ur_surface, (0, 0))
+        # initialWindow.blit(ur_surface, (0, 0))
+
+        # Muestra el background
+        show_backroom()
+
+        # Muestra el sosten de las banderas
+        place_rope()
 
         # Muestra y pone las banderas en pantalla
-        place_flags(initialWindow, 10, n)
+        place_flags(up_cantidad, n)
 
         # n para seleccionar el tipo de sprite
         if n < 5:
             n += 1
         else:
             n = 0
+
+        # Obtiene las nuevas coordinadas del Kinect
+        get_coordinates()
+        # Muestra el personaje en pantalla
+        show_character()
 
         # Pygame verifica todos los events
         for event in pygame.event.get():
@@ -513,12 +558,26 @@ def run_up():
         pygame.display.update()
 
 
+# Muestra lo que sostendra las banderas
+def place_rope():
+    # Directorio de la imagen por mostrar actual
+    rope_directory = "Resources/Flags/rope_small.png"
+
+    # Imagen cargada
+    rope = pygame.image.load(rope_directory)  # Carga la imagen de la carpeta
+    # Imagen escalada
+    rope = pygame.transform.scale(rope, (int(stick_width), 20))  # Escala la imagen al size deseado
+
+    # Muestra la imagen en pantalla con las coordenadas preestablecidas
+    initialWindow.blit(rope, (stick_x, stick_y))
+
+
 # Posiciona las banderas en pantalla segun la cantidad que hayan y el tamaño
 # de donde estaran posicionadas
 # @param display: donde se mostraran las banderas
 # @param flag_cant: cantidad de banderas
 # @param n: sprite de la bandera
-def place_flags(display, flag_cant, n):
+def place_flags(flag_cant, n):
     # Posicion en x de la bandera:
     #   (Mitad del espacio que sobra del display )
     #    + (Mitad del espacio donde estaran las banderas)
@@ -537,7 +596,7 @@ def place_flags(display, flag_cant, n):
         flag_n = pygame.transform.scale(flag_n, (flag_width, flag_height))  # Escala la imagen al size deseado
 
         # Muestra la imagen en pantalla con las coordenadas preestablecidas
-        display.blit(flag_n, (flag_x, stick_y))
+        initialWindow.blit(flag_n, (flag_x, stick_y))
 
         # Aumenta flag_x para la posicion de la siguiente bandera
         flag_x = flag_x + space_per_flag
@@ -556,8 +615,8 @@ def place_flags(display, flag_cant, n):
 # Variables de Telaraña
 ta_mi_arreglo = ["", "", "", "", ""]
 ta_mi_puntaje = ["", "", "", "", ""]
-ta_mi_fila = 10
-ta_mi_col = 10
+ta_mi_fila = 4
+ta_mi_col = 4
 
 # Cambios de posicion
 dx = 0
@@ -585,7 +644,7 @@ def run_dl():
     while running:
 
         # change its background color
-        dl_surface.fill((85, 255, 150))
+        dl_surface.fill((255, 255, 255))
 
         # blit uLSurface onto the main screen at the position (0, 0)
         initialWindow.blit(dl_surface, (0, 0))
@@ -593,18 +652,18 @@ def run_dl():
         # Mostrara la telaraña en pantalla
         place_web(ta_mi_fila, ta_mi_col)
 
+        # Ingresa una palabra
+        asign_word(1, 1, "Word3", 5000)
+        asign_word(0, 3, "Word1", 5000)
+        asign_word(2, 1, "Word4", 5000)
+        asign_word(5, 0, "Word2", 5000)
+        asign_word(7, 4, "Word5", 5000)
+        asign_word(9, 9, "Word6", 5000)
+        asign_word(4, 9, "Word7", 5000)
+        asign_word(5, 9, "Word8", 5000)
+
         # Muestra los pies del niño
         place_feet()
-
-        # Ingresa una palabra
-        asign_word(0, 3, "Word1", 5000)
-        asign_word(5, 0, "Word1", 5000)
-        asign_word(1, 1, "Word1", 5000)
-        asign_word(3, 6, "Word1", 5000)
-        asign_word(7, 4, "Word1", 5000)
-        asign_word(9, 9, "Word1", 5000)
-        asign_word(4, 9, "Word1", 5000)
-        asign_word(5, 9, "Word1", 5000)
 
         # Pygame verifica todos los events
         for event in pygame.event.get():
@@ -623,13 +682,13 @@ def run_dl():
             if event.type == pygame.KEYDOWN:
                 # Cambia la direccion del movimiento
                 if event.key == pygame.K_LEFT:  # T. Izquierda
-                    dx = 5
+                    dx = 25
                 if event.key == pygame.K_RIGHT:  # T. Derecha
-                    dx = -5
+                    dx = -25
                 if event.key == pygame.K_UP:  # T. Izquierda
-                    dy = 5
+                    dy = 25
                 if event.key == pygame.K_DOWN:  # T. Derecha
-                    dy = -5
+                    dy = -25
 
             # Si se suelta una tecla
             if event.type == pygame.KEYUP:
@@ -661,13 +720,13 @@ def place_web(rows, columns):
 
     for x in range(0, rows):
         # Dibuja rect(posX, posY, width, ancho)
-        pygame.draw.rect(initialWindow, (255, 255, 255),
+        pygame.draw.rect(initialWindow, (0, 0, 0),
                          (web_x * multiplier, (web_y + web_separation * (x + 0)) * multiplier,
                           (web_separation + web_separation * (columns - 2) + web_width) * multiplier, web_width * multiplier))
 
     for y in range(0, columns):
         # Dibuja rect(posX, posY, ancho, height)
-        pygame.draw.rect(initialWindow, (255, 255, 255),
+        pygame.draw.rect(initialWindow, (0, 0, 0),
                          ((web_x + web_separation * (y + 0)) * multiplier, web_y * multiplier,
                           web_width * multiplier, (web_separation + web_separation * (rows - 2)) * multiplier))
 
@@ -698,20 +757,20 @@ shoe_r_y = shoe_l_y
 
 def place_feet():
     # Directorio de la imagen por mostrar actual
-    shoe_l_directory = "Resources/Character/topShoeL.png"
+    shoe_l_directory = "Resources/Character/topShoeLsmall.png"
     # Imagen cargada
     shoe_l = pygame.image.load(shoe_l_directory)  # Carga la imagen de la carpeta
     # Imagen escalada
-    shoe_l = pygame.transform.scale(shoe_l, (shoe_width, shoe_height))  # Escala la imagen al size deseado
+    shoe_l = pygame.transform.scale(shoe_l, (int(shoe_width * multiplier), int(shoe_height * multiplier)))  # Escala la imagen al size deseado
     # Muestra la imagen en pantalla con las coordenadas preestablecidas
     initialWindow.blit(shoe_l, (shoe_l_x, shoe_l_y))
 
     # Directorio de la imagen por mostrar actual
-    shoe_r_directory = "Resources/Character/topShoeR.png"
+    shoe_r_directory = "Resources/Character/topShoeRsmall.png"
     # Imagen cargada
     shoe_r = pygame.image.load(shoe_r_directory)  # Carga la imagen de la carpeta
     # Imagen escalada
-    shoe_r = pygame.transform.scale(shoe_r, (shoe_width, shoe_height))  # Escala la imagen al size deseado
+    shoe_r = pygame.transform.scale(shoe_r, (int(shoe_width * multiplier), int(shoe_height * multiplier)))  # Escala la imagen al size deseado
     # Muestra la imagen en pantalla con las coordenadas preestablecidas
     initialWindow.blit(shoe_r, (shoe_r_x, shoe_r_y))
 
@@ -725,10 +784,30 @@ def asign_word(row, column, word, score):
 
     # print("row: " + str(row) + "\ncolumn: " + str(column) + "\nword: " + word + "\nscore: " + str(score))
 
+    word_x = (web_x + web_separation * row - word_width // 2 + web_width // 2) * multiplier
+    word_y = (web_y + web_separation * column - word_height // 2 + web_width // 2) * multiplier
+
+    word_separation = 10
+
+    # Dibuja rect(posX, posY, ancho, height)
+    pygame.draw.rect(initialWindow, (0, 0, 0),
+                     ((word_x - word_separation), (word_y - word_separation),
+                      (word_width + word_separation*2) * multiplier, (word_height + word_separation*2) * multiplier))
+
+    # Dibuja rect(posX, posY, ancho, height)
     pygame.draw.rect(initialWindow, (255, 127, 127),
-                     ((web_x + web_separation * row - word_width // 2 + web_width // 2) * multiplier,
-                      (web_y + web_separation * column - word_height // 2 + web_width // 2) * multiplier,
-                      word_width * multiplier, word_height * multiplier))
+                     (word_x, word_y, word_width * multiplier, word_height * multiplier))
+
+    # Para mostrar la palabra
+    text = pygame.font.Font("freesansbold.ttf", int(50 * multiplier))  # Font
+    text_surface, text_rectangle = text_objects(word, text)
+    text_rectangle.center = ((word_x + word_width//2), (word_y + word_height//2))
+    initialWindow.blit(text_surface, text_rectangle)
+
+
+def text_objects(text, font):
+    text_surface = font.render(text, True, (255, 255, 255))
+    return text_surface, text_surface.get_rect()
 
 
 ###############################################################################
@@ -740,6 +819,8 @@ def asign_word(row, column, word, score):
 # Variables de Alcanzando el Objetivo
 ao_object_x = 400
 ao_object_y = 200
+
+ao_cant_colisiones = 0
 
 
 # Corre la seleccion de Down Right
@@ -757,13 +838,22 @@ def run_dr():
     while running:
 
         # change its background color
-        dr_surface.fill((85, 255, 0))
+        # dr_surface.fill((85, 255, 0))
 
         # blit uLSurface onto the main screen at the position (0, 0)
-        initialWindow.blit(dr_surface, (0, 0))
+        # initialWindow.blit(dr_surface, (0, 0))
+
+        # Muestra el background
+        show_backroom()
 
         # Muestra el globo
         place_object(ao_object_x, ao_object_y, n)
+
+        # Obtiene las nuevas coordinadas del Kinect
+        get_coordinates()
+        # Muestra el personaje en pantalla
+        show_character()
+
 
         # Para cambiar el sprite del globo
         if n < 2:
@@ -790,6 +880,13 @@ def run_dr():
         # Update display (Actualiza _todo el surface)
         pygame.display.update()
 
+        # Verifica las colisiones
+        check_object_hit()
+
+
+ao_object_width = balloon_width
+ao_object_height = balloon_height
+
 
 # Posiciona el objeto y muestra el sprite que se necesite
 # @param x
@@ -797,15 +894,43 @@ def run_dr():
 # @param n: sprite del objeto
 def place_object(x, y, n):
     # Directorio de la imagen por mostrar actual
-    directory = "Resources/Balloon/balloon" + str(n) + ".png"
+    ao_object_directory = "Resources/Balloon/balloon" + str(n) + ".png"
 
     # Imagen cargada
-    balloon_n = pygame.image.load(directory)  # Carga la imagen de la carpeta
+    ao_object = pygame.image.load(ao_object_directory)  # Carga la imagen de la carpeta
     # Imagen escalada
-    balloon_n = pygame.transform.scale(balloon_n, (balloon_width, balloon_height))  # Escala la imagen al size deseado
+    ao_object = pygame.transform.scale(ao_object, (ao_object_width, ao_object_height))  # Escala la imagen al size deseado
 
     # Muestra la imagen en pantalla con las coordenadas preestablecidas
-    initialWindow.blit(balloon_n, (x, y))
+    initialWindow.blit(ao_object, (x, y))
+
+
+# Verifica si el personaje ha impactado al globo
+def check_object_hit():
+
+    global ao_cant_colisiones
+
+    if rhy < ao_object_y + ao_object_height and rhy > ao_object_y \
+            or rhy + hdh < ao_object_y + ao_object_height and rhy + hdh > ao_object_y:
+
+        if rhx > ao_object_x and rhx < ao_object_x + ao_object_width \
+                or rhx + hdw > ao_object_x and rhx + hdw < ao_object_x + ao_object_width:
+            print("Rigth Hand Collision")
+
+            ao_cant_colisiones += 1
+
+            #time.sleep(8)
+
+    elif lhy < ao_object_y + ao_object_height and lhy > ao_object_y \
+            or lhy + hdh < ao_object_y + ao_object_height and lhy + hdh > ao_object_y:
+
+        if lhx > ao_object_x and lhx < ao_object_x + ao_object_width \
+                or lhx + hdw > ao_object_x and lhx + hdw < ao_object_x + ao_object_width:
+            print("Left Hand Collision")
+
+            ao_cant_colisiones += 1
+
+            #time.sleep(8)
 
 
 # Corre la seleccion de Settings
@@ -818,15 +943,17 @@ def run_s():
     # change its background color
     s_surface.fill((0, 0, 255))
 
-    # blit uLSurface onto the main screen at the position (0, 0)
-    initialWindow.blit(s_surface, (0, 0))
-
     running = True
 
     while running:
 
+        # blit uLSurface onto the main screen at the position (0, 0)
+        initialWindow.blit(s_surface, (0, 0))
+
         # Muestra el personaje en pantalla
         show_character()
+        # Obtiene las nuevas coordinadas del Kinect
+        get_coordinates()
 
         # Pygame verifica todos los events
         for event in pygame.event.get():
@@ -845,70 +972,145 @@ def run_s():
         pygame.display.update()
 
 
+# Head Dimensions
+hm = 3
+hw = 452 // hm
+hh = 359 // hm
+
+# Body Dimensions
+bm = 3
+bw = 319 // bm
+bh = 369 // bm
+
+# Hands Dimensions
+hdm = 40
+hdw = 900 // hdm
+hdh = 900 // hdm
+
+# Feet Dimensions
+fm = 13
+fw = 400 // fm
+fh = 460 // fm
+
+bx = displayWidth // 2 - 40
+by = (displayHeight - displayHeight * 0.8) + hh + 10
+hx = bx - 20
+hy = by - hh - 10
+lhx = bx - 30
+lhy = by + 50
+rhx = lhx + bw + 30
+rhy = lhy
+lfx = bx + 10
+lfy = by + 150
+rfx = lfx + 50
+rfy = lfy
+character_coordinates = [bx, by, lhx, lhy, rhx, rhy, lfx, lfy, rfx, rfy]
+
+
 # Muestra el personaje en pantalla
 def show_character():
 
     body_parts = ["head", "body", "handL", "handR", "shoeL", "shoeR"]
 
-    hm = 3
-    hw = 452 // hm
-    hh = 359 // hm
-    hx = displayWidth // 2 - hw // 2
-    hy = displayHeight - displayHeight * 0.8
     # Directorio de la cabeza
-    head_directory = "Resources/Character/head.png"
+    head_directory = "Resources/Character/headsmall.png"
     head = pygame.image.load(head_directory)
     head = pygame.transform.scale(head, (hw, hh))
     initialWindow.blit(head, (hx, hy))
 
-    bm = 3
-    bw = 319 // bm
-    bh = 369 // bm
-    bx = displayWidth // 2 - 40
-    by = hy + hh + 10
     # Directorio del cuerpo
-    body_directory = "Resources/Character/body.png"
+    body_directory = "Resources/Character/bodysmall.png"
     body = pygame.image.load(body_directory)
     body = pygame.transform.scale(body, (bw, bh))
     initialWindow.blit(body, (bx, by))
 
-    hdm = 40
-    hdw = 900 // hdm
-    hdh = 900 // hdm
-    hdlx = bx - 30
-    hdly = by + 50
     # Directorio de la mano izquierda
-    hand_l_directory = "Resources/Character/handL.png"
+    hand_l_directory = "Resources/Character/handLsmall.png"
     hand_l = pygame.image.load(hand_l_directory)
     hand_l = pygame.transform.scale(hand_l, (hdw, hdh))
-    initialWindow.blit(hand_l, (hdlx, hdly))
+    initialWindow.blit(hand_l, (lhx, lhy))
 
-    hdrx = hdlx + bw + 30
-    hdry = hdly
     # Directorio de la mano derecha
-    hand_r_directory = "Resources/Character/handR.png"
+    hand_r_directory = "Resources/Character/handRsmall.png"
     hand_r = pygame.image.load(hand_r_directory)
     hand_r = pygame.transform.scale(hand_r, (hdw, hdh))
-    initialWindow.blit(hand_r, (hdrx, hdry))
+    initialWindow.blit(hand_r, (rhx, rhy))
 
-    sm = 13
-    sw = 400 // sm
-    sh = 460 // sm
-    slx = bx + 10
-    sly = by + 150
     # Directorio del pie izquierdo
-    shoe_l_directory = "Resources/Character/shoeL.png"
+    shoe_l_directory = "Resources/Character/shoeLsmall.png"
     shoe_l = pygame.image.load(shoe_l_directory)
-    shoe_l = pygame.transform.scale(shoe_l, (sw, sh))
-    initialWindow.blit(shoe_l, (slx, sly))
+    shoe_l = pygame.transform.scale(shoe_l, (fw, fh))
+    initialWindow.blit(shoe_l, (lfx, lfy))
 
-    srx = slx + 50
-    sry = sly
     # Directorio del pie derecho
-    shoe_r_directory = "Resources/Character/shoeR.png"
+    shoe_r_directory = "Resources/Character/shoeRsmall.png"
     shoe_r = pygame.image.load(shoe_r_directory)
-    shoe_r = pygame.transform.scale(shoe_r, (sw, sh))
-    initialWindow.blit(shoe_r, (srx, sry))
+    shoe_r = pygame.transform.scale(shoe_r, (fw, fh))
+    initialWindow.blit(shoe_r, (rfx, rfy))
+
+
+# Muestra solo la mano derecha, que sera utilizada para seleccionar
+def show_hand_selection():
+    # Directorio de la mano derecha
+    hand_r_directory = "Resources/Character/handRsmall.png"
+    hand_r = pygame.image.load(hand_r_directory)
+    hand_r = pygame.transform.scale(hand_r, (hdw, hdh))
+    initialWindow.blit(hand_r, (rhx, rhy))
+
+
+# Actualiza las posiciones del Personaje
+def update_character_coordinates(dbx, dby, dlhx, dlhy, drhx, drhy, dlfx, dlfy, drfx, drfy):
+
+    global bx
+    global by
+    global hx
+    global hy
+    global lhx
+    global lhy
+    global rhx
+    global rhy
+    global lfx
+    global lfy
+    global rfx
+    global rfy
+
+    bx = dbx
+    by = dby
+    hx = dbx - 20
+    hy = dby - hh - 10
+    lhx = dlhx
+    lhy = dlhy
+    rhx = drhx
+    rhy = drhy
+    lfx = dlfx
+    lfy = dlfy
+    rfx = drfx
+    rfy = drfy
+
+
+# Simulacion de la obtencion de las coordenadas desde el Kinect
+def get_coordinates():
+
+    mx = 100
+    my = 100
+
+    dbx = random.randrange(0, displayWidth - mx, 1)
+    dby = random.randrange(0, displayHeight - my, 1)
+    dlhx = random.randrange(0, displayWidth - mx, 1)
+    dlhy = random.randrange(0, displayHeight - my, 1)
+    drhx = random.randrange(0, displayWidth - mx, 1)
+    drhy = random.randrange(0, displayHeight - my, 1)
+    dlfx = random.randrange(0, displayWidth - mx, 1)
+    dlfy = random.randrange(0, displayHeight - my, 1)
+    drfx = random.randrange(0, displayWidth - mx, 1)
+    drfy = random.randrange(0, displayHeight - my, 1)
+
+    update_character_coordinates(dbx, dby, dlhx, dlhy, drhx, drhy, dlfx, dlfy, drfx, drfy)
+
+
+#thread = threading.Thread(target=get_coordinates())
+#thread.start()
+#thread.join()
 
 
 # Flag
@@ -922,6 +1124,11 @@ while playing:
 
     # Muestra las posibles cuadros de las opciones de los juegos
     show_main_options()
+
+    # Muestra la mano derecha para seleccionar una opcion
+    show_hand_selection()
+    # Obtiene las nuevas coordinadas del Kinect
+    get_coordinates()
 
     # Pygame verifica todos los events
     for event in pygame.event.get():
