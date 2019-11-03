@@ -4,10 +4,9 @@ import codecs
 import os
 import sys
 
-
 reservadas = ['IF', 'ELSE', 'DO', 'FOREND', 'FEND', 'BALLOON', 'WHILE', 'INC', 'DEC', 'FOR',
-               'RANDOM', 'TELARANA', 'FORASIGNWORD', 'OBJECT', 'ASIGNWORD', 'TIMES', 'USING', 'PROCEDURE',
-                'INT','FLOAT','STRING','TEXTO','DOW','ENDDO', 'ARRAY', 'QUOTE']
+               'RANDOM', 'TELAARANA', 'FORASIGNWORD', 'OBJECT', 'ASIGNWORD', 'TIMES', 'USING', 'PROCEDURE',
+                'INT','FLOAT','STRING','TEXTO','DOW','ENDDO', 'ARRAY', 'QUOTE', 'ENDIF']
 
 tokens = reservadas + ['ID', 'NUMBER', 'PLUS', 'MINUS', 'DIVIDE', 'ASSIGN', 'LPAREN', 'RPAREN', 'SRPAREN', 'SLPAREN', 'EQUAL', 'COLON',
           'SEMICOLON', 'PERCENT', 'ELEVATE', 'SLASH', 'LESS', 'GREATER', 'EQLESS', 'EQGREATER', 'SPACE',
@@ -35,9 +34,9 @@ t_RPAREN = r'\)'
 t_SLPAREN = r'\['
 t_SRPAREN = r'\]'
 t_SEMICOLON = r'\;'
-t_COLON = r'\,'
+t_COLON = r','
 
-t_IF = r'if'
+t_IF = r'If'
 t_ELSE = 'else'
 t_DO = r'DO'
 t_FOREND = r'FOREND'
@@ -49,12 +48,13 @@ t_INC = r'Inc'
 t_DEC = r'Dec'
 t_FOR = r'FOR'
 t_RANDOM = r'Random'
-t_TELARANA = r'TelaArana'
+t_TELAARANA = r'TelaArana'
 t_FORASIGNWORD = r'ForAsignWord'
 t_OBJECT = r'Object'
 t_ASIGNWORD = r'AsignWord'
 t_TIMES = r'times'
 t_USING = r'using'
+t_ENDIF = r'ENDIF'
 t_ARRAY = r'Array'
 t_INT = r'Int'
 t_FLOAT = r'Float'

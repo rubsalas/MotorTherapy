@@ -6,7 +6,7 @@ from LexicalAnalizer import tokens
 from sys import stdin
 
 precedence = (
-    ('right','DEC','BALLOON','FOR','IF','DOW','RANDOM','ID'),
+    ('right','ID','DEC','BALLOON','FOR','IF','DOW','RANDOM'),
     ('right', 'ASSIGN'),
     ('left', 'NE'),
     ('left', 'LESS', 'EQLESS', 'GREATER', 'EQGREATER'),
@@ -21,57 +21,64 @@ def p_program(p):
 #p[0] = program(p[1],"program")
 
 def p_block(p):
-    '''block :  varDecl valueAsign statement'''
+    '''block : varDecl valueAsign '''#statement'''
     print ("block")
 
 def p_valueAsign1(p):
-    '''valueAsign :  BALLOON LPAREN numberType COLON numberType RPAREN SEMICOLON'''
+    '''valueAsign : INT ID ASSIGN NUMBER SEMICOLON'''
     print ("valueAsign 1")
 
-def p_valueAsign2(p):
-    '''valueAsign :  ID ASSIGN STRING SEMICOLON'''
-    print ("valueAsign 2")
+# def p_valueAsign2(p):
+#     '''valueAsign : ID ASSIGN STRING SEMICOLON'''
+#     print ("valueAsign 2")
 
 def p_valueAsign3(p):
-    '''valueAsign :  ID SLPAREN NUMBER SRPAREN ASSIGN STRING SEMICOLON'''
+    '''valueAsign : ID SLPAREN NUMBER SRPAREN ASSIGN STRING SEMICOLON'''
     print ("valueAsign 3")
 
 def p_valueAsign4(p):
     '''valueAsign : ID SLPAREN NUMBER SRPAREN ASSIGN NUMBER SEMICOLON'''
     print ("valueAsign 4")
+#
+# def p_valueAsign5(p):
+#     '''valueAsign : BALLOON LPAREN numberType COLON numberType RPAREN SEMICOLON'''
+#     print ("valueAsign 5")
 
-def p_varDecl1(p):
-    '''varDecl : identList SEMICOLON'''
-    print ("varDecl 1")
+# def p_varDecl1(p):
+#     '''varDecl : variableType ID SEMICOLON'''
+#     print ("varDecl 1")
 
 def p_varDecl2(p):
-    '''varDecl : INT ID ASSIGN NUMBER SEMICOLON'''
+    '''varDecl : BALLOON LPAREN numberType COLON numberType RPAREN SEMICOLON'''
     print ("varDecl 2")
 
-def p_varDecl3(p):
-    '''varDecl : TEXTO ID ASSIGN STRING SEMICOLON'''
-    print ("varDecl 3")
+# def p_varDecl3(p):
+#     '''varDecl : variableType ID ASSIGN NUMBER SEMICOLON'''
+#     print ("varDecl 3")
 
-def p_varDecl4(p):
-    '''varDecl : TEXTO LPAREN NUMBER RPAREN ID SLPAREN NUMBER SRPAREN SEMICOLON'''
-    print ("varDecl 4")
+# def p_varDecl4(p):
+#     '''varDecl : variableType ID ASSIGN STRING SEMICOLON'''
+#     print ("varDecl 4")
 
 def p_varDecl5(p):
-    '''varDecl : INT ID SLPAREN NUMBER SRPAREN SEMICOLON'''
+    '''varDecl : variableType LPAREN NUMBER RPAREN ID SLPAREN NUMBER SRPAREN SEMICOLON'''
     print ("varDecl 5")
 
+def p_varDecl6(p):
+    '''varDecl : variableType ID SLPAREN NUMBER SRPAREN SEMICOLON'''
+    print ("varDecl 6")
 
 def p_varDeclEmpty(p):
     '''varDecl : empty'''
     print ("nulo")
 
-def p_identList1(p):
-    '''identList : variableType ID'''
-    print ("identList 1")
+# def p_identList1(p):
+#     '''identList : variableType ID'''
+#     print ("identList 1")
 
-def p_identList2(p):
-    '''identList : identList COLON ID'''
-    print ("identList 2")
+# def p_identList2(p):
+#     '''identList : identList COLON ID'''
+#     print ("identList 2")
 
 def p_variableType1(p):
     '''variableType : INT'''
@@ -81,61 +88,62 @@ def p_variableType2(p):
     '''variableType : TEXTO'''
     print("variableType2")
 
+#
 # def p_statement1(p):
 #     '''statement : BALLOON LPAREN numberType COLON numberType RPAREN SEMICOLON'''
-#     print ("statement 1")
+#     print("statement 1")
+#
+# def p_statement2(p):
+#     '''statement : DOW LPAREN numberType RPAREN statement ENDDO SEMICOLON'''
+#     print ("statement 2")
+#
+# def p_statement3(p):
+#     '''statement : RANDOM LPAREN ID COLON ID COLON ID RPAREN SEMICOLON'''
+#     print ("statement 3")
+#
+# def p_statement4(p):
+#     '''statement : IF LPAREN condition RPAREN SEMICOLON  statement SEMICOLON''' #STATEMENTLIST
+#     print ("statement 4")
+#
+# def p_statement5(p):
+#     '''statement : INC LPAREN ID COLON NUMBER RPAREN SEMICOLON'''
+#     print("statement5")
+#
+# def p_statement6(p):
+#     '''statement : DEC LPAREN ID COLON NUMBER RPAREN SEMICOLON'''
+#     print("statement6")
+#
+# def p_statement7(p):
+#     '''statement : FOR NUMBER TIMES USING ID randomInFor statement FOREND SEMICOLON'''#STATEMENTLIST
+#     print("statement7")
+#
+# def p_statement8(p):
+#     '''statement : FORASIGNWORD LPAREN numberType COLON numberType RPAREN DO ASIGNWORD LPAREN arrayType COLON arrayType RPAREN SEMICOLON'''
+#     print("statement8")
+#
+# def p_statement9(p):
+#     '''statement : TELARANA LPAREN numberType COLON numberType RPAREN SEMICOLON'''
+#     print("statement9")
+#
+# def p_statement10(p):
+#     '''statement : OBJECT LPAREN numberType COLON numberType COLON numberType RPAREN SEMICOLON'''
+#     print("statement10")
+#
+# def p_statementEmpty(p):
+#     '''statement : empty'''
+#     print ("nulo")
 
-def p_statement2(p):
-    '''statement : DOW LPAREN numberType RPAREN statementList ENDDO SEMICOLON'''
-    print ("statement 2")
+# def p_statementList1(p):
+#     '''statementList : statement'''
+#     print ("statementList 1")
+#
+# def p_statementList2(p):
+#     '''statementList : statementList  statement'''
+#     print ("statementList 2")
 
-def p_statement3(p):
-    '''statement : RANDOM LPAREN ID COLON ID COLON ID RPAREN'''
-    print ("statement 3")
-
-def p_statement4(p):
-    '''statement : IF LPAREN condition RPAREN SEMICOLON  statementList'''
-    print ("statement 4")
-
-def p_statement5(p):
-    '''statement : INC LPAREN ID COLON NUMBER RPAREN SEMICOLON'''
-    print("statement5")
-
-def p_statement6(p):
-    '''statement : DEC LPAREN ID COLON NUMBER RPAREN SEMICOLON'''
-    print("statement6")
-
-def p_statement7(p):
-    '''statement : FOR NUMBER TIMES USING ID randomInFor statementList FOREND SEMICOLON'''
-    print("statement7")
-
-def p_statement8(p):
-    '''statement : FORASIGNWORD LPAREN numberType COLON numberType RPAREN DO ASIGNWORD LPAREN arrayType COLON arrayType RPAREN SEMICOLON'''
-    print("statement8")
-
-def p_statement9(p):
-    '''statement : TELARANA LPAREN numberType COLON numberType RPAREN SEMICOLON'''
-    print("statement9")
-
-def p_statement10(p):
-    '''statement : OBJECT LPAREN numberType COLON numberType COLON numberType RPAREN SEMICOLON'''
-    print("statement10")
-
-def p_statementEmpty(p):
-    '''statement : empty'''
-    print ("nulo")
-
-def p_statementList1(p):
-    '''statementList : statement'''
-    print ("statementList 1")
-
-def p_statementList2(p):
-    '''statementList : statementList statement'''
-    print ("statementList 2")
-
-def p_randomInFor(p):
-    '''randomInFor : LPAREN ID COLON ID RPAREN SEMICOLON'''
-    print("randomInFor")
+# def p_randomInFor(p):
+#     '''randomInFor : RANDOM LPAREN ID COLON ID RPAREN SEMICOLON'''
+#     print("randomInFor")
 
 def p_condition1(p):
     '''condition : expression relation expression'''
@@ -226,14 +234,14 @@ def p_numberType2(p):
     print("numberType2")
 
 
-def p_arrayType1(p):
-    '''arrayType : TEXTO LPAREN NUMBER RPAREN ID SLPAREN NUMBER SRPAREN SEMICOLON'''
-    print("arrayType1")
-
-
-def p_arrayType3(p):
-    '''arrayType : ARRAY ID'''
-    print("arrayType3")
+# def p_arrayType1(p):
+#     '''arrayType : TEXTO LPAREN NUMBER RPAREN ID SLPAREN NUMBER SRPAREN SEMICOLON'''
+#     print("arrayType1")
+#
+#
+# def p_arrayType3(p):
+#     '''arrayType : ARRAY ID'''
+#     print("arrayType3")
 
 def p_empty(p):
     '''empty :'''

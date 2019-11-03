@@ -18,135 +18,131 @@ Grammar
 
 Rule 0     S' -> program
 Rule 1     program -> block
-Rule 2     block -> varDecl valueAsign statement
-Rule 3     valueAsign -> BALLOON LPAREN numberType COLON numberType RPAREN SEMICOLON
-Rule 4     valueAsign -> ID ASSIGN STRING SEMICOLON
-Rule 5     valueAsign -> ID SLPAREN NUMBER SRPAREN ASSIGN STRING SEMICOLON
-Rule 6     valueAsign -> ID SLPAREN NUMBER SRPAREN ASSIGN NUMBER SEMICOLON
-Rule 7     varDecl -> identList SEMICOLON
-Rule 8     varDecl -> INT ID ASSIGN NUMBER SEMICOLON
-Rule 9     varDecl -> TEXTO ID ASSIGN STRING SEMICOLON
-Rule 10    varDecl -> TEXTO LPAREN NUMBER RPAREN ID SLPAREN NUMBER SRPAREN SEMICOLON
-Rule 11    varDecl -> INT ID SLPAREN NUMBER SRPAREN SEMICOLON
-Rule 12    varDecl -> empty
-Rule 13    identList -> variableType ID
-Rule 14    identList -> identList COLON ID
-Rule 15    variableType -> INT
-Rule 16    variableType -> TEXTO
-Rule 17    statement -> DOW LPAREN numberType RPAREN statementList ENDDO SEMICOLON
-Rule 18    statement -> RANDOM LPAREN ID COLON ID COLON ID RPAREN
-Rule 19    statement -> IF LPAREN condition RPAREN SEMICOLON statementList
-Rule 20    statement -> INC LPAREN ID COLON NUMBER RPAREN SEMICOLON
-Rule 21    statement -> DEC LPAREN ID COLON NUMBER RPAREN SEMICOLON
-Rule 22    statement -> FOR NUMBER TIMES USING ID randomInFor statementList FOREND SEMICOLON
-Rule 23    statement -> FORASIGNWORD LPAREN numberType COLON numberType RPAREN DO ASIGNWORD LPAREN arrayType COLON arrayType RPAREN SEMICOLON
-Rule 24    statement -> TELARANA LPAREN numberType COLON numberType RPAREN SEMICOLON
-Rule 25    statement -> OBJECT LPAREN numberType COLON numberType COLON numberType RPAREN SEMICOLON
-Rule 26    statement -> empty
-Rule 27    statementList -> statement
-Rule 28    statementList -> statementList statement
-Rule 29    randomInFor -> LPAREN ID COLON ID RPAREN SEMICOLON
-Rule 30    condition -> expression relation expression
-Rule 31    relation -> ASSIGN
-Rule 32    relation -> NE
-Rule 33    relation -> LESS
-Rule 34    relation -> GREATER
-Rule 35    relation -> EQLESS
-Rule 36    relation -> EQGREATER
-Rule 37    relation -> EQUAL
-Rule 38    expression -> term
-Rule 39    expression -> addingOperator term
-Rule 40    expression -> expression addingOperator term
-Rule 41    addingOperator -> PLUS
-Rule 42    addingOperator -> MINUS
-Rule 43    term -> factor
-Rule 44    term -> term multiplyingOperator factor
-Rule 45    multiplyingOperator -> MULT
-Rule 46    multiplyingOperator -> DIVIDE
-Rule 47    factor -> ID
-Rule 48    factor -> NUMBER
-Rule 49    factor -> ID SLPAREN NUMBER SRPAREN
-Rule 50    numberType -> NUMBER
-Rule 51    numberType -> INT ID
-Rule 52    arrayType -> TEXTO LPAREN NUMBER RPAREN ID SLPAREN NUMBER SRPAREN SEMICOLON
-Rule 53    arrayType -> ARRAY ID
-Rule 54    empty -> <empty>
+Rule 2     block -> variableDec statement
+Rule 3     variableDec -> variableType ID arrayStruct initiateVar SEMICOLON
+Rule 4     variableDec -> empty
+Rule 5     initiateVar -> ASSIGN value
+Rule 6     initiateVar -> empty
+Rule 7     arrayStruct -> SLPAREN NUMBER SRPAREN
+Rule 8     arrayStruct -> empty
+Rule 9     variableType -> INT
+Rule 10    variableType -> TEXTO LPAREN NUMBER RPAREN
+Rule 11    variableType -> empty
+Rule 12    value -> NUMBER
+Rule 13    value -> STRING
+Rule 14    statement -> BALLOON LPAREN numberType COLON numberType RPAREN SEMICOLON
+Rule 15    statement -> DOW LPAREN numberType RPAREN statement ENDDO SEMICOLON
+Rule 16    statement -> RANDOM LPAREN arrayType COLON numberType COLON numberType RPAREN SEMICOLON
+Rule 17    statement -> IF LPAREN condition RPAREN SEMICOLON statement ENDIF SEMICOLON
+Rule 18    statement -> INC LPAREN numberType COLON numberType RPAREN SEMICOLON
+Rule 19    statement -> DEC LPAREN numberType COLON numberType RPAREN SEMICOLON
+Rule 20    statement -> FOR numberType TIMES USING arrayType randomInFor statement FOREND SEMICOLON
+Rule 21    statement -> FORASIGNWORD LPAREN numberType COLON numberType RPAREN DO ASIGNWORD LPAREN arrayType COLON arrayType RPAREN SEMICOLON
+Rule 22    statement -> TELAARANA LPAREN numberType COLON numberType RPAREN SEMICOLON
+Rule 23    statement -> OBJECT LPAREN numberType COLON numberType COLON numberType RPAREN SEMICOLON
+Rule 24    statement -> empty
+Rule 25    randomInFor -> RANDOM LPAREN numberType COLON numberType RPAREN SEMICOLON
+Rule 26    condition -> expression relation expression
+Rule 27    relation -> ASSIGN
+Rule 28    relation -> NE
+Rule 29    relation -> LESS
+Rule 30    relation -> GREATER
+Rule 31    relation -> EQLESS
+Rule 32    relation -> EQGREATER
+Rule 33    relation -> EQUAL
+Rule 34    expression -> term
+Rule 35    expression -> addingOperator term
+Rule 36    expression -> expression addingOperator term
+Rule 37    addingOperator -> PLUS
+Rule 38    addingOperator -> MINUS
+Rule 39    term -> factor
+Rule 40    term -> term multiplyingOperator factor
+Rule 41    multiplyingOperator -> MULT
+Rule 42    multiplyingOperator -> DIVIDE
+Rule 43    factor -> ID
+Rule 44    factor -> NUMBER
+Rule 45    factor -> ID SLPAREN NUMBER SRPAREN
+Rule 46    numberType -> NUMBER
+Rule 47    numberType -> INT ID
+Rule 48    arrayType -> ARRAY ID
+Rule 49    empty -> <empty>
 
 Terminals, with rules where they appear
 
-ARRAY                : 53
-ASIGNWORD            : 23
-ASSIGN               : 4 5 6 8 9 31
-BALLOON              : 3
-COLON                : 3 14 18 18 20 21 23 23 24 25 25 29
+ARRAY                : 48
+ASIGNWORD            : 21
+ASSIGN               : 5 27
+BALLOON              : 14
+COLON                : 14 16 16 18 19 21 21 22 23 23 25
 COMMENT              : 
-DEC                  : 21
-DIVIDE               : 46
-DO                   : 23
-DOW                  : 17
+DEC                  : 19
+DIVIDE               : 42
+DO                   : 21
+DOW                  : 15
 ELEVATE              : 
 ELSE                 : 
-ENDDO                : 17
-EQGREATER            : 36
-EQLESS               : 35
-EQUAL                : 37
+ENDDO                : 15
+ENDIF                : 17
+EQGREATER            : 32
+EQLESS               : 31
+EQUAL                : 33
 FEND                 : 
 FLOAT                : 
-FOR                  : 22
-FORASIGNWORD         : 23
-FOREND               : 22
-GREATER              : 34
-ID                   : 4 5 6 8 9 10 11 13 14 18 18 18 20 21 22 29 29 47 49 51 52 53
-IF                   : 19
-INC                  : 20
-INT                  : 8 11 15 51
-LESS                 : 33
-LPAREN               : 3 10 17 18 19 20 21 23 23 24 25 29 52
-MINUS                : 42
-MULT                 : 45
-NE                   : 32
-NUMBER               : 5 6 6 8 10 10 11 20 21 22 48 49 50 52 52
-OBJECT               : 25
+FOR                  : 20
+FORASIGNWORD         : 21
+FOREND               : 20
+GREATER              : 30
+ID                   : 3 43 45 47 48
+IF                   : 17
+INC                  : 18
+INT                  : 9 47
+LESS                 : 29
+LPAREN               : 10 14 15 16 17 18 19 21 21 22 23 25
+MINUS                : 38
+MULT                 : 41
+NE                   : 28
+NUMBER               : 7 10 12 44 45 46
+OBJECT               : 23
 PERCENT              : 
-PLUS                 : 41
+PLUS                 : 37
 PROCEDURE            : 
 QUOTE                : 
-RANDOM               : 18
-RPAREN               : 3 10 17 18 19 20 21 23 23 24 25 29 52
-SEMICOLON            : 3 4 5 6 7 8 9 10 11 17 19 20 21 22 23 24 25 29 52
+RANDOM               : 16 25
+RPAREN               : 10 14 15 16 17 18 19 21 21 22 23 25
+SEMICOLON            : 3 14 15 16 17 17 18 19 20 21 22 23 25
 SLASH                : 
-SLPAREN              : 5 6 10 11 49 52
+SLPAREN              : 7 45
 SPACE                : 
-SRPAREN              : 5 6 10 11 49 52
-STRING               : 4 5 9
-TELARANA             : 24
-TEXTO                : 9 10 16 52
-TIMES                : 22
-USING                : 22
+SRPAREN              : 7 45
+STRING               : 13
+TELAARANA            : 22
+TEXTO                : 10
+TIMES                : 20
+USING                : 20
 WHILE                : 
 error                : 
 
 Nonterminals, with rules where they appear
 
-addingOperator       : 39 40
-arrayType            : 23 23
+addingOperator       : 35 36
+arrayStruct          : 3
+arrayType            : 16 20 21 21
 block                : 1
-condition            : 19
-empty                : 12 26
-expression           : 30 30 40
-factor               : 43 44
-identList            : 7 14
-multiplyingOperator  : 44
-numberType           : 3 3 17 23 23 24 24 25 25 25
+condition            : 17
+empty                : 4 6 8 11 24
+expression           : 26 26 36
+factor               : 39 40
+initiateVar          : 3
+multiplyingOperator  : 40
+numberType           : 14 14 15 16 16 18 18 19 19 20 21 21 22 22 23 23 23 25 25
 program              : 0
-randomInFor          : 22
-relation             : 30
-statement            : 2 27 28
-statementList        : 17 19 22 28
-term                 : 38 39 40 44
-valueAsign           : 2
-varDecl              : 2
-variableType         : 13
+randomInFor          : 20
+relation             : 26
+statement            : 2 15 17 20
+term                 : 34 35 36 40
+value                : 5
+variableDec          : 2
+variableType         : 3
 
 Parsing method: LALR
 
@@ -154,30 +150,34 @@ state 0
 
     (0) S' -> . program
     (1) program -> . block
-    (2) block -> . varDecl valueAsign statement
-    (7) varDecl -> . identList SEMICOLON
-    (8) varDecl -> . INT ID ASSIGN NUMBER SEMICOLON
-    (9) varDecl -> . TEXTO ID ASSIGN STRING SEMICOLON
-    (10) varDecl -> . TEXTO LPAREN NUMBER RPAREN ID SLPAREN NUMBER SRPAREN SEMICOLON
-    (11) varDecl -> . INT ID SLPAREN NUMBER SRPAREN SEMICOLON
-    (12) varDecl -> . empty
-    (13) identList -> . variableType ID
-    (14) identList -> . identList COLON ID
-    (54) empty -> .
-    (15) variableType -> . INT
-    (16) variableType -> . TEXTO
+    (2) block -> . variableDec statement
+    (3) variableDec -> . variableType ID arrayStruct initiateVar SEMICOLON
+    (4) variableDec -> . empty
+    (9) variableType -> . INT
+    (10) variableType -> . TEXTO LPAREN NUMBER RPAREN
+    (11) variableType -> . empty
+    (49) empty -> .
 
-    INT             shift and go to state 5
-    TEXTO           shift and go to state 6
-    BALLOON         reduce using rule 54 (empty -> .)
-    ID              reduce using rule 54 (empty -> .)
+    INT             shift and go to state 6
+    TEXTO           shift and go to state 7
+    BALLOON         reduce using rule 49 (empty -> .)
+    DOW             reduce using rule 49 (empty -> .)
+    RANDOM          reduce using rule 49 (empty -> .)
+    IF              reduce using rule 49 (empty -> .)
+    INC             reduce using rule 49 (empty -> .)
+    DEC             reduce using rule 49 (empty -> .)
+    FOR             reduce using rule 49 (empty -> .)
+    FORASIGNWORD    reduce using rule 49 (empty -> .)
+    TELAARANA       reduce using rule 49 (empty -> .)
+    OBJECT          reduce using rule 49 (empty -> .)
+    $end            reduce using rule 49 (empty -> .)
+    ID              reduce using rule 49 (empty -> .)
 
     program                        shift and go to state 1
     block                          shift and go to state 2
-    varDecl                        shift and go to state 3
-    identList                      shift and go to state 4
-    empty                          shift and go to state 7
-    variableType                   shift and go to state 8
+    variableDec                    shift and go to state 3
+    variableType                   shift and go to state 4
+    empty                          shift and go to state 5
 
 state 1
 
@@ -194,2076 +194,1504 @@ state 2
 
 state 3
 
-    (2) block -> varDecl . valueAsign statement
-    (3) valueAsign -> . BALLOON LPAREN numberType COLON numberType RPAREN SEMICOLON
-    (4) valueAsign -> . ID ASSIGN STRING SEMICOLON
-    (5) valueAsign -> . ID SLPAREN NUMBER SRPAREN ASSIGN STRING SEMICOLON
-    (6) valueAsign -> . ID SLPAREN NUMBER SRPAREN ASSIGN NUMBER SEMICOLON
+    (2) block -> variableDec . statement
+    (14) statement -> . BALLOON LPAREN numberType COLON numberType RPAREN SEMICOLON
+    (15) statement -> . DOW LPAREN numberType RPAREN statement ENDDO SEMICOLON
+    (16) statement -> . RANDOM LPAREN arrayType COLON numberType COLON numberType RPAREN SEMICOLON
+    (17) statement -> . IF LPAREN condition RPAREN SEMICOLON statement ENDIF SEMICOLON
+    (18) statement -> . INC LPAREN numberType COLON numberType RPAREN SEMICOLON
+    (19) statement -> . DEC LPAREN numberType COLON numberType RPAREN SEMICOLON
+    (20) statement -> . FOR numberType TIMES USING arrayType randomInFor statement FOREND SEMICOLON
+    (21) statement -> . FORASIGNWORD LPAREN numberType COLON numberType RPAREN DO ASIGNWORD LPAREN arrayType COLON arrayType RPAREN SEMICOLON
+    (22) statement -> . TELAARANA LPAREN numberType COLON numberType RPAREN SEMICOLON
+    (23) statement -> . OBJECT LPAREN numberType COLON numberType COLON numberType RPAREN SEMICOLON
+    (24) statement -> . empty
+    (49) empty -> .
 
-    BALLOON         shift and go to state 10
-    ID              shift and go to state 11
+    BALLOON         shift and go to state 9
+    DOW             shift and go to state 10
+    RANDOM          shift and go to state 11
+    IF              shift and go to state 12
+    INC             shift and go to state 13
+    DEC             shift and go to state 14
+    FOR             shift and go to state 15
+    FORASIGNWORD    shift and go to state 16
+    TELAARANA       shift and go to state 17
+    OBJECT          shift and go to state 18
+    $end            reduce using rule 49 (empty -> .)
 
-    valueAsign                     shift and go to state 9
+    statement                      shift and go to state 8
+    empty                          shift and go to state 19
 
 state 4
 
-    (7) varDecl -> identList . SEMICOLON
-    (14) identList -> identList . COLON ID
+    (3) variableDec -> variableType . ID arrayStruct initiateVar SEMICOLON
 
-    SEMICOLON       shift and go to state 12
-    COLON           shift and go to state 13
+    ID              shift and go to state 20
 
 
 state 5
 
-    (8) varDecl -> INT . ID ASSIGN NUMBER SEMICOLON
-    (11) varDecl -> INT . ID SLPAREN NUMBER SRPAREN SEMICOLON
-    (15) variableType -> INT .
+    (4) variableDec -> empty .
+    (11) variableType -> empty .
 
-  ! shift/reduce conflict for ID resolved as shift
-    ID              shift and go to state 14
-
-  ! ID              [ reduce using rule 15 (variableType -> INT .) ]
+    BALLOON         reduce using rule 4 (variableDec -> empty .)
+    DOW             reduce using rule 4 (variableDec -> empty .)
+    RANDOM          reduce using rule 4 (variableDec -> empty .)
+    IF              reduce using rule 4 (variableDec -> empty .)
+    INC             reduce using rule 4 (variableDec -> empty .)
+    DEC             reduce using rule 4 (variableDec -> empty .)
+    FOR             reduce using rule 4 (variableDec -> empty .)
+    FORASIGNWORD    reduce using rule 4 (variableDec -> empty .)
+    TELAARANA       reduce using rule 4 (variableDec -> empty .)
+    OBJECT          reduce using rule 4 (variableDec -> empty .)
+    $end            reduce using rule 4 (variableDec -> empty .)
+    ID              reduce using rule 11 (variableType -> empty .)
 
 
 state 6
 
-    (9) varDecl -> TEXTO . ID ASSIGN STRING SEMICOLON
-    (10) varDecl -> TEXTO . LPAREN NUMBER RPAREN ID SLPAREN NUMBER SRPAREN SEMICOLON
-    (16) variableType -> TEXTO .
+    (9) variableType -> INT .
 
-  ! shift/reduce conflict for ID resolved as shift
-    ID              shift and go to state 15
-    LPAREN          shift and go to state 16
-
-  ! ID              [ reduce using rule 16 (variableType -> TEXTO .) ]
+    ID              reduce using rule 9 (variableType -> INT .)
 
 
 state 7
 
-    (12) varDecl -> empty .
+    (10) variableType -> TEXTO . LPAREN NUMBER RPAREN
 
-    BALLOON         reduce using rule 12 (varDecl -> empty .)
-    ID              reduce using rule 12 (varDecl -> empty .)
+    LPAREN          shift and go to state 21
 
 
 state 8
 
-    (13) identList -> variableType . ID
+    (2) block -> variableDec statement .
 
-    ID              shift and go to state 17
+    $end            reduce using rule 2 (block -> variableDec statement .)
 
 
 state 9
 
-    (2) block -> varDecl valueAsign . statement
-    (17) statement -> . DOW LPAREN numberType RPAREN statementList ENDDO SEMICOLON
-    (18) statement -> . RANDOM LPAREN ID COLON ID COLON ID RPAREN
-    (19) statement -> . IF LPAREN condition RPAREN SEMICOLON statementList
-    (20) statement -> . INC LPAREN ID COLON NUMBER RPAREN SEMICOLON
-    (21) statement -> . DEC LPAREN ID COLON NUMBER RPAREN SEMICOLON
-    (22) statement -> . FOR NUMBER TIMES USING ID randomInFor statementList FOREND SEMICOLON
-    (23) statement -> . FORASIGNWORD LPAREN numberType COLON numberType RPAREN DO ASIGNWORD LPAREN arrayType COLON arrayType RPAREN SEMICOLON
-    (24) statement -> . TELARANA LPAREN numberType COLON numberType RPAREN SEMICOLON
-    (25) statement -> . OBJECT LPAREN numberType COLON numberType COLON numberType RPAREN SEMICOLON
-    (26) statement -> . empty
-    (54) empty -> .
+    (14) statement -> BALLOON . LPAREN numberType COLON numberType RPAREN SEMICOLON
 
-    DOW             shift and go to state 19
-    RANDOM          shift and go to state 20
-    IF              shift and go to state 21
-    INC             shift and go to state 22
-    DEC             shift and go to state 23
-    FOR             shift and go to state 24
-    FORASIGNWORD    shift and go to state 25
-    TELARANA        shift and go to state 26
-    OBJECT          shift and go to state 27
-    $end            reduce using rule 54 (empty -> .)
+    LPAREN          shift and go to state 22
 
-    statement                      shift and go to state 18
-    empty                          shift and go to state 28
 
 state 10
 
-    (3) valueAsign -> BALLOON . LPAREN numberType COLON numberType RPAREN SEMICOLON
+    (15) statement -> DOW . LPAREN numberType RPAREN statement ENDDO SEMICOLON
 
-    LPAREN          shift and go to state 29
+    LPAREN          shift and go to state 23
 
 
 state 11
 
-    (4) valueAsign -> ID . ASSIGN STRING SEMICOLON
-    (5) valueAsign -> ID . SLPAREN NUMBER SRPAREN ASSIGN STRING SEMICOLON
-    (6) valueAsign -> ID . SLPAREN NUMBER SRPAREN ASSIGN NUMBER SEMICOLON
+    (16) statement -> RANDOM . LPAREN arrayType COLON numberType COLON numberType RPAREN SEMICOLON
 
-    ASSIGN          shift and go to state 30
-    SLPAREN         shift and go to state 31
+    LPAREN          shift and go to state 24
 
 
 state 12
 
-    (7) varDecl -> identList SEMICOLON .
+    (17) statement -> IF . LPAREN condition RPAREN SEMICOLON statement ENDIF SEMICOLON
 
-    BALLOON         reduce using rule 7 (varDecl -> identList SEMICOLON .)
-    ID              reduce using rule 7 (varDecl -> identList SEMICOLON .)
+    LPAREN          shift and go to state 25
 
 
 state 13
 
-    (14) identList -> identList COLON . ID
+    (18) statement -> INC . LPAREN numberType COLON numberType RPAREN SEMICOLON
 
-    ID              shift and go to state 32
+    LPAREN          shift and go to state 26
 
 
 state 14
 
-    (8) varDecl -> INT ID . ASSIGN NUMBER SEMICOLON
-    (11) varDecl -> INT ID . SLPAREN NUMBER SRPAREN SEMICOLON
+    (19) statement -> DEC . LPAREN numberType COLON numberType RPAREN SEMICOLON
 
-    ASSIGN          shift and go to state 33
-    SLPAREN         shift and go to state 34
+    LPAREN          shift and go to state 27
 
 
 state 15
 
-    (9) varDecl -> TEXTO ID . ASSIGN STRING SEMICOLON
+    (20) statement -> FOR . numberType TIMES USING arrayType randomInFor statement FOREND SEMICOLON
+    (46) numberType -> . NUMBER
+    (47) numberType -> . INT ID
 
-    ASSIGN          shift and go to state 35
+    NUMBER          shift and go to state 29
+    INT             shift and go to state 30
 
+    numberType                     shift and go to state 28
 
 state 16
 
-    (10) varDecl -> TEXTO LPAREN . NUMBER RPAREN ID SLPAREN NUMBER SRPAREN SEMICOLON
+    (21) statement -> FORASIGNWORD . LPAREN numberType COLON numberType RPAREN DO ASIGNWORD LPAREN arrayType COLON arrayType RPAREN SEMICOLON
 
-    NUMBER          shift and go to state 36
+    LPAREN          shift and go to state 31
 
 
 state 17
 
-    (13) identList -> variableType ID .
+    (22) statement -> TELAARANA . LPAREN numberType COLON numberType RPAREN SEMICOLON
 
-    SEMICOLON       reduce using rule 13 (identList -> variableType ID .)
-    COLON           reduce using rule 13 (identList -> variableType ID .)
+    LPAREN          shift and go to state 32
 
 
 state 18
 
-    (2) block -> varDecl valueAsign statement .
+    (23) statement -> OBJECT . LPAREN numberType COLON numberType COLON numberType RPAREN SEMICOLON
 
-    $end            reduce using rule 2 (block -> varDecl valueAsign statement .)
+    LPAREN          shift and go to state 33
 
 
 state 19
 
-    (17) statement -> DOW . LPAREN numberType RPAREN statementList ENDDO SEMICOLON
+    (24) statement -> empty .
 
-    LPAREN          shift and go to state 37
+    $end            reduce using rule 24 (statement -> empty .)
+    ENDDO           reduce using rule 24 (statement -> empty .)
+    ENDIF           reduce using rule 24 (statement -> empty .)
+    FOREND          reduce using rule 24 (statement -> empty .)
 
 
 state 20
 
-    (18) statement -> RANDOM . LPAREN ID COLON ID COLON ID RPAREN
+    (3) variableDec -> variableType ID . arrayStruct initiateVar SEMICOLON
+    (7) arrayStruct -> . SLPAREN NUMBER SRPAREN
+    (8) arrayStruct -> . empty
+    (49) empty -> .
 
-    LPAREN          shift and go to state 38
+    SLPAREN         shift and go to state 35
+    ASSIGN          reduce using rule 49 (empty -> .)
+    SEMICOLON       reduce using rule 49 (empty -> .)
 
+    arrayStruct                    shift and go to state 34
+    empty                          shift and go to state 36
 
 state 21
 
-    (19) statement -> IF . LPAREN condition RPAREN SEMICOLON statementList
+    (10) variableType -> TEXTO LPAREN . NUMBER RPAREN
 
-    LPAREN          shift and go to state 39
+    NUMBER          shift and go to state 37
 
 
 state 22
 
-    (20) statement -> INC . LPAREN ID COLON NUMBER RPAREN SEMICOLON
+    (14) statement -> BALLOON LPAREN . numberType COLON numberType RPAREN SEMICOLON
+    (46) numberType -> . NUMBER
+    (47) numberType -> . INT ID
 
-    LPAREN          shift and go to state 40
+    NUMBER          shift and go to state 29
+    INT             shift and go to state 30
 
+    numberType                     shift and go to state 38
 
 state 23
 
-    (21) statement -> DEC . LPAREN ID COLON NUMBER RPAREN SEMICOLON
+    (15) statement -> DOW LPAREN . numberType RPAREN statement ENDDO SEMICOLON
+    (46) numberType -> . NUMBER
+    (47) numberType -> . INT ID
 
-    LPAREN          shift and go to state 41
+    NUMBER          shift and go to state 29
+    INT             shift and go to state 30
 
+    numberType                     shift and go to state 39
 
 state 24
 
-    (22) statement -> FOR . NUMBER TIMES USING ID randomInFor statementList FOREND SEMICOLON
+    (16) statement -> RANDOM LPAREN . arrayType COLON numberType COLON numberType RPAREN SEMICOLON
+    (48) arrayType -> . ARRAY ID
 
-    NUMBER          shift and go to state 42
+    ARRAY           shift and go to state 41
 
+    arrayType                      shift and go to state 40
 
 state 25
 
-    (23) statement -> FORASIGNWORD . LPAREN numberType COLON numberType RPAREN DO ASIGNWORD LPAREN arrayType COLON arrayType RPAREN SEMICOLON
+    (17) statement -> IF LPAREN . condition RPAREN SEMICOLON statement ENDIF SEMICOLON
+    (26) condition -> . expression relation expression
+    (34) expression -> . term
+    (35) expression -> . addingOperator term
+    (36) expression -> . expression addingOperator term
+    (39) term -> . factor
+    (40) term -> . term multiplyingOperator factor
+    (37) addingOperator -> . PLUS
+    (38) addingOperator -> . MINUS
+    (43) factor -> . ID
+    (44) factor -> . NUMBER
+    (45) factor -> . ID SLPAREN NUMBER SRPAREN
 
-    LPAREN          shift and go to state 43
+    PLUS            shift and go to state 47
+    MINUS           shift and go to state 48
+    ID              shift and go to state 49
+    NUMBER          shift and go to state 50
 
+    condition                      shift and go to state 42
+    expression                     shift and go to state 43
+    term                           shift and go to state 44
+    addingOperator                 shift and go to state 45
+    factor                         shift and go to state 46
 
 state 26
 
-    (24) statement -> TELARANA . LPAREN numberType COLON numberType RPAREN SEMICOLON
+    (18) statement -> INC LPAREN . numberType COLON numberType RPAREN SEMICOLON
+    (46) numberType -> . NUMBER
+    (47) numberType -> . INT ID
 
-    LPAREN          shift and go to state 44
+    NUMBER          shift and go to state 29
+    INT             shift and go to state 30
 
+    numberType                     shift and go to state 51
 
 state 27
 
-    (25) statement -> OBJECT . LPAREN numberType COLON numberType COLON numberType RPAREN SEMICOLON
+    (19) statement -> DEC LPAREN . numberType COLON numberType RPAREN SEMICOLON
+    (46) numberType -> . NUMBER
+    (47) numberType -> . INT ID
 
-    LPAREN          shift and go to state 45
+    NUMBER          shift and go to state 29
+    INT             shift and go to state 30
 
+    numberType                     shift and go to state 52
 
 state 28
 
-    (26) statement -> empty .
+    (20) statement -> FOR numberType . TIMES USING arrayType randomInFor statement FOREND SEMICOLON
 
-    $end            reduce using rule 26 (statement -> empty .)
-    ENDDO           reduce using rule 26 (statement -> empty .)
-    DOW             reduce using rule 26 (statement -> empty .)
-    RANDOM          reduce using rule 26 (statement -> empty .)
-    IF              reduce using rule 26 (statement -> empty .)
-    INC             reduce using rule 26 (statement -> empty .)
-    DEC             reduce using rule 26 (statement -> empty .)
-    FOR             reduce using rule 26 (statement -> empty .)
-    FORASIGNWORD    reduce using rule 26 (statement -> empty .)
-    TELARANA        reduce using rule 26 (statement -> empty .)
-    OBJECT          reduce using rule 26 (statement -> empty .)
-    FOREND          reduce using rule 26 (statement -> empty .)
+    TIMES           shift and go to state 53
 
 
 state 29
 
-    (3) valueAsign -> BALLOON LPAREN . numberType COLON numberType RPAREN SEMICOLON
-    (50) numberType -> . NUMBER
-    (51) numberType -> . INT ID
+    (46) numberType -> NUMBER .
 
-    NUMBER          shift and go to state 47
-    INT             shift and go to state 48
+    TIMES           reduce using rule 46 (numberType -> NUMBER .)
+    COLON           reduce using rule 46 (numberType -> NUMBER .)
+    RPAREN          reduce using rule 46 (numberType -> NUMBER .)
 
-    numberType                     shift and go to state 46
 
 state 30
 
-    (4) valueAsign -> ID ASSIGN . STRING SEMICOLON
+    (47) numberType -> INT . ID
 
-    STRING          shift and go to state 49
+    ID              shift and go to state 54
 
 
 state 31
 
-    (5) valueAsign -> ID SLPAREN . NUMBER SRPAREN ASSIGN STRING SEMICOLON
-    (6) valueAsign -> ID SLPAREN . NUMBER SRPAREN ASSIGN NUMBER SEMICOLON
+    (21) statement -> FORASIGNWORD LPAREN . numberType COLON numberType RPAREN DO ASIGNWORD LPAREN arrayType COLON arrayType RPAREN SEMICOLON
+    (46) numberType -> . NUMBER
+    (47) numberType -> . INT ID
 
-    NUMBER          shift and go to state 50
+    NUMBER          shift and go to state 29
+    INT             shift and go to state 30
 
+    numberType                     shift and go to state 55
 
 state 32
 
-    (14) identList -> identList COLON ID .
+    (22) statement -> TELAARANA LPAREN . numberType COLON numberType RPAREN SEMICOLON
+    (46) numberType -> . NUMBER
+    (47) numberType -> . INT ID
 
-    SEMICOLON       reduce using rule 14 (identList -> identList COLON ID .)
-    COLON           reduce using rule 14 (identList -> identList COLON ID .)
+    NUMBER          shift and go to state 29
+    INT             shift and go to state 30
 
+    numberType                     shift and go to state 56
 
 state 33
 
-    (8) varDecl -> INT ID ASSIGN . NUMBER SEMICOLON
+    (23) statement -> OBJECT LPAREN . numberType COLON numberType COLON numberType RPAREN SEMICOLON
+    (46) numberType -> . NUMBER
+    (47) numberType -> . INT ID
 
-    NUMBER          shift and go to state 51
+    NUMBER          shift and go to state 29
+    INT             shift and go to state 30
 
+    numberType                     shift and go to state 57
 
 state 34
 
-    (11) varDecl -> INT ID SLPAREN . NUMBER SRPAREN SEMICOLON
+    (3) variableDec -> variableType ID arrayStruct . initiateVar SEMICOLON
+    (5) initiateVar -> . ASSIGN value
+    (6) initiateVar -> . empty
+    (49) empty -> .
 
-    NUMBER          shift and go to state 52
+    ASSIGN          shift and go to state 59
+    SEMICOLON       reduce using rule 49 (empty -> .)
 
+    initiateVar                    shift and go to state 58
+    empty                          shift and go to state 60
 
 state 35
 
-    (9) varDecl -> TEXTO ID ASSIGN . STRING SEMICOLON
+    (7) arrayStruct -> SLPAREN . NUMBER SRPAREN
 
-    STRING          shift and go to state 53
+    NUMBER          shift and go to state 61
 
 
 state 36
 
-    (10) varDecl -> TEXTO LPAREN NUMBER . RPAREN ID SLPAREN NUMBER SRPAREN SEMICOLON
+    (8) arrayStruct -> empty .
 
-    RPAREN          shift and go to state 54
+    ASSIGN          reduce using rule 8 (arrayStruct -> empty .)
+    SEMICOLON       reduce using rule 8 (arrayStruct -> empty .)
 
 
 state 37
 
-    (17) statement -> DOW LPAREN . numberType RPAREN statementList ENDDO SEMICOLON
-    (50) numberType -> . NUMBER
-    (51) numberType -> . INT ID
+    (10) variableType -> TEXTO LPAREN NUMBER . RPAREN
 
-    NUMBER          shift and go to state 47
-    INT             shift and go to state 48
+    RPAREN          shift and go to state 62
 
-    numberType                     shift and go to state 55
 
 state 38
 
-    (18) statement -> RANDOM LPAREN . ID COLON ID COLON ID RPAREN
+    (14) statement -> BALLOON LPAREN numberType . COLON numberType RPAREN SEMICOLON
 
-    ID              shift and go to state 56
+    COLON           shift and go to state 63
 
 
 state 39
 
-    (19) statement -> IF LPAREN . condition RPAREN SEMICOLON statementList
-    (30) condition -> . expression relation expression
-    (38) expression -> . term
-    (39) expression -> . addingOperator term
-    (40) expression -> . expression addingOperator term
-    (43) term -> . factor
-    (44) term -> . term multiplyingOperator factor
-    (41) addingOperator -> . PLUS
-    (42) addingOperator -> . MINUS
-    (47) factor -> . ID
-    (48) factor -> . NUMBER
-    (49) factor -> . ID SLPAREN NUMBER SRPAREN
+    (15) statement -> DOW LPAREN numberType . RPAREN statement ENDDO SEMICOLON
 
-    PLUS            shift and go to state 62
-    MINUS           shift and go to state 63
-    ID              shift and go to state 64
-    NUMBER          shift and go to state 65
+    RPAREN          shift and go to state 64
 
-    condition                      shift and go to state 57
-    expression                     shift and go to state 58
-    term                           shift and go to state 59
-    addingOperator                 shift and go to state 60
-    factor                         shift and go to state 61
 
 state 40
 
-    (20) statement -> INC LPAREN . ID COLON NUMBER RPAREN SEMICOLON
+    (16) statement -> RANDOM LPAREN arrayType . COLON numberType COLON numberType RPAREN SEMICOLON
 
-    ID              shift and go to state 66
+    COLON           shift and go to state 65
 
 
 state 41
 
-    (21) statement -> DEC LPAREN . ID COLON NUMBER RPAREN SEMICOLON
+    (48) arrayType -> ARRAY . ID
 
-    ID              shift and go to state 67
+    ID              shift and go to state 66
 
 
 state 42
 
-    (22) statement -> FOR NUMBER . TIMES USING ID randomInFor statementList FOREND SEMICOLON
+    (17) statement -> IF LPAREN condition . RPAREN SEMICOLON statement ENDIF SEMICOLON
 
-    TIMES           shift and go to state 68
+    RPAREN          shift and go to state 67
 
 
 state 43
 
-    (23) statement -> FORASIGNWORD LPAREN . numberType COLON numberType RPAREN DO ASIGNWORD LPAREN arrayType COLON arrayType RPAREN SEMICOLON
-    (50) numberType -> . NUMBER
-    (51) numberType -> . INT ID
+    (26) condition -> expression . relation expression
+    (36) expression -> expression . addingOperator term
+    (27) relation -> . ASSIGN
+    (28) relation -> . NE
+    (29) relation -> . LESS
+    (30) relation -> . GREATER
+    (31) relation -> . EQLESS
+    (32) relation -> . EQGREATER
+    (33) relation -> . EQUAL
+    (37) addingOperator -> . PLUS
+    (38) addingOperator -> . MINUS
 
-    NUMBER          shift and go to state 47
-    INT             shift and go to state 48
+    ASSIGN          shift and go to state 70
+    NE              shift and go to state 71
+    LESS            shift and go to state 72
+    GREATER         shift and go to state 73
+    EQLESS          shift and go to state 74
+    EQGREATER       shift and go to state 75
+    EQUAL           shift and go to state 76
+    PLUS            shift and go to state 47
+    MINUS           shift and go to state 48
 
-    numberType                     shift and go to state 69
+    relation                       shift and go to state 68
+    addingOperator                 shift and go to state 69
 
 state 44
 
-    (24) statement -> TELARANA LPAREN . numberType COLON numberType RPAREN SEMICOLON
-    (50) numberType -> . NUMBER
-    (51) numberType -> . INT ID
+    (34) expression -> term .
+    (40) term -> term . multiplyingOperator factor
+    (41) multiplyingOperator -> . MULT
+    (42) multiplyingOperator -> . DIVIDE
 
-    NUMBER          shift and go to state 47
-    INT             shift and go to state 48
+    ASSIGN          reduce using rule 34 (expression -> term .)
+    NE              reduce using rule 34 (expression -> term .)
+    LESS            reduce using rule 34 (expression -> term .)
+    GREATER         reduce using rule 34 (expression -> term .)
+    EQLESS          reduce using rule 34 (expression -> term .)
+    EQGREATER       reduce using rule 34 (expression -> term .)
+    EQUAL           reduce using rule 34 (expression -> term .)
+    PLUS            reduce using rule 34 (expression -> term .)
+    MINUS           reduce using rule 34 (expression -> term .)
+    RPAREN          reduce using rule 34 (expression -> term .)
+    MULT            shift and go to state 78
+    DIVIDE          shift and go to state 79
 
-    numberType                     shift and go to state 70
+    multiplyingOperator            shift and go to state 77
 
 state 45
 
-    (25) statement -> OBJECT LPAREN . numberType COLON numberType COLON numberType RPAREN SEMICOLON
-    (50) numberType -> . NUMBER
-    (51) numberType -> . INT ID
+    (35) expression -> addingOperator . term
+    (39) term -> . factor
+    (40) term -> . term multiplyingOperator factor
+    (43) factor -> . ID
+    (44) factor -> . NUMBER
+    (45) factor -> . ID SLPAREN NUMBER SRPAREN
 
-    NUMBER          shift and go to state 47
-    INT             shift and go to state 48
+    ID              shift and go to state 49
+    NUMBER          shift and go to state 50
 
-    numberType                     shift and go to state 71
+    term                           shift and go to state 80
+    factor                         shift and go to state 46
 
 state 46
 
-    (3) valueAsign -> BALLOON LPAREN numberType . COLON numberType RPAREN SEMICOLON
+    (39) term -> factor .
 
-    COLON           shift and go to state 72
+    MULT            reduce using rule 39 (term -> factor .)
+    DIVIDE          reduce using rule 39 (term -> factor .)
+    ASSIGN          reduce using rule 39 (term -> factor .)
+    NE              reduce using rule 39 (term -> factor .)
+    LESS            reduce using rule 39 (term -> factor .)
+    GREATER         reduce using rule 39 (term -> factor .)
+    EQLESS          reduce using rule 39 (term -> factor .)
+    EQGREATER       reduce using rule 39 (term -> factor .)
+    EQUAL           reduce using rule 39 (term -> factor .)
+    PLUS            reduce using rule 39 (term -> factor .)
+    MINUS           reduce using rule 39 (term -> factor .)
+    RPAREN          reduce using rule 39 (term -> factor .)
 
 
 state 47
 
-    (50) numberType -> NUMBER .
+    (37) addingOperator -> PLUS .
 
-    COLON           reduce using rule 50 (numberType -> NUMBER .)
-    RPAREN          reduce using rule 50 (numberType -> NUMBER .)
+    ID              reduce using rule 37 (addingOperator -> PLUS .)
+    NUMBER          reduce using rule 37 (addingOperator -> PLUS .)
 
 
 state 48
 
-    (51) numberType -> INT . ID
+    (38) addingOperator -> MINUS .
 
-    ID              shift and go to state 73
+    ID              reduce using rule 38 (addingOperator -> MINUS .)
+    NUMBER          reduce using rule 38 (addingOperator -> MINUS .)
 
 
 state 49
 
-    (4) valueAsign -> ID ASSIGN STRING . SEMICOLON
+    (43) factor -> ID .
+    (45) factor -> ID . SLPAREN NUMBER SRPAREN
 
-    SEMICOLON       shift and go to state 74
+    MULT            reduce using rule 43 (factor -> ID .)
+    DIVIDE          reduce using rule 43 (factor -> ID .)
+    ASSIGN          reduce using rule 43 (factor -> ID .)
+    NE              reduce using rule 43 (factor -> ID .)
+    LESS            reduce using rule 43 (factor -> ID .)
+    GREATER         reduce using rule 43 (factor -> ID .)
+    EQLESS          reduce using rule 43 (factor -> ID .)
+    EQGREATER       reduce using rule 43 (factor -> ID .)
+    EQUAL           reduce using rule 43 (factor -> ID .)
+    PLUS            reduce using rule 43 (factor -> ID .)
+    MINUS           reduce using rule 43 (factor -> ID .)
+    RPAREN          reduce using rule 43 (factor -> ID .)
+    SLPAREN         shift and go to state 81
 
 
 state 50
 
-    (5) valueAsign -> ID SLPAREN NUMBER . SRPAREN ASSIGN STRING SEMICOLON
-    (6) valueAsign -> ID SLPAREN NUMBER . SRPAREN ASSIGN NUMBER SEMICOLON
+    (44) factor -> NUMBER .
 
-    SRPAREN         shift and go to state 75
+    MULT            reduce using rule 44 (factor -> NUMBER .)
+    DIVIDE          reduce using rule 44 (factor -> NUMBER .)
+    ASSIGN          reduce using rule 44 (factor -> NUMBER .)
+    NE              reduce using rule 44 (factor -> NUMBER .)
+    LESS            reduce using rule 44 (factor -> NUMBER .)
+    GREATER         reduce using rule 44 (factor -> NUMBER .)
+    EQLESS          reduce using rule 44 (factor -> NUMBER .)
+    EQGREATER       reduce using rule 44 (factor -> NUMBER .)
+    EQUAL           reduce using rule 44 (factor -> NUMBER .)
+    PLUS            reduce using rule 44 (factor -> NUMBER .)
+    MINUS           reduce using rule 44 (factor -> NUMBER .)
+    RPAREN          reduce using rule 44 (factor -> NUMBER .)
 
 
 state 51
 
-    (8) varDecl -> INT ID ASSIGN NUMBER . SEMICOLON
+    (18) statement -> INC LPAREN numberType . COLON numberType RPAREN SEMICOLON
 
-    SEMICOLON       shift and go to state 76
+    COLON           shift and go to state 82
 
 
 state 52
 
-    (11) varDecl -> INT ID SLPAREN NUMBER . SRPAREN SEMICOLON
+    (19) statement -> DEC LPAREN numberType . COLON numberType RPAREN SEMICOLON
 
-    SRPAREN         shift and go to state 77
+    COLON           shift and go to state 83
 
 
 state 53
 
-    (9) varDecl -> TEXTO ID ASSIGN STRING . SEMICOLON
+    (20) statement -> FOR numberType TIMES . USING arrayType randomInFor statement FOREND SEMICOLON
 
-    SEMICOLON       shift and go to state 78
+    USING           shift and go to state 84
 
 
 state 54
 
-    (10) varDecl -> TEXTO LPAREN NUMBER RPAREN . ID SLPAREN NUMBER SRPAREN SEMICOLON
+    (47) numberType -> INT ID .
 
-    ID              shift and go to state 79
+    TIMES           reduce using rule 47 (numberType -> INT ID .)
+    COLON           reduce using rule 47 (numberType -> INT ID .)
+    RPAREN          reduce using rule 47 (numberType -> INT ID .)
 
 
 state 55
 
-    (17) statement -> DOW LPAREN numberType . RPAREN statementList ENDDO SEMICOLON
+    (21) statement -> FORASIGNWORD LPAREN numberType . COLON numberType RPAREN DO ASIGNWORD LPAREN arrayType COLON arrayType RPAREN SEMICOLON
 
-    RPAREN          shift and go to state 80
+    COLON           shift and go to state 85
 
 
 state 56
 
-    (18) statement -> RANDOM LPAREN ID . COLON ID COLON ID RPAREN
+    (22) statement -> TELAARANA LPAREN numberType . COLON numberType RPAREN SEMICOLON
 
-    COLON           shift and go to state 81
+    COLON           shift and go to state 86
 
 
 state 57
 
-    (19) statement -> IF LPAREN condition . RPAREN SEMICOLON statementList
+    (23) statement -> OBJECT LPAREN numberType . COLON numberType COLON numberType RPAREN SEMICOLON
 
-    RPAREN          shift and go to state 82
+    COLON           shift and go to state 87
 
 
 state 58
 
-    (30) condition -> expression . relation expression
-    (40) expression -> expression . addingOperator term
-    (31) relation -> . ASSIGN
-    (32) relation -> . NE
-    (33) relation -> . LESS
-    (34) relation -> . GREATER
-    (35) relation -> . EQLESS
-    (36) relation -> . EQGREATER
-    (37) relation -> . EQUAL
-    (41) addingOperator -> . PLUS
-    (42) addingOperator -> . MINUS
+    (3) variableDec -> variableType ID arrayStruct initiateVar . SEMICOLON
 
-    ASSIGN          shift and go to state 85
-    NE              shift and go to state 86
-    LESS            shift and go to state 87
-    GREATER         shift and go to state 88
-    EQLESS          shift and go to state 89
-    EQGREATER       shift and go to state 90
-    EQUAL           shift and go to state 91
-    PLUS            shift and go to state 62
-    MINUS           shift and go to state 63
+    SEMICOLON       shift and go to state 88
 
-    relation                       shift and go to state 83
-    addingOperator                 shift and go to state 84
 
 state 59
 
-    (38) expression -> term .
-    (44) term -> term . multiplyingOperator factor
-    (45) multiplyingOperator -> . MULT
-    (46) multiplyingOperator -> . DIVIDE
+    (5) initiateVar -> ASSIGN . value
+    (12) value -> . NUMBER
+    (13) value -> . STRING
 
-    ASSIGN          reduce using rule 38 (expression -> term .)
-    NE              reduce using rule 38 (expression -> term .)
-    LESS            reduce using rule 38 (expression -> term .)
-    GREATER         reduce using rule 38 (expression -> term .)
-    EQLESS          reduce using rule 38 (expression -> term .)
-    EQGREATER       reduce using rule 38 (expression -> term .)
-    EQUAL           reduce using rule 38 (expression -> term .)
-    PLUS            reduce using rule 38 (expression -> term .)
-    MINUS           reduce using rule 38 (expression -> term .)
-    RPAREN          reduce using rule 38 (expression -> term .)
-    MULT            shift and go to state 93
-    DIVIDE          shift and go to state 94
+    NUMBER          shift and go to state 90
+    STRING          shift and go to state 91
 
-    multiplyingOperator            shift and go to state 92
+    value                          shift and go to state 89
 
 state 60
 
-    (39) expression -> addingOperator . term
-    (43) term -> . factor
-    (44) term -> . term multiplyingOperator factor
-    (47) factor -> . ID
-    (48) factor -> . NUMBER
-    (49) factor -> . ID SLPAREN NUMBER SRPAREN
+    (6) initiateVar -> empty .
 
-    ID              shift and go to state 64
-    NUMBER          shift and go to state 65
+    SEMICOLON       reduce using rule 6 (initiateVar -> empty .)
 
-    term                           shift and go to state 95
-    factor                         shift and go to state 61
 
 state 61
 
-    (43) term -> factor .
+    (7) arrayStruct -> SLPAREN NUMBER . SRPAREN
 
-    MULT            reduce using rule 43 (term -> factor .)
-    DIVIDE          reduce using rule 43 (term -> factor .)
-    ASSIGN          reduce using rule 43 (term -> factor .)
-    NE              reduce using rule 43 (term -> factor .)
-    LESS            reduce using rule 43 (term -> factor .)
-    GREATER         reduce using rule 43 (term -> factor .)
-    EQLESS          reduce using rule 43 (term -> factor .)
-    EQGREATER       reduce using rule 43 (term -> factor .)
-    EQUAL           reduce using rule 43 (term -> factor .)
-    PLUS            reduce using rule 43 (term -> factor .)
-    MINUS           reduce using rule 43 (term -> factor .)
-    RPAREN          reduce using rule 43 (term -> factor .)
+    SRPAREN         shift and go to state 92
 
 
 state 62
 
-    (41) addingOperator -> PLUS .
+    (10) variableType -> TEXTO LPAREN NUMBER RPAREN .
 
-    ID              reduce using rule 41 (addingOperator -> PLUS .)
-    NUMBER          reduce using rule 41 (addingOperator -> PLUS .)
+    ID              reduce using rule 10 (variableType -> TEXTO LPAREN NUMBER RPAREN .)
 
 
 state 63
 
-    (42) addingOperator -> MINUS .
+    (14) statement -> BALLOON LPAREN numberType COLON . numberType RPAREN SEMICOLON
+    (46) numberType -> . NUMBER
+    (47) numberType -> . INT ID
 
-    ID              reduce using rule 42 (addingOperator -> MINUS .)
-    NUMBER          reduce using rule 42 (addingOperator -> MINUS .)
+    NUMBER          shift and go to state 29
+    INT             shift and go to state 30
 
+    numberType                     shift and go to state 93
 
 state 64
 
-    (47) factor -> ID .
-    (49) factor -> ID . SLPAREN NUMBER SRPAREN
+    (15) statement -> DOW LPAREN numberType RPAREN . statement ENDDO SEMICOLON
+    (14) statement -> . BALLOON LPAREN numberType COLON numberType RPAREN SEMICOLON
+    (15) statement -> . DOW LPAREN numberType RPAREN statement ENDDO SEMICOLON
+    (16) statement -> . RANDOM LPAREN arrayType COLON numberType COLON numberType RPAREN SEMICOLON
+    (17) statement -> . IF LPAREN condition RPAREN SEMICOLON statement ENDIF SEMICOLON
+    (18) statement -> . INC LPAREN numberType COLON numberType RPAREN SEMICOLON
+    (19) statement -> . DEC LPAREN numberType COLON numberType RPAREN SEMICOLON
+    (20) statement -> . FOR numberType TIMES USING arrayType randomInFor statement FOREND SEMICOLON
+    (21) statement -> . FORASIGNWORD LPAREN numberType COLON numberType RPAREN DO ASIGNWORD LPAREN arrayType COLON arrayType RPAREN SEMICOLON
+    (22) statement -> . TELAARANA LPAREN numberType COLON numberType RPAREN SEMICOLON
+    (23) statement -> . OBJECT LPAREN numberType COLON numberType COLON numberType RPAREN SEMICOLON
+    (24) statement -> . empty
+    (49) empty -> .
 
-    MULT            reduce using rule 47 (factor -> ID .)
-    DIVIDE          reduce using rule 47 (factor -> ID .)
-    ASSIGN          reduce using rule 47 (factor -> ID .)
-    NE              reduce using rule 47 (factor -> ID .)
-    LESS            reduce using rule 47 (factor -> ID .)
-    GREATER         reduce using rule 47 (factor -> ID .)
-    EQLESS          reduce using rule 47 (factor -> ID .)
-    EQGREATER       reduce using rule 47 (factor -> ID .)
-    EQUAL           reduce using rule 47 (factor -> ID .)
-    PLUS            reduce using rule 47 (factor -> ID .)
-    MINUS           reduce using rule 47 (factor -> ID .)
-    RPAREN          reduce using rule 47 (factor -> ID .)
-    SLPAREN         shift and go to state 96
+    BALLOON         shift and go to state 9
+    DOW             shift and go to state 10
+    RANDOM          shift and go to state 11
+    IF              shift and go to state 12
+    INC             shift and go to state 13
+    DEC             shift and go to state 14
+    FOR             shift and go to state 15
+    FORASIGNWORD    shift and go to state 16
+    TELAARANA       shift and go to state 17
+    OBJECT          shift and go to state 18
+    ENDDO           reduce using rule 49 (empty -> .)
 
+    statement                      shift and go to state 94
+    empty                          shift and go to state 19
 
 state 65
 
-    (48) factor -> NUMBER .
+    (16) statement -> RANDOM LPAREN arrayType COLON . numberType COLON numberType RPAREN SEMICOLON
+    (46) numberType -> . NUMBER
+    (47) numberType -> . INT ID
 
-    MULT            reduce using rule 48 (factor -> NUMBER .)
-    DIVIDE          reduce using rule 48 (factor -> NUMBER .)
-    ASSIGN          reduce using rule 48 (factor -> NUMBER .)
-    NE              reduce using rule 48 (factor -> NUMBER .)
-    LESS            reduce using rule 48 (factor -> NUMBER .)
-    GREATER         reduce using rule 48 (factor -> NUMBER .)
-    EQLESS          reduce using rule 48 (factor -> NUMBER .)
-    EQGREATER       reduce using rule 48 (factor -> NUMBER .)
-    EQUAL           reduce using rule 48 (factor -> NUMBER .)
-    PLUS            reduce using rule 48 (factor -> NUMBER .)
-    MINUS           reduce using rule 48 (factor -> NUMBER .)
-    RPAREN          reduce using rule 48 (factor -> NUMBER .)
+    NUMBER          shift and go to state 29
+    INT             shift and go to state 30
 
+    numberType                     shift and go to state 95
 
 state 66
 
-    (20) statement -> INC LPAREN ID . COLON NUMBER RPAREN SEMICOLON
+    (48) arrayType -> ARRAY ID .
 
-    COLON           shift and go to state 97
+    COLON           reduce using rule 48 (arrayType -> ARRAY ID .)
+    RANDOM          reduce using rule 48 (arrayType -> ARRAY ID .)
+    RPAREN          reduce using rule 48 (arrayType -> ARRAY ID .)
 
 
 state 67
 
-    (21) statement -> DEC LPAREN ID . COLON NUMBER RPAREN SEMICOLON
+    (17) statement -> IF LPAREN condition RPAREN . SEMICOLON statement ENDIF SEMICOLON
 
-    COLON           shift and go to state 98
+    SEMICOLON       shift and go to state 96
 
 
 state 68
 
-    (22) statement -> FOR NUMBER TIMES . USING ID randomInFor statementList FOREND SEMICOLON
+    (26) condition -> expression relation . expression
+    (34) expression -> . term
+    (35) expression -> . addingOperator term
+    (36) expression -> . expression addingOperator term
+    (39) term -> . factor
+    (40) term -> . term multiplyingOperator factor
+    (37) addingOperator -> . PLUS
+    (38) addingOperator -> . MINUS
+    (43) factor -> . ID
+    (44) factor -> . NUMBER
+    (45) factor -> . ID SLPAREN NUMBER SRPAREN
 
-    USING           shift and go to state 99
+    PLUS            shift and go to state 47
+    MINUS           shift and go to state 48
+    ID              shift and go to state 49
+    NUMBER          shift and go to state 50
 
+    expression                     shift and go to state 97
+    term                           shift and go to state 44
+    addingOperator                 shift and go to state 45
+    factor                         shift and go to state 46
 
 state 69
 
-    (23) statement -> FORASIGNWORD LPAREN numberType . COLON numberType RPAREN DO ASIGNWORD LPAREN arrayType COLON arrayType RPAREN SEMICOLON
+    (36) expression -> expression addingOperator . term
+    (39) term -> . factor
+    (40) term -> . term multiplyingOperator factor
+    (43) factor -> . ID
+    (44) factor -> . NUMBER
+    (45) factor -> . ID SLPAREN NUMBER SRPAREN
 
-    COLON           shift and go to state 100
+    ID              shift and go to state 49
+    NUMBER          shift and go to state 50
 
+    term                           shift and go to state 98
+    factor                         shift and go to state 46
 
 state 70
 
-    (24) statement -> TELARANA LPAREN numberType . COLON numberType RPAREN SEMICOLON
+    (27) relation -> ASSIGN .
 
-    COLON           shift and go to state 101
+    PLUS            reduce using rule 27 (relation -> ASSIGN .)
+    MINUS           reduce using rule 27 (relation -> ASSIGN .)
+    ID              reduce using rule 27 (relation -> ASSIGN .)
+    NUMBER          reduce using rule 27 (relation -> ASSIGN .)
 
 
 state 71
 
-    (25) statement -> OBJECT LPAREN numberType . COLON numberType COLON numberType RPAREN SEMICOLON
+    (28) relation -> NE .
 
-    COLON           shift and go to state 102
+    PLUS            reduce using rule 28 (relation -> NE .)
+    MINUS           reduce using rule 28 (relation -> NE .)
+    ID              reduce using rule 28 (relation -> NE .)
+    NUMBER          reduce using rule 28 (relation -> NE .)
 
 
 state 72
 
-    (3) valueAsign -> BALLOON LPAREN numberType COLON . numberType RPAREN SEMICOLON
-    (50) numberType -> . NUMBER
-    (51) numberType -> . INT ID
+    (29) relation -> LESS .
 
-    NUMBER          shift and go to state 47
-    INT             shift and go to state 48
+    PLUS            reduce using rule 29 (relation -> LESS .)
+    MINUS           reduce using rule 29 (relation -> LESS .)
+    ID              reduce using rule 29 (relation -> LESS .)
+    NUMBER          reduce using rule 29 (relation -> LESS .)
 
-    numberType                     shift and go to state 103
 
 state 73
 
-    (51) numberType -> INT ID .
+    (30) relation -> GREATER .
 
-    COLON           reduce using rule 51 (numberType -> INT ID .)
-    RPAREN          reduce using rule 51 (numberType -> INT ID .)
+    PLUS            reduce using rule 30 (relation -> GREATER .)
+    MINUS           reduce using rule 30 (relation -> GREATER .)
+    ID              reduce using rule 30 (relation -> GREATER .)
+    NUMBER          reduce using rule 30 (relation -> GREATER .)
 
 
 state 74
 
-    (4) valueAsign -> ID ASSIGN STRING SEMICOLON .
+    (31) relation -> EQLESS .
 
-    DOW             reduce using rule 4 (valueAsign -> ID ASSIGN STRING SEMICOLON .)
-    RANDOM          reduce using rule 4 (valueAsign -> ID ASSIGN STRING SEMICOLON .)
-    IF              reduce using rule 4 (valueAsign -> ID ASSIGN STRING SEMICOLON .)
-    INC             reduce using rule 4 (valueAsign -> ID ASSIGN STRING SEMICOLON .)
-    DEC             reduce using rule 4 (valueAsign -> ID ASSIGN STRING SEMICOLON .)
-    FOR             reduce using rule 4 (valueAsign -> ID ASSIGN STRING SEMICOLON .)
-    FORASIGNWORD    reduce using rule 4 (valueAsign -> ID ASSIGN STRING SEMICOLON .)
-    TELARANA        reduce using rule 4 (valueAsign -> ID ASSIGN STRING SEMICOLON .)
-    OBJECT          reduce using rule 4 (valueAsign -> ID ASSIGN STRING SEMICOLON .)
-    $end            reduce using rule 4 (valueAsign -> ID ASSIGN STRING SEMICOLON .)
+    PLUS            reduce using rule 31 (relation -> EQLESS .)
+    MINUS           reduce using rule 31 (relation -> EQLESS .)
+    ID              reduce using rule 31 (relation -> EQLESS .)
+    NUMBER          reduce using rule 31 (relation -> EQLESS .)
 
 
 state 75
 
-    (5) valueAsign -> ID SLPAREN NUMBER SRPAREN . ASSIGN STRING SEMICOLON
-    (6) valueAsign -> ID SLPAREN NUMBER SRPAREN . ASSIGN NUMBER SEMICOLON
+    (32) relation -> EQGREATER .
 
-    ASSIGN          shift and go to state 104
+    PLUS            reduce using rule 32 (relation -> EQGREATER .)
+    MINUS           reduce using rule 32 (relation -> EQGREATER .)
+    ID              reduce using rule 32 (relation -> EQGREATER .)
+    NUMBER          reduce using rule 32 (relation -> EQGREATER .)
 
 
 state 76
 
-    (8) varDecl -> INT ID ASSIGN NUMBER SEMICOLON .
+    (33) relation -> EQUAL .
 
-    BALLOON         reduce using rule 8 (varDecl -> INT ID ASSIGN NUMBER SEMICOLON .)
-    ID              reduce using rule 8 (varDecl -> INT ID ASSIGN NUMBER SEMICOLON .)
+    PLUS            reduce using rule 33 (relation -> EQUAL .)
+    MINUS           reduce using rule 33 (relation -> EQUAL .)
+    ID              reduce using rule 33 (relation -> EQUAL .)
+    NUMBER          reduce using rule 33 (relation -> EQUAL .)
 
 
 state 77
 
-    (11) varDecl -> INT ID SLPAREN NUMBER SRPAREN . SEMICOLON
+    (40) term -> term multiplyingOperator . factor
+    (43) factor -> . ID
+    (44) factor -> . NUMBER
+    (45) factor -> . ID SLPAREN NUMBER SRPAREN
 
-    SEMICOLON       shift and go to state 105
+    ID              shift and go to state 49
+    NUMBER          shift and go to state 50
 
+    factor                         shift and go to state 99
 
 state 78
 
-    (9) varDecl -> TEXTO ID ASSIGN STRING SEMICOLON .
+    (41) multiplyingOperator -> MULT .
 
-    BALLOON         reduce using rule 9 (varDecl -> TEXTO ID ASSIGN STRING SEMICOLON .)
-    ID              reduce using rule 9 (varDecl -> TEXTO ID ASSIGN STRING SEMICOLON .)
+    ID              reduce using rule 41 (multiplyingOperator -> MULT .)
+    NUMBER          reduce using rule 41 (multiplyingOperator -> MULT .)
 
 
 state 79
 
-    (10) varDecl -> TEXTO LPAREN NUMBER RPAREN ID . SLPAREN NUMBER SRPAREN SEMICOLON
+    (42) multiplyingOperator -> DIVIDE .
 
-    SLPAREN         shift and go to state 106
+    ID              reduce using rule 42 (multiplyingOperator -> DIVIDE .)
+    NUMBER          reduce using rule 42 (multiplyingOperator -> DIVIDE .)
 
 
 state 80
 
-    (17) statement -> DOW LPAREN numberType RPAREN . statementList ENDDO SEMICOLON
-    (27) statementList -> . statement
-    (28) statementList -> . statementList statement
-    (17) statement -> . DOW LPAREN numberType RPAREN statementList ENDDO SEMICOLON
-    (18) statement -> . RANDOM LPAREN ID COLON ID COLON ID RPAREN
-    (19) statement -> . IF LPAREN condition RPAREN SEMICOLON statementList
-    (20) statement -> . INC LPAREN ID COLON NUMBER RPAREN SEMICOLON
-    (21) statement -> . DEC LPAREN ID COLON NUMBER RPAREN SEMICOLON
-    (22) statement -> . FOR NUMBER TIMES USING ID randomInFor statementList FOREND SEMICOLON
-    (23) statement -> . FORASIGNWORD LPAREN numberType COLON numberType RPAREN DO ASIGNWORD LPAREN arrayType COLON arrayType RPAREN SEMICOLON
-    (24) statement -> . TELARANA LPAREN numberType COLON numberType RPAREN SEMICOLON
-    (25) statement -> . OBJECT LPAREN numberType COLON numberType COLON numberType RPAREN SEMICOLON
-    (26) statement -> . empty
-    (54) empty -> .
+    (35) expression -> addingOperator term .
+    (40) term -> term . multiplyingOperator factor
+    (41) multiplyingOperator -> . MULT
+    (42) multiplyingOperator -> . DIVIDE
 
-  ! shift/reduce conflict for DOW resolved as shift
-  ! shift/reduce conflict for RANDOM resolved as shift
-  ! shift/reduce conflict for IF resolved as shift
-  ! shift/reduce conflict for INC resolved as shift
-  ! shift/reduce conflict for DEC resolved as shift
-  ! shift/reduce conflict for FOR resolved as shift
-  ! shift/reduce conflict for FORASIGNWORD resolved as shift
-  ! shift/reduce conflict for TELARANA resolved as shift
-  ! shift/reduce conflict for OBJECT resolved as shift
-    DOW             shift and go to state 19
-    RANDOM          shift and go to state 20
-    IF              shift and go to state 21
-    INC             shift and go to state 22
-    DEC             shift and go to state 23
-    FOR             shift and go to state 24
-    FORASIGNWORD    shift and go to state 25
-    TELARANA        shift and go to state 26
-    OBJECT          shift and go to state 27
-    ENDDO           reduce using rule 54 (empty -> .)
+    ASSIGN          reduce using rule 35 (expression -> addingOperator term .)
+    NE              reduce using rule 35 (expression -> addingOperator term .)
+    LESS            reduce using rule 35 (expression -> addingOperator term .)
+    GREATER         reduce using rule 35 (expression -> addingOperator term .)
+    EQLESS          reduce using rule 35 (expression -> addingOperator term .)
+    EQGREATER       reduce using rule 35 (expression -> addingOperator term .)
+    EQUAL           reduce using rule 35 (expression -> addingOperator term .)
+    PLUS            reduce using rule 35 (expression -> addingOperator term .)
+    MINUS           reduce using rule 35 (expression -> addingOperator term .)
+    RPAREN          reduce using rule 35 (expression -> addingOperator term .)
+    MULT            shift and go to state 78
+    DIVIDE          shift and go to state 79
 
-  ! DOW             [ reduce using rule 54 (empty -> .) ]
-  ! RANDOM          [ reduce using rule 54 (empty -> .) ]
-  ! IF              [ reduce using rule 54 (empty -> .) ]
-  ! INC             [ reduce using rule 54 (empty -> .) ]
-  ! DEC             [ reduce using rule 54 (empty -> .) ]
-  ! FOR             [ reduce using rule 54 (empty -> .) ]
-  ! FORASIGNWORD    [ reduce using rule 54 (empty -> .) ]
-  ! TELARANA        [ reduce using rule 54 (empty -> .) ]
-  ! OBJECT          [ reduce using rule 54 (empty -> .) ]
-
-    statementList                  shift and go to state 107
-    statement                      shift and go to state 108
-    empty                          shift and go to state 28
+    multiplyingOperator            shift and go to state 77
 
 state 81
 
-    (18) statement -> RANDOM LPAREN ID COLON . ID COLON ID RPAREN
+    (45) factor -> ID SLPAREN . NUMBER SRPAREN
 
-    ID              shift and go to state 109
+    NUMBER          shift and go to state 100
 
 
 state 82
 
-    (19) statement -> IF LPAREN condition RPAREN . SEMICOLON statementList
+    (18) statement -> INC LPAREN numberType COLON . numberType RPAREN SEMICOLON
+    (46) numberType -> . NUMBER
+    (47) numberType -> . INT ID
 
-    SEMICOLON       shift and go to state 110
+    NUMBER          shift and go to state 29
+    INT             shift and go to state 30
 
+    numberType                     shift and go to state 101
 
 state 83
 
-    (30) condition -> expression relation . expression
-    (38) expression -> . term
-    (39) expression -> . addingOperator term
-    (40) expression -> . expression addingOperator term
-    (43) term -> . factor
-    (44) term -> . term multiplyingOperator factor
-    (41) addingOperator -> . PLUS
-    (42) addingOperator -> . MINUS
-    (47) factor -> . ID
-    (48) factor -> . NUMBER
-    (49) factor -> . ID SLPAREN NUMBER SRPAREN
+    (19) statement -> DEC LPAREN numberType COLON . numberType RPAREN SEMICOLON
+    (46) numberType -> . NUMBER
+    (47) numberType -> . INT ID
 
-    PLUS            shift and go to state 62
-    MINUS           shift and go to state 63
-    ID              shift and go to state 64
-    NUMBER          shift and go to state 65
+    NUMBER          shift and go to state 29
+    INT             shift and go to state 30
 
-    expression                     shift and go to state 111
-    term                           shift and go to state 59
-    addingOperator                 shift and go to state 60
-    factor                         shift and go to state 61
+    numberType                     shift and go to state 102
 
 state 84
 
-    (40) expression -> expression addingOperator . term
-    (43) term -> . factor
-    (44) term -> . term multiplyingOperator factor
-    (47) factor -> . ID
-    (48) factor -> . NUMBER
-    (49) factor -> . ID SLPAREN NUMBER SRPAREN
+    (20) statement -> FOR numberType TIMES USING . arrayType randomInFor statement FOREND SEMICOLON
+    (48) arrayType -> . ARRAY ID
 
-    ID              shift and go to state 64
-    NUMBER          shift and go to state 65
+    ARRAY           shift and go to state 41
 
-    term                           shift and go to state 112
-    factor                         shift and go to state 61
+    arrayType                      shift and go to state 103
 
 state 85
 
-    (31) relation -> ASSIGN .
+    (21) statement -> FORASIGNWORD LPAREN numberType COLON . numberType RPAREN DO ASIGNWORD LPAREN arrayType COLON arrayType RPAREN SEMICOLON
+    (46) numberType -> . NUMBER
+    (47) numberType -> . INT ID
 
-    PLUS            reduce using rule 31 (relation -> ASSIGN .)
-    MINUS           reduce using rule 31 (relation -> ASSIGN .)
-    ID              reduce using rule 31 (relation -> ASSIGN .)
-    NUMBER          reduce using rule 31 (relation -> ASSIGN .)
+    NUMBER          shift and go to state 29
+    INT             shift and go to state 30
 
+    numberType                     shift and go to state 104
 
 state 86
 
-    (32) relation -> NE .
+    (22) statement -> TELAARANA LPAREN numberType COLON . numberType RPAREN SEMICOLON
+    (46) numberType -> . NUMBER
+    (47) numberType -> . INT ID
 
-    PLUS            reduce using rule 32 (relation -> NE .)
-    MINUS           reduce using rule 32 (relation -> NE .)
-    ID              reduce using rule 32 (relation -> NE .)
-    NUMBER          reduce using rule 32 (relation -> NE .)
+    NUMBER          shift and go to state 29
+    INT             shift and go to state 30
 
+    numberType                     shift and go to state 105
 
 state 87
 
-    (33) relation -> LESS .
+    (23) statement -> OBJECT LPAREN numberType COLON . numberType COLON numberType RPAREN SEMICOLON
+    (46) numberType -> . NUMBER
+    (47) numberType -> . INT ID
 
-    PLUS            reduce using rule 33 (relation -> LESS .)
-    MINUS           reduce using rule 33 (relation -> LESS .)
-    ID              reduce using rule 33 (relation -> LESS .)
-    NUMBER          reduce using rule 33 (relation -> LESS .)
+    NUMBER          shift and go to state 29
+    INT             shift and go to state 30
 
+    numberType                     shift and go to state 106
 
 state 88
 
-    (34) relation -> GREATER .
+    (3) variableDec -> variableType ID arrayStruct initiateVar SEMICOLON .
 
-    PLUS            reduce using rule 34 (relation -> GREATER .)
-    MINUS           reduce using rule 34 (relation -> GREATER .)
-    ID              reduce using rule 34 (relation -> GREATER .)
-    NUMBER          reduce using rule 34 (relation -> GREATER .)
+    BALLOON         reduce using rule 3 (variableDec -> variableType ID arrayStruct initiateVar SEMICOLON .)
+    DOW             reduce using rule 3 (variableDec -> variableType ID arrayStruct initiateVar SEMICOLON .)
+    RANDOM          reduce using rule 3 (variableDec -> variableType ID arrayStruct initiateVar SEMICOLON .)
+    IF              reduce using rule 3 (variableDec -> variableType ID arrayStruct initiateVar SEMICOLON .)
+    INC             reduce using rule 3 (variableDec -> variableType ID arrayStruct initiateVar SEMICOLON .)
+    DEC             reduce using rule 3 (variableDec -> variableType ID arrayStruct initiateVar SEMICOLON .)
+    FOR             reduce using rule 3 (variableDec -> variableType ID arrayStruct initiateVar SEMICOLON .)
+    FORASIGNWORD    reduce using rule 3 (variableDec -> variableType ID arrayStruct initiateVar SEMICOLON .)
+    TELAARANA       reduce using rule 3 (variableDec -> variableType ID arrayStruct initiateVar SEMICOLON .)
+    OBJECT          reduce using rule 3 (variableDec -> variableType ID arrayStruct initiateVar SEMICOLON .)
+    $end            reduce using rule 3 (variableDec -> variableType ID arrayStruct initiateVar SEMICOLON .)
 
 
 state 89
 
-    (35) relation -> EQLESS .
+    (5) initiateVar -> ASSIGN value .
 
-    PLUS            reduce using rule 35 (relation -> EQLESS .)
-    MINUS           reduce using rule 35 (relation -> EQLESS .)
-    ID              reduce using rule 35 (relation -> EQLESS .)
-    NUMBER          reduce using rule 35 (relation -> EQLESS .)
+    SEMICOLON       reduce using rule 5 (initiateVar -> ASSIGN value .)
 
 
 state 90
 
-    (36) relation -> EQGREATER .
+    (12) value -> NUMBER .
 
-    PLUS            reduce using rule 36 (relation -> EQGREATER .)
-    MINUS           reduce using rule 36 (relation -> EQGREATER .)
-    ID              reduce using rule 36 (relation -> EQGREATER .)
-    NUMBER          reduce using rule 36 (relation -> EQGREATER .)
+    SEMICOLON       reduce using rule 12 (value -> NUMBER .)
 
 
 state 91
 
-    (37) relation -> EQUAL .
+    (13) value -> STRING .
 
-    PLUS            reduce using rule 37 (relation -> EQUAL .)
-    MINUS           reduce using rule 37 (relation -> EQUAL .)
-    ID              reduce using rule 37 (relation -> EQUAL .)
-    NUMBER          reduce using rule 37 (relation -> EQUAL .)
+    SEMICOLON       reduce using rule 13 (value -> STRING .)
 
 
 state 92
 
-    (44) term -> term multiplyingOperator . factor
-    (47) factor -> . ID
-    (48) factor -> . NUMBER
-    (49) factor -> . ID SLPAREN NUMBER SRPAREN
+    (7) arrayStruct -> SLPAREN NUMBER SRPAREN .
 
-    ID              shift and go to state 64
-    NUMBER          shift and go to state 65
+    ASSIGN          reduce using rule 7 (arrayStruct -> SLPAREN NUMBER SRPAREN .)
+    SEMICOLON       reduce using rule 7 (arrayStruct -> SLPAREN NUMBER SRPAREN .)
 
-    factor                         shift and go to state 113
 
 state 93
 
-    (45) multiplyingOperator -> MULT .
+    (14) statement -> BALLOON LPAREN numberType COLON numberType . RPAREN SEMICOLON
 
-    ID              reduce using rule 45 (multiplyingOperator -> MULT .)
-    NUMBER          reduce using rule 45 (multiplyingOperator -> MULT .)
+    RPAREN          shift and go to state 107
 
 
 state 94
 
-    (46) multiplyingOperator -> DIVIDE .
+    (15) statement -> DOW LPAREN numberType RPAREN statement . ENDDO SEMICOLON
 
-    ID              reduce using rule 46 (multiplyingOperator -> DIVIDE .)
-    NUMBER          reduce using rule 46 (multiplyingOperator -> DIVIDE .)
+    ENDDO           shift and go to state 108
 
 
 state 95
 
-    (39) expression -> addingOperator term .
-    (44) term -> term . multiplyingOperator factor
-    (45) multiplyingOperator -> . MULT
-    (46) multiplyingOperator -> . DIVIDE
+    (16) statement -> RANDOM LPAREN arrayType COLON numberType . COLON numberType RPAREN SEMICOLON
 
-    ASSIGN          reduce using rule 39 (expression -> addingOperator term .)
-    NE              reduce using rule 39 (expression -> addingOperator term .)
-    LESS            reduce using rule 39 (expression -> addingOperator term .)
-    GREATER         reduce using rule 39 (expression -> addingOperator term .)
-    EQLESS          reduce using rule 39 (expression -> addingOperator term .)
-    EQGREATER       reduce using rule 39 (expression -> addingOperator term .)
-    EQUAL           reduce using rule 39 (expression -> addingOperator term .)
-    PLUS            reduce using rule 39 (expression -> addingOperator term .)
-    MINUS           reduce using rule 39 (expression -> addingOperator term .)
-    RPAREN          reduce using rule 39 (expression -> addingOperator term .)
-    MULT            shift and go to state 93
-    DIVIDE          shift and go to state 94
+    COLON           shift and go to state 109
 
-    multiplyingOperator            shift and go to state 92
 
 state 96
 
-    (49) factor -> ID SLPAREN . NUMBER SRPAREN
+    (17) statement -> IF LPAREN condition RPAREN SEMICOLON . statement ENDIF SEMICOLON
+    (14) statement -> . BALLOON LPAREN numberType COLON numberType RPAREN SEMICOLON
+    (15) statement -> . DOW LPAREN numberType RPAREN statement ENDDO SEMICOLON
+    (16) statement -> . RANDOM LPAREN arrayType COLON numberType COLON numberType RPAREN SEMICOLON
+    (17) statement -> . IF LPAREN condition RPAREN SEMICOLON statement ENDIF SEMICOLON
+    (18) statement -> . INC LPAREN numberType COLON numberType RPAREN SEMICOLON
+    (19) statement -> . DEC LPAREN numberType COLON numberType RPAREN SEMICOLON
+    (20) statement -> . FOR numberType TIMES USING arrayType randomInFor statement FOREND SEMICOLON
+    (21) statement -> . FORASIGNWORD LPAREN numberType COLON numberType RPAREN DO ASIGNWORD LPAREN arrayType COLON arrayType RPAREN SEMICOLON
+    (22) statement -> . TELAARANA LPAREN numberType COLON numberType RPAREN SEMICOLON
+    (23) statement -> . OBJECT LPAREN numberType COLON numberType COLON numberType RPAREN SEMICOLON
+    (24) statement -> . empty
+    (49) empty -> .
 
-    NUMBER          shift and go to state 114
+    BALLOON         shift and go to state 9
+    DOW             shift and go to state 10
+    RANDOM          shift and go to state 11
+    IF              shift and go to state 12
+    INC             shift and go to state 13
+    DEC             shift and go to state 14
+    FOR             shift and go to state 15
+    FORASIGNWORD    shift and go to state 16
+    TELAARANA       shift and go to state 17
+    OBJECT          shift and go to state 18
+    ENDIF           reduce using rule 49 (empty -> .)
 
+    statement                      shift and go to state 110
+    empty                          shift and go to state 19
 
 state 97
 
-    (20) statement -> INC LPAREN ID COLON . NUMBER RPAREN SEMICOLON
+    (26) condition -> expression relation expression .
+    (36) expression -> expression . addingOperator term
+    (37) addingOperator -> . PLUS
+    (38) addingOperator -> . MINUS
 
-    NUMBER          shift and go to state 115
+    RPAREN          reduce using rule 26 (condition -> expression relation expression .)
+    PLUS            shift and go to state 47
+    MINUS           shift and go to state 48
 
+    addingOperator                 shift and go to state 69
 
 state 98
 
-    (21) statement -> DEC LPAREN ID COLON . NUMBER RPAREN SEMICOLON
+    (36) expression -> expression addingOperator term .
+    (40) term -> term . multiplyingOperator factor
+    (41) multiplyingOperator -> . MULT
+    (42) multiplyingOperator -> . DIVIDE
 
-    NUMBER          shift and go to state 116
+    ASSIGN          reduce using rule 36 (expression -> expression addingOperator term .)
+    NE              reduce using rule 36 (expression -> expression addingOperator term .)
+    LESS            reduce using rule 36 (expression -> expression addingOperator term .)
+    GREATER         reduce using rule 36 (expression -> expression addingOperator term .)
+    EQLESS          reduce using rule 36 (expression -> expression addingOperator term .)
+    EQGREATER       reduce using rule 36 (expression -> expression addingOperator term .)
+    EQUAL           reduce using rule 36 (expression -> expression addingOperator term .)
+    PLUS            reduce using rule 36 (expression -> expression addingOperator term .)
+    MINUS           reduce using rule 36 (expression -> expression addingOperator term .)
+    RPAREN          reduce using rule 36 (expression -> expression addingOperator term .)
+    MULT            shift and go to state 78
+    DIVIDE          shift and go to state 79
 
+    multiplyingOperator            shift and go to state 77
 
 state 99
 
-    (22) statement -> FOR NUMBER TIMES USING . ID randomInFor statementList FOREND SEMICOLON
+    (40) term -> term multiplyingOperator factor .
 
-    ID              shift and go to state 117
+    MULT            reduce using rule 40 (term -> term multiplyingOperator factor .)
+    DIVIDE          reduce using rule 40 (term -> term multiplyingOperator factor .)
+    ASSIGN          reduce using rule 40 (term -> term multiplyingOperator factor .)
+    NE              reduce using rule 40 (term -> term multiplyingOperator factor .)
+    LESS            reduce using rule 40 (term -> term multiplyingOperator factor .)
+    GREATER         reduce using rule 40 (term -> term multiplyingOperator factor .)
+    EQLESS          reduce using rule 40 (term -> term multiplyingOperator factor .)
+    EQGREATER       reduce using rule 40 (term -> term multiplyingOperator factor .)
+    EQUAL           reduce using rule 40 (term -> term multiplyingOperator factor .)
+    PLUS            reduce using rule 40 (term -> term multiplyingOperator factor .)
+    MINUS           reduce using rule 40 (term -> term multiplyingOperator factor .)
+    RPAREN          reduce using rule 40 (term -> term multiplyingOperator factor .)
 
 
 state 100
 
-    (23) statement -> FORASIGNWORD LPAREN numberType COLON . numberType RPAREN DO ASIGNWORD LPAREN arrayType COLON arrayType RPAREN SEMICOLON
-    (50) numberType -> . NUMBER
-    (51) numberType -> . INT ID
+    (45) factor -> ID SLPAREN NUMBER . SRPAREN
 
-    NUMBER          shift and go to state 47
-    INT             shift and go to state 48
+    SRPAREN         shift and go to state 111
 
-    numberType                     shift and go to state 118
 
 state 101
 
-    (24) statement -> TELARANA LPAREN numberType COLON . numberType RPAREN SEMICOLON
-    (50) numberType -> . NUMBER
-    (51) numberType -> . INT ID
+    (18) statement -> INC LPAREN numberType COLON numberType . RPAREN SEMICOLON
 
-    NUMBER          shift and go to state 47
-    INT             shift and go to state 48
+    RPAREN          shift and go to state 112
 
-    numberType                     shift and go to state 119
 
 state 102
 
-    (25) statement -> OBJECT LPAREN numberType COLON . numberType COLON numberType RPAREN SEMICOLON
-    (50) numberType -> . NUMBER
-    (51) numberType -> . INT ID
+    (19) statement -> DEC LPAREN numberType COLON numberType . RPAREN SEMICOLON
 
-    NUMBER          shift and go to state 47
-    INT             shift and go to state 48
+    RPAREN          shift and go to state 113
 
-    numberType                     shift and go to state 120
 
 state 103
 
-    (3) valueAsign -> BALLOON LPAREN numberType COLON numberType . RPAREN SEMICOLON
+    (20) statement -> FOR numberType TIMES USING arrayType . randomInFor statement FOREND SEMICOLON
+    (25) randomInFor -> . RANDOM LPAREN numberType COLON numberType RPAREN SEMICOLON
 
-    RPAREN          shift and go to state 121
+    RANDOM          shift and go to state 115
 
+    randomInFor                    shift and go to state 114
 
 state 104
 
-    (5) valueAsign -> ID SLPAREN NUMBER SRPAREN ASSIGN . STRING SEMICOLON
-    (6) valueAsign -> ID SLPAREN NUMBER SRPAREN ASSIGN . NUMBER SEMICOLON
+    (21) statement -> FORASIGNWORD LPAREN numberType COLON numberType . RPAREN DO ASIGNWORD LPAREN arrayType COLON arrayType RPAREN SEMICOLON
 
-    STRING          shift and go to state 123
-    NUMBER          shift and go to state 122
+    RPAREN          shift and go to state 116
 
 
 state 105
 
-    (11) varDecl -> INT ID SLPAREN NUMBER SRPAREN SEMICOLON .
+    (22) statement -> TELAARANA LPAREN numberType COLON numberType . RPAREN SEMICOLON
 
-    BALLOON         reduce using rule 11 (varDecl -> INT ID SLPAREN NUMBER SRPAREN SEMICOLON .)
-    ID              reduce using rule 11 (varDecl -> INT ID SLPAREN NUMBER SRPAREN SEMICOLON .)
+    RPAREN          shift and go to state 117
 
 
 state 106
 
-    (10) varDecl -> TEXTO LPAREN NUMBER RPAREN ID SLPAREN . NUMBER SRPAREN SEMICOLON
+    (23) statement -> OBJECT LPAREN numberType COLON numberType . COLON numberType RPAREN SEMICOLON
 
-    NUMBER          shift and go to state 124
+    COLON           shift and go to state 118
 
 
 state 107
 
-    (17) statement -> DOW LPAREN numberType RPAREN statementList . ENDDO SEMICOLON
-    (28) statementList -> statementList . statement
-    (17) statement -> . DOW LPAREN numberType RPAREN statementList ENDDO SEMICOLON
-    (18) statement -> . RANDOM LPAREN ID COLON ID COLON ID RPAREN
-    (19) statement -> . IF LPAREN condition RPAREN SEMICOLON statementList
-    (20) statement -> . INC LPAREN ID COLON NUMBER RPAREN SEMICOLON
-    (21) statement -> . DEC LPAREN ID COLON NUMBER RPAREN SEMICOLON
-    (22) statement -> . FOR NUMBER TIMES USING ID randomInFor statementList FOREND SEMICOLON
-    (23) statement -> . FORASIGNWORD LPAREN numberType COLON numberType RPAREN DO ASIGNWORD LPAREN arrayType COLON arrayType RPAREN SEMICOLON
-    (24) statement -> . TELARANA LPAREN numberType COLON numberType RPAREN SEMICOLON
-    (25) statement -> . OBJECT LPAREN numberType COLON numberType COLON numberType RPAREN SEMICOLON
-    (26) statement -> . empty
-    (54) empty -> .
+    (14) statement -> BALLOON LPAREN numberType COLON numberType RPAREN . SEMICOLON
 
-  ! shift/reduce conflict for ENDDO resolved as shift
-  ! shift/reduce conflict for DOW resolved as shift
-  ! shift/reduce conflict for RANDOM resolved as shift
-  ! shift/reduce conflict for IF resolved as shift
-  ! shift/reduce conflict for INC resolved as shift
-  ! shift/reduce conflict for DEC resolved as shift
-  ! shift/reduce conflict for FOR resolved as shift
-  ! shift/reduce conflict for FORASIGNWORD resolved as shift
-  ! shift/reduce conflict for TELARANA resolved as shift
-  ! shift/reduce conflict for OBJECT resolved as shift
-    ENDDO           shift and go to state 125
-    DOW             shift and go to state 19
-    RANDOM          shift and go to state 20
-    IF              shift and go to state 21
-    INC             shift and go to state 22
-    DEC             shift and go to state 23
-    FOR             shift and go to state 24
-    FORASIGNWORD    shift and go to state 25
-    TELARANA        shift and go to state 26
-    OBJECT          shift and go to state 27
+    SEMICOLON       shift and go to state 119
 
-  ! ENDDO           [ reduce using rule 54 (empty -> .) ]
-  ! DOW             [ reduce using rule 54 (empty -> .) ]
-  ! RANDOM          [ reduce using rule 54 (empty -> .) ]
-  ! IF              [ reduce using rule 54 (empty -> .) ]
-  ! INC             [ reduce using rule 54 (empty -> .) ]
-  ! DEC             [ reduce using rule 54 (empty -> .) ]
-  ! FOR             [ reduce using rule 54 (empty -> .) ]
-  ! FORASIGNWORD    [ reduce using rule 54 (empty -> .) ]
-  ! TELARANA        [ reduce using rule 54 (empty -> .) ]
-  ! OBJECT          [ reduce using rule 54 (empty -> .) ]
-
-    statement                      shift and go to state 126
-    empty                          shift and go to state 28
 
 state 108
 
-    (27) statementList -> statement .
+    (15) statement -> DOW LPAREN numberType RPAREN statement ENDDO . SEMICOLON
 
-    ENDDO           reduce using rule 27 (statementList -> statement .)
-    DOW             reduce using rule 27 (statementList -> statement .)
-    RANDOM          reduce using rule 27 (statementList -> statement .)
-    IF              reduce using rule 27 (statementList -> statement .)
-    INC             reduce using rule 27 (statementList -> statement .)
-    DEC             reduce using rule 27 (statementList -> statement .)
-    FOR             reduce using rule 27 (statementList -> statement .)
-    FORASIGNWORD    reduce using rule 27 (statementList -> statement .)
-    TELARANA        reduce using rule 27 (statementList -> statement .)
-    OBJECT          reduce using rule 27 (statementList -> statement .)
-    $end            reduce using rule 27 (statementList -> statement .)
-    FOREND          reduce using rule 27 (statementList -> statement .)
+    SEMICOLON       shift and go to state 120
 
 
 state 109
 
-    (18) statement -> RANDOM LPAREN ID COLON ID . COLON ID RPAREN
+    (16) statement -> RANDOM LPAREN arrayType COLON numberType COLON . numberType RPAREN SEMICOLON
+    (46) numberType -> . NUMBER
+    (47) numberType -> . INT ID
 
-    COLON           shift and go to state 127
+    NUMBER          shift and go to state 29
+    INT             shift and go to state 30
 
+    numberType                     shift and go to state 121
 
 state 110
 
-    (19) statement -> IF LPAREN condition RPAREN SEMICOLON . statementList
-    (27) statementList -> . statement
-    (28) statementList -> . statementList statement
-    (17) statement -> . DOW LPAREN numberType RPAREN statementList ENDDO SEMICOLON
-    (18) statement -> . RANDOM LPAREN ID COLON ID COLON ID RPAREN
-    (19) statement -> . IF LPAREN condition RPAREN SEMICOLON statementList
-    (20) statement -> . INC LPAREN ID COLON NUMBER RPAREN SEMICOLON
-    (21) statement -> . DEC LPAREN ID COLON NUMBER RPAREN SEMICOLON
-    (22) statement -> . FOR NUMBER TIMES USING ID randomInFor statementList FOREND SEMICOLON
-    (23) statement -> . FORASIGNWORD LPAREN numberType COLON numberType RPAREN DO ASIGNWORD LPAREN arrayType COLON arrayType RPAREN SEMICOLON
-    (24) statement -> . TELARANA LPAREN numberType COLON numberType RPAREN SEMICOLON
-    (25) statement -> . OBJECT LPAREN numberType COLON numberType COLON numberType RPAREN SEMICOLON
-    (26) statement -> . empty
-    (54) empty -> .
+    (17) statement -> IF LPAREN condition RPAREN SEMICOLON statement . ENDIF SEMICOLON
 
-  ! shift/reduce conflict for DOW resolved as shift
-  ! shift/reduce conflict for RANDOM resolved as shift
-  ! shift/reduce conflict for IF resolved as shift
-  ! shift/reduce conflict for INC resolved as shift
-  ! shift/reduce conflict for DEC resolved as shift
-  ! shift/reduce conflict for FOR resolved as shift
-  ! shift/reduce conflict for FORASIGNWORD resolved as shift
-  ! shift/reduce conflict for TELARANA resolved as shift
-  ! shift/reduce conflict for OBJECT resolved as shift
-    DOW             shift and go to state 19
-    RANDOM          shift and go to state 20
-    IF              shift and go to state 21
-    INC             shift and go to state 22
-    DEC             shift and go to state 23
-    FOR             shift and go to state 24
-    FORASIGNWORD    shift and go to state 25
-    TELARANA        shift and go to state 26
-    OBJECT          shift and go to state 27
-    $end            reduce using rule 54 (empty -> .)
-    ENDDO           reduce using rule 54 (empty -> .)
-    FOREND          reduce using rule 54 (empty -> .)
+    ENDIF           shift and go to state 122
 
-  ! DOW             [ reduce using rule 54 (empty -> .) ]
-  ! RANDOM          [ reduce using rule 54 (empty -> .) ]
-  ! IF              [ reduce using rule 54 (empty -> .) ]
-  ! INC             [ reduce using rule 54 (empty -> .) ]
-  ! DEC             [ reduce using rule 54 (empty -> .) ]
-  ! FOR             [ reduce using rule 54 (empty -> .) ]
-  ! FORASIGNWORD    [ reduce using rule 54 (empty -> .) ]
-  ! TELARANA        [ reduce using rule 54 (empty -> .) ]
-  ! OBJECT          [ reduce using rule 54 (empty -> .) ]
-
-    statementList                  shift and go to state 128
-    statement                      shift and go to state 108
-    empty                          shift and go to state 28
 
 state 111
 
-    (30) condition -> expression relation expression .
-    (40) expression -> expression . addingOperator term
-    (41) addingOperator -> . PLUS
-    (42) addingOperator -> . MINUS
+    (45) factor -> ID SLPAREN NUMBER SRPAREN .
 
-    RPAREN          reduce using rule 30 (condition -> expression relation expression .)
-    PLUS            shift and go to state 62
-    MINUS           shift and go to state 63
+    MULT            reduce using rule 45 (factor -> ID SLPAREN NUMBER SRPAREN .)
+    DIVIDE          reduce using rule 45 (factor -> ID SLPAREN NUMBER SRPAREN .)
+    ASSIGN          reduce using rule 45 (factor -> ID SLPAREN NUMBER SRPAREN .)
+    NE              reduce using rule 45 (factor -> ID SLPAREN NUMBER SRPAREN .)
+    LESS            reduce using rule 45 (factor -> ID SLPAREN NUMBER SRPAREN .)
+    GREATER         reduce using rule 45 (factor -> ID SLPAREN NUMBER SRPAREN .)
+    EQLESS          reduce using rule 45 (factor -> ID SLPAREN NUMBER SRPAREN .)
+    EQGREATER       reduce using rule 45 (factor -> ID SLPAREN NUMBER SRPAREN .)
+    EQUAL           reduce using rule 45 (factor -> ID SLPAREN NUMBER SRPAREN .)
+    PLUS            reduce using rule 45 (factor -> ID SLPAREN NUMBER SRPAREN .)
+    MINUS           reduce using rule 45 (factor -> ID SLPAREN NUMBER SRPAREN .)
+    RPAREN          reduce using rule 45 (factor -> ID SLPAREN NUMBER SRPAREN .)
 
-    addingOperator                 shift and go to state 84
 
 state 112
 
-    (40) expression -> expression addingOperator term .
-    (44) term -> term . multiplyingOperator factor
-    (45) multiplyingOperator -> . MULT
-    (46) multiplyingOperator -> . DIVIDE
+    (18) statement -> INC LPAREN numberType COLON numberType RPAREN . SEMICOLON
 
-    ASSIGN          reduce using rule 40 (expression -> expression addingOperator term .)
-    NE              reduce using rule 40 (expression -> expression addingOperator term .)
-    LESS            reduce using rule 40 (expression -> expression addingOperator term .)
-    GREATER         reduce using rule 40 (expression -> expression addingOperator term .)
-    EQLESS          reduce using rule 40 (expression -> expression addingOperator term .)
-    EQGREATER       reduce using rule 40 (expression -> expression addingOperator term .)
-    EQUAL           reduce using rule 40 (expression -> expression addingOperator term .)
-    PLUS            reduce using rule 40 (expression -> expression addingOperator term .)
-    MINUS           reduce using rule 40 (expression -> expression addingOperator term .)
-    RPAREN          reduce using rule 40 (expression -> expression addingOperator term .)
-    MULT            shift and go to state 93
-    DIVIDE          shift and go to state 94
+    SEMICOLON       shift and go to state 123
 
-    multiplyingOperator            shift and go to state 92
 
 state 113
 
-    (44) term -> term multiplyingOperator factor .
+    (19) statement -> DEC LPAREN numberType COLON numberType RPAREN . SEMICOLON
 
-    MULT            reduce using rule 44 (term -> term multiplyingOperator factor .)
-    DIVIDE          reduce using rule 44 (term -> term multiplyingOperator factor .)
-    ASSIGN          reduce using rule 44 (term -> term multiplyingOperator factor .)
-    NE              reduce using rule 44 (term -> term multiplyingOperator factor .)
-    LESS            reduce using rule 44 (term -> term multiplyingOperator factor .)
-    GREATER         reduce using rule 44 (term -> term multiplyingOperator factor .)
-    EQLESS          reduce using rule 44 (term -> term multiplyingOperator factor .)
-    EQGREATER       reduce using rule 44 (term -> term multiplyingOperator factor .)
-    EQUAL           reduce using rule 44 (term -> term multiplyingOperator factor .)
-    PLUS            reduce using rule 44 (term -> term multiplyingOperator factor .)
-    MINUS           reduce using rule 44 (term -> term multiplyingOperator factor .)
-    RPAREN          reduce using rule 44 (term -> term multiplyingOperator factor .)
+    SEMICOLON       shift and go to state 124
 
 
 state 114
 
-    (49) factor -> ID SLPAREN NUMBER . SRPAREN
+    (20) statement -> FOR numberType TIMES USING arrayType randomInFor . statement FOREND SEMICOLON
+    (14) statement -> . BALLOON LPAREN numberType COLON numberType RPAREN SEMICOLON
+    (15) statement -> . DOW LPAREN numberType RPAREN statement ENDDO SEMICOLON
+    (16) statement -> . RANDOM LPAREN arrayType COLON numberType COLON numberType RPAREN SEMICOLON
+    (17) statement -> . IF LPAREN condition RPAREN SEMICOLON statement ENDIF SEMICOLON
+    (18) statement -> . INC LPAREN numberType COLON numberType RPAREN SEMICOLON
+    (19) statement -> . DEC LPAREN numberType COLON numberType RPAREN SEMICOLON
+    (20) statement -> . FOR numberType TIMES USING arrayType randomInFor statement FOREND SEMICOLON
+    (21) statement -> . FORASIGNWORD LPAREN numberType COLON numberType RPAREN DO ASIGNWORD LPAREN arrayType COLON arrayType RPAREN SEMICOLON
+    (22) statement -> . TELAARANA LPAREN numberType COLON numberType RPAREN SEMICOLON
+    (23) statement -> . OBJECT LPAREN numberType COLON numberType COLON numberType RPAREN SEMICOLON
+    (24) statement -> . empty
+    (49) empty -> .
 
-    SRPAREN         shift and go to state 129
+    BALLOON         shift and go to state 9
+    DOW             shift and go to state 10
+    RANDOM          shift and go to state 11
+    IF              shift and go to state 12
+    INC             shift and go to state 13
+    DEC             shift and go to state 14
+    FOR             shift and go to state 15
+    FORASIGNWORD    shift and go to state 16
+    TELAARANA       shift and go to state 17
+    OBJECT          shift and go to state 18
+    FOREND          reduce using rule 49 (empty -> .)
 
+    statement                      shift and go to state 125
+    empty                          shift and go to state 19
 
 state 115
 
-    (20) statement -> INC LPAREN ID COLON NUMBER . RPAREN SEMICOLON
+    (25) randomInFor -> RANDOM . LPAREN numberType COLON numberType RPAREN SEMICOLON
 
-    RPAREN          shift and go to state 130
+    LPAREN          shift and go to state 126
 
 
 state 116
 
-    (21) statement -> DEC LPAREN ID COLON NUMBER . RPAREN SEMICOLON
+    (21) statement -> FORASIGNWORD LPAREN numberType COLON numberType RPAREN . DO ASIGNWORD LPAREN arrayType COLON arrayType RPAREN SEMICOLON
 
-    RPAREN          shift and go to state 131
+    DO              shift and go to state 127
 
 
 state 117
 
-    (22) statement -> FOR NUMBER TIMES USING ID . randomInFor statementList FOREND SEMICOLON
-    (29) randomInFor -> . LPAREN ID COLON ID RPAREN SEMICOLON
+    (22) statement -> TELAARANA LPAREN numberType COLON numberType RPAREN . SEMICOLON
 
-    LPAREN          shift and go to state 133
+    SEMICOLON       shift and go to state 128
 
-    randomInFor                    shift and go to state 132
 
 state 118
 
-    (23) statement -> FORASIGNWORD LPAREN numberType COLON numberType . RPAREN DO ASIGNWORD LPAREN arrayType COLON arrayType RPAREN SEMICOLON
+    (23) statement -> OBJECT LPAREN numberType COLON numberType COLON . numberType RPAREN SEMICOLON
+    (46) numberType -> . NUMBER
+    (47) numberType -> . INT ID
 
-    RPAREN          shift and go to state 134
+    NUMBER          shift and go to state 29
+    INT             shift and go to state 30
 
+    numberType                     shift and go to state 129
 
 state 119
 
-    (24) statement -> TELARANA LPAREN numberType COLON numberType . RPAREN SEMICOLON
+    (14) statement -> BALLOON LPAREN numberType COLON numberType RPAREN SEMICOLON .
 
-    RPAREN          shift and go to state 135
+    $end            reduce using rule 14 (statement -> BALLOON LPAREN numberType COLON numberType RPAREN SEMICOLON .)
+    ENDDO           reduce using rule 14 (statement -> BALLOON LPAREN numberType COLON numberType RPAREN SEMICOLON .)
+    ENDIF           reduce using rule 14 (statement -> BALLOON LPAREN numberType COLON numberType RPAREN SEMICOLON .)
+    FOREND          reduce using rule 14 (statement -> BALLOON LPAREN numberType COLON numberType RPAREN SEMICOLON .)
 
 
 state 120
 
-    (25) statement -> OBJECT LPAREN numberType COLON numberType . COLON numberType RPAREN SEMICOLON
+    (15) statement -> DOW LPAREN numberType RPAREN statement ENDDO SEMICOLON .
 
-    COLON           shift and go to state 136
+    $end            reduce using rule 15 (statement -> DOW LPAREN numberType RPAREN statement ENDDO SEMICOLON .)
+    ENDDO           reduce using rule 15 (statement -> DOW LPAREN numberType RPAREN statement ENDDO SEMICOLON .)
+    ENDIF           reduce using rule 15 (statement -> DOW LPAREN numberType RPAREN statement ENDDO SEMICOLON .)
+    FOREND          reduce using rule 15 (statement -> DOW LPAREN numberType RPAREN statement ENDDO SEMICOLON .)
 
 
 state 121
 
-    (3) valueAsign -> BALLOON LPAREN numberType COLON numberType RPAREN . SEMICOLON
+    (16) statement -> RANDOM LPAREN arrayType COLON numberType COLON numberType . RPAREN SEMICOLON
 
-    SEMICOLON       shift and go to state 137
+    RPAREN          shift and go to state 130
 
 
 state 122
 
-    (6) valueAsign -> ID SLPAREN NUMBER SRPAREN ASSIGN NUMBER . SEMICOLON
+    (17) statement -> IF LPAREN condition RPAREN SEMICOLON statement ENDIF . SEMICOLON
 
-    SEMICOLON       shift and go to state 138
+    SEMICOLON       shift and go to state 131
 
 
 state 123
 
-    (5) valueAsign -> ID SLPAREN NUMBER SRPAREN ASSIGN STRING . SEMICOLON
+    (18) statement -> INC LPAREN numberType COLON numberType RPAREN SEMICOLON .
 
-    SEMICOLON       shift and go to state 139
+    $end            reduce using rule 18 (statement -> INC LPAREN numberType COLON numberType RPAREN SEMICOLON .)
+    ENDDO           reduce using rule 18 (statement -> INC LPAREN numberType COLON numberType RPAREN SEMICOLON .)
+    ENDIF           reduce using rule 18 (statement -> INC LPAREN numberType COLON numberType RPAREN SEMICOLON .)
+    FOREND          reduce using rule 18 (statement -> INC LPAREN numberType COLON numberType RPAREN SEMICOLON .)
 
 
 state 124
 
-    (10) varDecl -> TEXTO LPAREN NUMBER RPAREN ID SLPAREN NUMBER . SRPAREN SEMICOLON
+    (19) statement -> DEC LPAREN numberType COLON numberType RPAREN SEMICOLON .
 
-    SRPAREN         shift and go to state 140
+    $end            reduce using rule 19 (statement -> DEC LPAREN numberType COLON numberType RPAREN SEMICOLON .)
+    ENDDO           reduce using rule 19 (statement -> DEC LPAREN numberType COLON numberType RPAREN SEMICOLON .)
+    ENDIF           reduce using rule 19 (statement -> DEC LPAREN numberType COLON numberType RPAREN SEMICOLON .)
+    FOREND          reduce using rule 19 (statement -> DEC LPAREN numberType COLON numberType RPAREN SEMICOLON .)
 
 
 state 125
 
-    (17) statement -> DOW LPAREN numberType RPAREN statementList ENDDO . SEMICOLON
+    (20) statement -> FOR numberType TIMES USING arrayType randomInFor statement . FOREND SEMICOLON
 
-    SEMICOLON       shift and go to state 141
+    FOREND          shift and go to state 132
 
 
 state 126
 
-    (28) statementList -> statementList statement .
+    (25) randomInFor -> RANDOM LPAREN . numberType COLON numberType RPAREN SEMICOLON
+    (46) numberType -> . NUMBER
+    (47) numberType -> . INT ID
 
-    ENDDO           reduce using rule 28 (statementList -> statementList statement .)
-    DOW             reduce using rule 28 (statementList -> statementList statement .)
-    RANDOM          reduce using rule 28 (statementList -> statementList statement .)
-    IF              reduce using rule 28 (statementList -> statementList statement .)
-    INC             reduce using rule 28 (statementList -> statementList statement .)
-    DEC             reduce using rule 28 (statementList -> statementList statement .)
-    FOR             reduce using rule 28 (statementList -> statementList statement .)
-    FORASIGNWORD    reduce using rule 28 (statementList -> statementList statement .)
-    TELARANA        reduce using rule 28 (statementList -> statementList statement .)
-    OBJECT          reduce using rule 28 (statementList -> statementList statement .)
-    $end            reduce using rule 28 (statementList -> statementList statement .)
-    FOREND          reduce using rule 28 (statementList -> statementList statement .)
+    NUMBER          shift and go to state 29
+    INT             shift and go to state 30
 
+    numberType                     shift and go to state 133
 
 state 127
 
-    (18) statement -> RANDOM LPAREN ID COLON ID COLON . ID RPAREN
+    (21) statement -> FORASIGNWORD LPAREN numberType COLON numberType RPAREN DO . ASIGNWORD LPAREN arrayType COLON arrayType RPAREN SEMICOLON
 
-    ID              shift and go to state 142
+    ASIGNWORD       shift and go to state 134
 
 
 state 128
 
-    (19) statement -> IF LPAREN condition RPAREN SEMICOLON statementList .
-    (28) statementList -> statementList . statement
-    (17) statement -> . DOW LPAREN numberType RPAREN statementList ENDDO SEMICOLON
-    (18) statement -> . RANDOM LPAREN ID COLON ID COLON ID RPAREN
-    (19) statement -> . IF LPAREN condition RPAREN SEMICOLON statementList
-    (20) statement -> . INC LPAREN ID COLON NUMBER RPAREN SEMICOLON
-    (21) statement -> . DEC LPAREN ID COLON NUMBER RPAREN SEMICOLON
-    (22) statement -> . FOR NUMBER TIMES USING ID randomInFor statementList FOREND SEMICOLON
-    (23) statement -> . FORASIGNWORD LPAREN numberType COLON numberType RPAREN DO ASIGNWORD LPAREN arrayType COLON arrayType RPAREN SEMICOLON
-    (24) statement -> . TELARANA LPAREN numberType COLON numberType RPAREN SEMICOLON
-    (25) statement -> . OBJECT LPAREN numberType COLON numberType COLON numberType RPAREN SEMICOLON
-    (26) statement -> . empty
-    (54) empty -> .
+    (22) statement -> TELAARANA LPAREN numberType COLON numberType RPAREN SEMICOLON .
 
-  ! shift/reduce conflict for DOW resolved as shift
-  ! shift/reduce conflict for RANDOM resolved as shift
-  ! shift/reduce conflict for IF resolved as shift
-  ! shift/reduce conflict for INC resolved as shift
-  ! shift/reduce conflict for DEC resolved as shift
-  ! shift/reduce conflict for FOR resolved as shift
-  ! shift/reduce conflict for FORASIGNWORD resolved as shift
-  ! shift/reduce conflict for TELARANA resolved as shift
-  ! shift/reduce conflict for OBJECT resolved as shift
-  ! shift/reduce conflict for DOW resolved as shift
-  ! shift/reduce conflict for RANDOM resolved as shift
-  ! shift/reduce conflict for IF resolved as shift
-  ! shift/reduce conflict for INC resolved as shift
-  ! shift/reduce conflict for DEC resolved as shift
-  ! shift/reduce conflict for FOR resolved as shift
-  ! shift/reduce conflict for FORASIGNWORD resolved as shift
-  ! shift/reduce conflict for TELARANA resolved as shift
-  ! shift/reduce conflict for OBJECT resolved as shift
-  ! reduce/reduce conflict for $end resolved using rule 19 (statement -> IF LPAREN condition RPAREN SEMICOLON statementList .)
-  ! reduce/reduce conflict for ENDDO resolved using rule 19 (statement -> IF LPAREN condition RPAREN SEMICOLON statementList .)
-  ! reduce/reduce conflict for FOREND resolved using rule 19 (statement -> IF LPAREN condition RPAREN SEMICOLON statementList .)
-    $end            reduce using rule 19 (statement -> IF LPAREN condition RPAREN SEMICOLON statementList .)
-    ENDDO           reduce using rule 19 (statement -> IF LPAREN condition RPAREN SEMICOLON statementList .)
-    FOREND          reduce using rule 19 (statement -> IF LPAREN condition RPAREN SEMICOLON statementList .)
-    DOW             shift and go to state 19
-    RANDOM          shift and go to state 20
-    IF              shift and go to state 21
-    INC             shift and go to state 22
-    DEC             shift and go to state 23
-    FOR             shift and go to state 24
-    FORASIGNWORD    shift and go to state 25
-    TELARANA        shift and go to state 26
-    OBJECT          shift and go to state 27
+    $end            reduce using rule 22 (statement -> TELAARANA LPAREN numberType COLON numberType RPAREN SEMICOLON .)
+    ENDDO           reduce using rule 22 (statement -> TELAARANA LPAREN numberType COLON numberType RPAREN SEMICOLON .)
+    ENDIF           reduce using rule 22 (statement -> TELAARANA LPAREN numberType COLON numberType RPAREN SEMICOLON .)
+    FOREND          reduce using rule 22 (statement -> TELAARANA LPAREN numberType COLON numberType RPAREN SEMICOLON .)
 
-  ! DOW             [ reduce using rule 19 (statement -> IF LPAREN condition RPAREN SEMICOLON statementList .) ]
-  ! RANDOM          [ reduce using rule 19 (statement -> IF LPAREN condition RPAREN SEMICOLON statementList .) ]
-  ! IF              [ reduce using rule 19 (statement -> IF LPAREN condition RPAREN SEMICOLON statementList .) ]
-  ! INC             [ reduce using rule 19 (statement -> IF LPAREN condition RPAREN SEMICOLON statementList .) ]
-  ! DEC             [ reduce using rule 19 (statement -> IF LPAREN condition RPAREN SEMICOLON statementList .) ]
-  ! FOR             [ reduce using rule 19 (statement -> IF LPAREN condition RPAREN SEMICOLON statementList .) ]
-  ! FORASIGNWORD    [ reduce using rule 19 (statement -> IF LPAREN condition RPAREN SEMICOLON statementList .) ]
-  ! TELARANA        [ reduce using rule 19 (statement -> IF LPAREN condition RPAREN SEMICOLON statementList .) ]
-  ! OBJECT          [ reduce using rule 19 (statement -> IF LPAREN condition RPAREN SEMICOLON statementList .) ]
-  ! DOW             [ reduce using rule 54 (empty -> .) ]
-  ! RANDOM          [ reduce using rule 54 (empty -> .) ]
-  ! IF              [ reduce using rule 54 (empty -> .) ]
-  ! INC             [ reduce using rule 54 (empty -> .) ]
-  ! DEC             [ reduce using rule 54 (empty -> .) ]
-  ! FOR             [ reduce using rule 54 (empty -> .) ]
-  ! FORASIGNWORD    [ reduce using rule 54 (empty -> .) ]
-  ! TELARANA        [ reduce using rule 54 (empty -> .) ]
-  ! OBJECT          [ reduce using rule 54 (empty -> .) ]
-  ! $end            [ reduce using rule 54 (empty -> .) ]
-  ! ENDDO           [ reduce using rule 54 (empty -> .) ]
-  ! FOREND          [ reduce using rule 54 (empty -> .) ]
-
-    statement                      shift and go to state 126
-    empty                          shift and go to state 28
 
 state 129
 
-    (49) factor -> ID SLPAREN NUMBER SRPAREN .
+    (23) statement -> OBJECT LPAREN numberType COLON numberType COLON numberType . RPAREN SEMICOLON
 
-    MULT            reduce using rule 49 (factor -> ID SLPAREN NUMBER SRPAREN .)
-    DIVIDE          reduce using rule 49 (factor -> ID SLPAREN NUMBER SRPAREN .)
-    ASSIGN          reduce using rule 49 (factor -> ID SLPAREN NUMBER SRPAREN .)
-    NE              reduce using rule 49 (factor -> ID SLPAREN NUMBER SRPAREN .)
-    LESS            reduce using rule 49 (factor -> ID SLPAREN NUMBER SRPAREN .)
-    GREATER         reduce using rule 49 (factor -> ID SLPAREN NUMBER SRPAREN .)
-    EQLESS          reduce using rule 49 (factor -> ID SLPAREN NUMBER SRPAREN .)
-    EQGREATER       reduce using rule 49 (factor -> ID SLPAREN NUMBER SRPAREN .)
-    EQUAL           reduce using rule 49 (factor -> ID SLPAREN NUMBER SRPAREN .)
-    PLUS            reduce using rule 49 (factor -> ID SLPAREN NUMBER SRPAREN .)
-    MINUS           reduce using rule 49 (factor -> ID SLPAREN NUMBER SRPAREN .)
-    RPAREN          reduce using rule 49 (factor -> ID SLPAREN NUMBER SRPAREN .)
+    RPAREN          shift and go to state 135
 
 
 state 130
 
-    (20) statement -> INC LPAREN ID COLON NUMBER RPAREN . SEMICOLON
+    (16) statement -> RANDOM LPAREN arrayType COLON numberType COLON numberType RPAREN . SEMICOLON
 
-    SEMICOLON       shift and go to state 143
+    SEMICOLON       shift and go to state 136
 
 
 state 131
 
-    (21) statement -> DEC LPAREN ID COLON NUMBER RPAREN . SEMICOLON
+    (17) statement -> IF LPAREN condition RPAREN SEMICOLON statement ENDIF SEMICOLON .
 
-    SEMICOLON       shift and go to state 144
+    $end            reduce using rule 17 (statement -> IF LPAREN condition RPAREN SEMICOLON statement ENDIF SEMICOLON .)
+    ENDDO           reduce using rule 17 (statement -> IF LPAREN condition RPAREN SEMICOLON statement ENDIF SEMICOLON .)
+    ENDIF           reduce using rule 17 (statement -> IF LPAREN condition RPAREN SEMICOLON statement ENDIF SEMICOLON .)
+    FOREND          reduce using rule 17 (statement -> IF LPAREN condition RPAREN SEMICOLON statement ENDIF SEMICOLON .)
 
 
 state 132
 
-    (22) statement -> FOR NUMBER TIMES USING ID randomInFor . statementList FOREND SEMICOLON
-    (27) statementList -> . statement
-    (28) statementList -> . statementList statement
-    (17) statement -> . DOW LPAREN numberType RPAREN statementList ENDDO SEMICOLON
-    (18) statement -> . RANDOM LPAREN ID COLON ID COLON ID RPAREN
-    (19) statement -> . IF LPAREN condition RPAREN SEMICOLON statementList
-    (20) statement -> . INC LPAREN ID COLON NUMBER RPAREN SEMICOLON
-    (21) statement -> . DEC LPAREN ID COLON NUMBER RPAREN SEMICOLON
-    (22) statement -> . FOR NUMBER TIMES USING ID randomInFor statementList FOREND SEMICOLON
-    (23) statement -> . FORASIGNWORD LPAREN numberType COLON numberType RPAREN DO ASIGNWORD LPAREN arrayType COLON arrayType RPAREN SEMICOLON
-    (24) statement -> . TELARANA LPAREN numberType COLON numberType RPAREN SEMICOLON
-    (25) statement -> . OBJECT LPAREN numberType COLON numberType COLON numberType RPAREN SEMICOLON
-    (26) statement -> . empty
-    (54) empty -> .
+    (20) statement -> FOR numberType TIMES USING arrayType randomInFor statement FOREND . SEMICOLON
 
-  ! shift/reduce conflict for DOW resolved as shift
-  ! shift/reduce conflict for RANDOM resolved as shift
-  ! shift/reduce conflict for IF resolved as shift
-  ! shift/reduce conflict for INC resolved as shift
-  ! shift/reduce conflict for DEC resolved as shift
-  ! shift/reduce conflict for FOR resolved as shift
-  ! shift/reduce conflict for FORASIGNWORD resolved as shift
-  ! shift/reduce conflict for TELARANA resolved as shift
-  ! shift/reduce conflict for OBJECT resolved as shift
-    DOW             shift and go to state 19
-    RANDOM          shift and go to state 20
-    IF              shift and go to state 21
-    INC             shift and go to state 22
-    DEC             shift and go to state 23
-    FOR             shift and go to state 24
-    FORASIGNWORD    shift and go to state 25
-    TELARANA        shift and go to state 26
-    OBJECT          shift and go to state 27
-    FOREND          reduce using rule 54 (empty -> .)
+    SEMICOLON       shift and go to state 137
 
-  ! DOW             [ reduce using rule 54 (empty -> .) ]
-  ! RANDOM          [ reduce using rule 54 (empty -> .) ]
-  ! IF              [ reduce using rule 54 (empty -> .) ]
-  ! INC             [ reduce using rule 54 (empty -> .) ]
-  ! DEC             [ reduce using rule 54 (empty -> .) ]
-  ! FOR             [ reduce using rule 54 (empty -> .) ]
-  ! FORASIGNWORD    [ reduce using rule 54 (empty -> .) ]
-  ! TELARANA        [ reduce using rule 54 (empty -> .) ]
-  ! OBJECT          [ reduce using rule 54 (empty -> .) ]
-
-    statementList                  shift and go to state 145
-    statement                      shift and go to state 108
-    empty                          shift and go to state 28
 
 state 133
 
-    (29) randomInFor -> LPAREN . ID COLON ID RPAREN SEMICOLON
+    (25) randomInFor -> RANDOM LPAREN numberType . COLON numberType RPAREN SEMICOLON
 
-    ID              shift and go to state 146
+    COLON           shift and go to state 138
 
 
 state 134
 
-    (23) statement -> FORASIGNWORD LPAREN numberType COLON numberType RPAREN . DO ASIGNWORD LPAREN arrayType COLON arrayType RPAREN SEMICOLON
+    (21) statement -> FORASIGNWORD LPAREN numberType COLON numberType RPAREN DO ASIGNWORD . LPAREN arrayType COLON arrayType RPAREN SEMICOLON
 
-    DO              shift and go to state 147
+    LPAREN          shift and go to state 139
 
 
 state 135
 
-    (24) statement -> TELARANA LPAREN numberType COLON numberType RPAREN . SEMICOLON
+    (23) statement -> OBJECT LPAREN numberType COLON numberType COLON numberType RPAREN . SEMICOLON
 
-    SEMICOLON       shift and go to state 148
+    SEMICOLON       shift and go to state 140
 
 
 state 136
 
-    (25) statement -> OBJECT LPAREN numberType COLON numberType COLON . numberType RPAREN SEMICOLON
-    (50) numberType -> . NUMBER
-    (51) numberType -> . INT ID
+    (16) statement -> RANDOM LPAREN arrayType COLON numberType COLON numberType RPAREN SEMICOLON .
 
-    NUMBER          shift and go to state 47
-    INT             shift and go to state 48
+    $end            reduce using rule 16 (statement -> RANDOM LPAREN arrayType COLON numberType COLON numberType RPAREN SEMICOLON .)
+    ENDDO           reduce using rule 16 (statement -> RANDOM LPAREN arrayType COLON numberType COLON numberType RPAREN SEMICOLON .)
+    ENDIF           reduce using rule 16 (statement -> RANDOM LPAREN arrayType COLON numberType COLON numberType RPAREN SEMICOLON .)
+    FOREND          reduce using rule 16 (statement -> RANDOM LPAREN arrayType COLON numberType COLON numberType RPAREN SEMICOLON .)
 
-    numberType                     shift and go to state 149
 
 state 137
 
-    (3) valueAsign -> BALLOON LPAREN numberType COLON numberType RPAREN SEMICOLON .
+    (20) statement -> FOR numberType TIMES USING arrayType randomInFor statement FOREND SEMICOLON .
 
-    DOW             reduce using rule 3 (valueAsign -> BALLOON LPAREN numberType COLON numberType RPAREN SEMICOLON .)
-    RANDOM          reduce using rule 3 (valueAsign -> BALLOON LPAREN numberType COLON numberType RPAREN SEMICOLON .)
-    IF              reduce using rule 3 (valueAsign -> BALLOON LPAREN numberType COLON numberType RPAREN SEMICOLON .)
-    INC             reduce using rule 3 (valueAsign -> BALLOON LPAREN numberType COLON numberType RPAREN SEMICOLON .)
-    DEC             reduce using rule 3 (valueAsign -> BALLOON LPAREN numberType COLON numberType RPAREN SEMICOLON .)
-    FOR             reduce using rule 3 (valueAsign -> BALLOON LPAREN numberType COLON numberType RPAREN SEMICOLON .)
-    FORASIGNWORD    reduce using rule 3 (valueAsign -> BALLOON LPAREN numberType COLON numberType RPAREN SEMICOLON .)
-    TELARANA        reduce using rule 3 (valueAsign -> BALLOON LPAREN numberType COLON numberType RPAREN SEMICOLON .)
-    OBJECT          reduce using rule 3 (valueAsign -> BALLOON LPAREN numberType COLON numberType RPAREN SEMICOLON .)
-    $end            reduce using rule 3 (valueAsign -> BALLOON LPAREN numberType COLON numberType RPAREN SEMICOLON .)
+    $end            reduce using rule 20 (statement -> FOR numberType TIMES USING arrayType randomInFor statement FOREND SEMICOLON .)
+    ENDDO           reduce using rule 20 (statement -> FOR numberType TIMES USING arrayType randomInFor statement FOREND SEMICOLON .)
+    ENDIF           reduce using rule 20 (statement -> FOR numberType TIMES USING arrayType randomInFor statement FOREND SEMICOLON .)
+    FOREND          reduce using rule 20 (statement -> FOR numberType TIMES USING arrayType randomInFor statement FOREND SEMICOLON .)
 
 
 state 138
 
-    (6) valueAsign -> ID SLPAREN NUMBER SRPAREN ASSIGN NUMBER SEMICOLON .
+    (25) randomInFor -> RANDOM LPAREN numberType COLON . numberType RPAREN SEMICOLON
+    (46) numberType -> . NUMBER
+    (47) numberType -> . INT ID
 
-    DOW             reduce using rule 6 (valueAsign -> ID SLPAREN NUMBER SRPAREN ASSIGN NUMBER SEMICOLON .)
-    RANDOM          reduce using rule 6 (valueAsign -> ID SLPAREN NUMBER SRPAREN ASSIGN NUMBER SEMICOLON .)
-    IF              reduce using rule 6 (valueAsign -> ID SLPAREN NUMBER SRPAREN ASSIGN NUMBER SEMICOLON .)
-    INC             reduce using rule 6 (valueAsign -> ID SLPAREN NUMBER SRPAREN ASSIGN NUMBER SEMICOLON .)
-    DEC             reduce using rule 6 (valueAsign -> ID SLPAREN NUMBER SRPAREN ASSIGN NUMBER SEMICOLON .)
-    FOR             reduce using rule 6 (valueAsign -> ID SLPAREN NUMBER SRPAREN ASSIGN NUMBER SEMICOLON .)
-    FORASIGNWORD    reduce using rule 6 (valueAsign -> ID SLPAREN NUMBER SRPAREN ASSIGN NUMBER SEMICOLON .)
-    TELARANA        reduce using rule 6 (valueAsign -> ID SLPAREN NUMBER SRPAREN ASSIGN NUMBER SEMICOLON .)
-    OBJECT          reduce using rule 6 (valueAsign -> ID SLPAREN NUMBER SRPAREN ASSIGN NUMBER SEMICOLON .)
-    $end            reduce using rule 6 (valueAsign -> ID SLPAREN NUMBER SRPAREN ASSIGN NUMBER SEMICOLON .)
+    NUMBER          shift and go to state 29
+    INT             shift and go to state 30
 
+    numberType                     shift and go to state 141
 
 state 139
 
-    (5) valueAsign -> ID SLPAREN NUMBER SRPAREN ASSIGN STRING SEMICOLON .
+    (21) statement -> FORASIGNWORD LPAREN numberType COLON numberType RPAREN DO ASIGNWORD LPAREN . arrayType COLON arrayType RPAREN SEMICOLON
+    (48) arrayType -> . ARRAY ID
 
-    DOW             reduce using rule 5 (valueAsign -> ID SLPAREN NUMBER SRPAREN ASSIGN STRING SEMICOLON .)
-    RANDOM          reduce using rule 5 (valueAsign -> ID SLPAREN NUMBER SRPAREN ASSIGN STRING SEMICOLON .)
-    IF              reduce using rule 5 (valueAsign -> ID SLPAREN NUMBER SRPAREN ASSIGN STRING SEMICOLON .)
-    INC             reduce using rule 5 (valueAsign -> ID SLPAREN NUMBER SRPAREN ASSIGN STRING SEMICOLON .)
-    DEC             reduce using rule 5 (valueAsign -> ID SLPAREN NUMBER SRPAREN ASSIGN STRING SEMICOLON .)
-    FOR             reduce using rule 5 (valueAsign -> ID SLPAREN NUMBER SRPAREN ASSIGN STRING SEMICOLON .)
-    FORASIGNWORD    reduce using rule 5 (valueAsign -> ID SLPAREN NUMBER SRPAREN ASSIGN STRING SEMICOLON .)
-    TELARANA        reduce using rule 5 (valueAsign -> ID SLPAREN NUMBER SRPAREN ASSIGN STRING SEMICOLON .)
-    OBJECT          reduce using rule 5 (valueAsign -> ID SLPAREN NUMBER SRPAREN ASSIGN STRING SEMICOLON .)
-    $end            reduce using rule 5 (valueAsign -> ID SLPAREN NUMBER SRPAREN ASSIGN STRING SEMICOLON .)
+    ARRAY           shift and go to state 41
 
+    arrayType                      shift and go to state 142
 
 state 140
 
-    (10) varDecl -> TEXTO LPAREN NUMBER RPAREN ID SLPAREN NUMBER SRPAREN . SEMICOLON
+    (23) statement -> OBJECT LPAREN numberType COLON numberType COLON numberType RPAREN SEMICOLON .
 
-    SEMICOLON       shift and go to state 150
+    $end            reduce using rule 23 (statement -> OBJECT LPAREN numberType COLON numberType COLON numberType RPAREN SEMICOLON .)
+    ENDDO           reduce using rule 23 (statement -> OBJECT LPAREN numberType COLON numberType COLON numberType RPAREN SEMICOLON .)
+    ENDIF           reduce using rule 23 (statement -> OBJECT LPAREN numberType COLON numberType COLON numberType RPAREN SEMICOLON .)
+    FOREND          reduce using rule 23 (statement -> OBJECT LPAREN numberType COLON numberType COLON numberType RPAREN SEMICOLON .)
 
 
 state 141
 
-    (17) statement -> DOW LPAREN numberType RPAREN statementList ENDDO SEMICOLON .
+    (25) randomInFor -> RANDOM LPAREN numberType COLON numberType . RPAREN SEMICOLON
 
-    $end            reduce using rule 17 (statement -> DOW LPAREN numberType RPAREN statementList ENDDO SEMICOLON .)
-    ENDDO           reduce using rule 17 (statement -> DOW LPAREN numberType RPAREN statementList ENDDO SEMICOLON .)
-    DOW             reduce using rule 17 (statement -> DOW LPAREN numberType RPAREN statementList ENDDO SEMICOLON .)
-    RANDOM          reduce using rule 17 (statement -> DOW LPAREN numberType RPAREN statementList ENDDO SEMICOLON .)
-    IF              reduce using rule 17 (statement -> DOW LPAREN numberType RPAREN statementList ENDDO SEMICOLON .)
-    INC             reduce using rule 17 (statement -> DOW LPAREN numberType RPAREN statementList ENDDO SEMICOLON .)
-    DEC             reduce using rule 17 (statement -> DOW LPAREN numberType RPAREN statementList ENDDO SEMICOLON .)
-    FOR             reduce using rule 17 (statement -> DOW LPAREN numberType RPAREN statementList ENDDO SEMICOLON .)
-    FORASIGNWORD    reduce using rule 17 (statement -> DOW LPAREN numberType RPAREN statementList ENDDO SEMICOLON .)
-    TELARANA        reduce using rule 17 (statement -> DOW LPAREN numberType RPAREN statementList ENDDO SEMICOLON .)
-    OBJECT          reduce using rule 17 (statement -> DOW LPAREN numberType RPAREN statementList ENDDO SEMICOLON .)
-    FOREND          reduce using rule 17 (statement -> DOW LPAREN numberType RPAREN statementList ENDDO SEMICOLON .)
+    RPAREN          shift and go to state 143
 
 
 state 142
 
-    (18) statement -> RANDOM LPAREN ID COLON ID COLON ID . RPAREN
+    (21) statement -> FORASIGNWORD LPAREN numberType COLON numberType RPAREN DO ASIGNWORD LPAREN arrayType . COLON arrayType RPAREN SEMICOLON
 
-    RPAREN          shift and go to state 151
+    COLON           shift and go to state 144
 
 
 state 143
 
-    (20) statement -> INC LPAREN ID COLON NUMBER RPAREN SEMICOLON .
+    (25) randomInFor -> RANDOM LPAREN numberType COLON numberType RPAREN . SEMICOLON
 
-    $end            reduce using rule 20 (statement -> INC LPAREN ID COLON NUMBER RPAREN SEMICOLON .)
-    ENDDO           reduce using rule 20 (statement -> INC LPAREN ID COLON NUMBER RPAREN SEMICOLON .)
-    DOW             reduce using rule 20 (statement -> INC LPAREN ID COLON NUMBER RPAREN SEMICOLON .)
-    RANDOM          reduce using rule 20 (statement -> INC LPAREN ID COLON NUMBER RPAREN SEMICOLON .)
-    IF              reduce using rule 20 (statement -> INC LPAREN ID COLON NUMBER RPAREN SEMICOLON .)
-    INC             reduce using rule 20 (statement -> INC LPAREN ID COLON NUMBER RPAREN SEMICOLON .)
-    DEC             reduce using rule 20 (statement -> INC LPAREN ID COLON NUMBER RPAREN SEMICOLON .)
-    FOR             reduce using rule 20 (statement -> INC LPAREN ID COLON NUMBER RPAREN SEMICOLON .)
-    FORASIGNWORD    reduce using rule 20 (statement -> INC LPAREN ID COLON NUMBER RPAREN SEMICOLON .)
-    TELARANA        reduce using rule 20 (statement -> INC LPAREN ID COLON NUMBER RPAREN SEMICOLON .)
-    OBJECT          reduce using rule 20 (statement -> INC LPAREN ID COLON NUMBER RPAREN SEMICOLON .)
-    FOREND          reduce using rule 20 (statement -> INC LPAREN ID COLON NUMBER RPAREN SEMICOLON .)
+    SEMICOLON       shift and go to state 145
 
 
 state 144
 
-    (21) statement -> DEC LPAREN ID COLON NUMBER RPAREN SEMICOLON .
+    (21) statement -> FORASIGNWORD LPAREN numberType COLON numberType RPAREN DO ASIGNWORD LPAREN arrayType COLON . arrayType RPAREN SEMICOLON
+    (48) arrayType -> . ARRAY ID
 
-    $end            reduce using rule 21 (statement -> DEC LPAREN ID COLON NUMBER RPAREN SEMICOLON .)
-    ENDDO           reduce using rule 21 (statement -> DEC LPAREN ID COLON NUMBER RPAREN SEMICOLON .)
-    DOW             reduce using rule 21 (statement -> DEC LPAREN ID COLON NUMBER RPAREN SEMICOLON .)
-    RANDOM          reduce using rule 21 (statement -> DEC LPAREN ID COLON NUMBER RPAREN SEMICOLON .)
-    IF              reduce using rule 21 (statement -> DEC LPAREN ID COLON NUMBER RPAREN SEMICOLON .)
-    INC             reduce using rule 21 (statement -> DEC LPAREN ID COLON NUMBER RPAREN SEMICOLON .)
-    DEC             reduce using rule 21 (statement -> DEC LPAREN ID COLON NUMBER RPAREN SEMICOLON .)
-    FOR             reduce using rule 21 (statement -> DEC LPAREN ID COLON NUMBER RPAREN SEMICOLON .)
-    FORASIGNWORD    reduce using rule 21 (statement -> DEC LPAREN ID COLON NUMBER RPAREN SEMICOLON .)
-    TELARANA        reduce using rule 21 (statement -> DEC LPAREN ID COLON NUMBER RPAREN SEMICOLON .)
-    OBJECT          reduce using rule 21 (statement -> DEC LPAREN ID COLON NUMBER RPAREN SEMICOLON .)
-    FOREND          reduce using rule 21 (statement -> DEC LPAREN ID COLON NUMBER RPAREN SEMICOLON .)
+    ARRAY           shift and go to state 41
 
+    arrayType                      shift and go to state 146
 
 state 145
 
-    (22) statement -> FOR NUMBER TIMES USING ID randomInFor statementList . FOREND SEMICOLON
-    (28) statementList -> statementList . statement
-    (17) statement -> . DOW LPAREN numberType RPAREN statementList ENDDO SEMICOLON
-    (18) statement -> . RANDOM LPAREN ID COLON ID COLON ID RPAREN
-    (19) statement -> . IF LPAREN condition RPAREN SEMICOLON statementList
-    (20) statement -> . INC LPAREN ID COLON NUMBER RPAREN SEMICOLON
-    (21) statement -> . DEC LPAREN ID COLON NUMBER RPAREN SEMICOLON
-    (22) statement -> . FOR NUMBER TIMES USING ID randomInFor statementList FOREND SEMICOLON
-    (23) statement -> . FORASIGNWORD LPAREN numberType COLON numberType RPAREN DO ASIGNWORD LPAREN arrayType COLON arrayType RPAREN SEMICOLON
-    (24) statement -> . TELARANA LPAREN numberType COLON numberType RPAREN SEMICOLON
-    (25) statement -> . OBJECT LPAREN numberType COLON numberType COLON numberType RPAREN SEMICOLON
-    (26) statement -> . empty
-    (54) empty -> .
+    (25) randomInFor -> RANDOM LPAREN numberType COLON numberType RPAREN SEMICOLON .
 
-  ! shift/reduce conflict for FOREND resolved as shift
-  ! shift/reduce conflict for DOW resolved as shift
-  ! shift/reduce conflict for RANDOM resolved as shift
-  ! shift/reduce conflict for IF resolved as shift
-  ! shift/reduce conflict for INC resolved as shift
-  ! shift/reduce conflict for DEC resolved as shift
-  ! shift/reduce conflict for FOR resolved as shift
-  ! shift/reduce conflict for FORASIGNWORD resolved as shift
-  ! shift/reduce conflict for TELARANA resolved as shift
-  ! shift/reduce conflict for OBJECT resolved as shift
-    FOREND          shift and go to state 152
-    DOW             shift and go to state 19
-    RANDOM          shift and go to state 20
-    IF              shift and go to state 21
-    INC             shift and go to state 22
-    DEC             shift and go to state 23
-    FOR             shift and go to state 24
-    FORASIGNWORD    shift and go to state 25
-    TELARANA        shift and go to state 26
-    OBJECT          shift and go to state 27
+    BALLOON         reduce using rule 25 (randomInFor -> RANDOM LPAREN numberType COLON numberType RPAREN SEMICOLON .)
+    DOW             reduce using rule 25 (randomInFor -> RANDOM LPAREN numberType COLON numberType RPAREN SEMICOLON .)
+    RANDOM          reduce using rule 25 (randomInFor -> RANDOM LPAREN numberType COLON numberType RPAREN SEMICOLON .)
+    IF              reduce using rule 25 (randomInFor -> RANDOM LPAREN numberType COLON numberType RPAREN SEMICOLON .)
+    INC             reduce using rule 25 (randomInFor -> RANDOM LPAREN numberType COLON numberType RPAREN SEMICOLON .)
+    DEC             reduce using rule 25 (randomInFor -> RANDOM LPAREN numberType COLON numberType RPAREN SEMICOLON .)
+    FOR             reduce using rule 25 (randomInFor -> RANDOM LPAREN numberType COLON numberType RPAREN SEMICOLON .)
+    FORASIGNWORD    reduce using rule 25 (randomInFor -> RANDOM LPAREN numberType COLON numberType RPAREN SEMICOLON .)
+    TELAARANA       reduce using rule 25 (randomInFor -> RANDOM LPAREN numberType COLON numberType RPAREN SEMICOLON .)
+    OBJECT          reduce using rule 25 (randomInFor -> RANDOM LPAREN numberType COLON numberType RPAREN SEMICOLON .)
+    FOREND          reduce using rule 25 (randomInFor -> RANDOM LPAREN numberType COLON numberType RPAREN SEMICOLON .)
 
-  ! FOREND          [ reduce using rule 54 (empty -> .) ]
-  ! DOW             [ reduce using rule 54 (empty -> .) ]
-  ! RANDOM          [ reduce using rule 54 (empty -> .) ]
-  ! IF              [ reduce using rule 54 (empty -> .) ]
-  ! INC             [ reduce using rule 54 (empty -> .) ]
-  ! DEC             [ reduce using rule 54 (empty -> .) ]
-  ! FOR             [ reduce using rule 54 (empty -> .) ]
-  ! FORASIGNWORD    [ reduce using rule 54 (empty -> .) ]
-  ! TELARANA        [ reduce using rule 54 (empty -> .) ]
-  ! OBJECT          [ reduce using rule 54 (empty -> .) ]
-
-    statement                      shift and go to state 126
-    empty                          shift and go to state 28
 
 state 146
 
-    (29) randomInFor -> LPAREN ID . COLON ID RPAREN SEMICOLON
+    (21) statement -> FORASIGNWORD LPAREN numberType COLON numberType RPAREN DO ASIGNWORD LPAREN arrayType COLON arrayType . RPAREN SEMICOLON
 
-    COLON           shift and go to state 153
+    RPAREN          shift and go to state 147
 
 
 state 147
 
-    (23) statement -> FORASIGNWORD LPAREN numberType COLON numberType RPAREN DO . ASIGNWORD LPAREN arrayType COLON arrayType RPAREN SEMICOLON
+    (21) statement -> FORASIGNWORD LPAREN numberType COLON numberType RPAREN DO ASIGNWORD LPAREN arrayType COLON arrayType RPAREN . SEMICOLON
 
-    ASIGNWORD       shift and go to state 154
+    SEMICOLON       shift and go to state 148
 
 
 state 148
 
-    (24) statement -> TELARANA LPAREN numberType COLON numberType RPAREN SEMICOLON .
+    (21) statement -> FORASIGNWORD LPAREN numberType COLON numberType RPAREN DO ASIGNWORD LPAREN arrayType COLON arrayType RPAREN SEMICOLON .
 
-    $end            reduce using rule 24 (statement -> TELARANA LPAREN numberType COLON numberType RPAREN SEMICOLON .)
-    ENDDO           reduce using rule 24 (statement -> TELARANA LPAREN numberType COLON numberType RPAREN SEMICOLON .)
-    DOW             reduce using rule 24 (statement -> TELARANA LPAREN numberType COLON numberType RPAREN SEMICOLON .)
-    RANDOM          reduce using rule 24 (statement -> TELARANA LPAREN numberType COLON numberType RPAREN SEMICOLON .)
-    IF              reduce using rule 24 (statement -> TELARANA LPAREN numberType COLON numberType RPAREN SEMICOLON .)
-    INC             reduce using rule 24 (statement -> TELARANA LPAREN numberType COLON numberType RPAREN SEMICOLON .)
-    DEC             reduce using rule 24 (statement -> TELARANA LPAREN numberType COLON numberType RPAREN SEMICOLON .)
-    FOR             reduce using rule 24 (statement -> TELARANA LPAREN numberType COLON numberType RPAREN SEMICOLON .)
-    FORASIGNWORD    reduce using rule 24 (statement -> TELARANA LPAREN numberType COLON numberType RPAREN SEMICOLON .)
-    TELARANA        reduce using rule 24 (statement -> TELARANA LPAREN numberType COLON numberType RPAREN SEMICOLON .)
-    OBJECT          reduce using rule 24 (statement -> TELARANA LPAREN numberType COLON numberType RPAREN SEMICOLON .)
-    FOREND          reduce using rule 24 (statement -> TELARANA LPAREN numberType COLON numberType RPAREN SEMICOLON .)
+    $end            reduce using rule 21 (statement -> FORASIGNWORD LPAREN numberType COLON numberType RPAREN DO ASIGNWORD LPAREN arrayType COLON arrayType RPAREN SEMICOLON .)
+    ENDDO           reduce using rule 21 (statement -> FORASIGNWORD LPAREN numberType COLON numberType RPAREN DO ASIGNWORD LPAREN arrayType COLON arrayType RPAREN SEMICOLON .)
+    ENDIF           reduce using rule 21 (statement -> FORASIGNWORD LPAREN numberType COLON numberType RPAREN DO ASIGNWORD LPAREN arrayType COLON arrayType RPAREN SEMICOLON .)
+    FOREND          reduce using rule 21 (statement -> FORASIGNWORD LPAREN numberType COLON numberType RPAREN DO ASIGNWORD LPAREN arrayType COLON arrayType RPAREN SEMICOLON .)
 
-
-state 149
-
-    (25) statement -> OBJECT LPAREN numberType COLON numberType COLON numberType . RPAREN SEMICOLON
-
-    RPAREN          shift and go to state 155
-
-
-state 150
-
-    (10) varDecl -> TEXTO LPAREN NUMBER RPAREN ID SLPAREN NUMBER SRPAREN SEMICOLON .
-
-    BALLOON         reduce using rule 10 (varDecl -> TEXTO LPAREN NUMBER RPAREN ID SLPAREN NUMBER SRPAREN SEMICOLON .)
-    ID              reduce using rule 10 (varDecl -> TEXTO LPAREN NUMBER RPAREN ID SLPAREN NUMBER SRPAREN SEMICOLON .)
-
-
-state 151
-
-    (18) statement -> RANDOM LPAREN ID COLON ID COLON ID RPAREN .
-
-    $end            reduce using rule 18 (statement -> RANDOM LPAREN ID COLON ID COLON ID RPAREN .)
-    ENDDO           reduce using rule 18 (statement -> RANDOM LPAREN ID COLON ID COLON ID RPAREN .)
-    DOW             reduce using rule 18 (statement -> RANDOM LPAREN ID COLON ID COLON ID RPAREN .)
-    RANDOM          reduce using rule 18 (statement -> RANDOM LPAREN ID COLON ID COLON ID RPAREN .)
-    IF              reduce using rule 18 (statement -> RANDOM LPAREN ID COLON ID COLON ID RPAREN .)
-    INC             reduce using rule 18 (statement -> RANDOM LPAREN ID COLON ID COLON ID RPAREN .)
-    DEC             reduce using rule 18 (statement -> RANDOM LPAREN ID COLON ID COLON ID RPAREN .)
-    FOR             reduce using rule 18 (statement -> RANDOM LPAREN ID COLON ID COLON ID RPAREN .)
-    FORASIGNWORD    reduce using rule 18 (statement -> RANDOM LPAREN ID COLON ID COLON ID RPAREN .)
-    TELARANA        reduce using rule 18 (statement -> RANDOM LPAREN ID COLON ID COLON ID RPAREN .)
-    OBJECT          reduce using rule 18 (statement -> RANDOM LPAREN ID COLON ID COLON ID RPAREN .)
-    FOREND          reduce using rule 18 (statement -> RANDOM LPAREN ID COLON ID COLON ID RPAREN .)
-
-
-state 152
-
-    (22) statement -> FOR NUMBER TIMES USING ID randomInFor statementList FOREND . SEMICOLON
-
-    SEMICOLON       shift and go to state 156
-
-
-state 153
-
-    (29) randomInFor -> LPAREN ID COLON . ID RPAREN SEMICOLON
-
-    ID              shift and go to state 157
-
-
-state 154
-
-    (23) statement -> FORASIGNWORD LPAREN numberType COLON numberType RPAREN DO ASIGNWORD . LPAREN arrayType COLON arrayType RPAREN SEMICOLON
-
-    LPAREN          shift and go to state 158
-
-
-state 155
-
-    (25) statement -> OBJECT LPAREN numberType COLON numberType COLON numberType RPAREN . SEMICOLON
-
-    SEMICOLON       shift and go to state 159
-
-
-state 156
-
-    (22) statement -> FOR NUMBER TIMES USING ID randomInFor statementList FOREND SEMICOLON .
-
-    $end            reduce using rule 22 (statement -> FOR NUMBER TIMES USING ID randomInFor statementList FOREND SEMICOLON .)
-    ENDDO           reduce using rule 22 (statement -> FOR NUMBER TIMES USING ID randomInFor statementList FOREND SEMICOLON .)
-    DOW             reduce using rule 22 (statement -> FOR NUMBER TIMES USING ID randomInFor statementList FOREND SEMICOLON .)
-    RANDOM          reduce using rule 22 (statement -> FOR NUMBER TIMES USING ID randomInFor statementList FOREND SEMICOLON .)
-    IF              reduce using rule 22 (statement -> FOR NUMBER TIMES USING ID randomInFor statementList FOREND SEMICOLON .)
-    INC             reduce using rule 22 (statement -> FOR NUMBER TIMES USING ID randomInFor statementList FOREND SEMICOLON .)
-    DEC             reduce using rule 22 (statement -> FOR NUMBER TIMES USING ID randomInFor statementList FOREND SEMICOLON .)
-    FOR             reduce using rule 22 (statement -> FOR NUMBER TIMES USING ID randomInFor statementList FOREND SEMICOLON .)
-    FORASIGNWORD    reduce using rule 22 (statement -> FOR NUMBER TIMES USING ID randomInFor statementList FOREND SEMICOLON .)
-    TELARANA        reduce using rule 22 (statement -> FOR NUMBER TIMES USING ID randomInFor statementList FOREND SEMICOLON .)
-    OBJECT          reduce using rule 22 (statement -> FOR NUMBER TIMES USING ID randomInFor statementList FOREND SEMICOLON .)
-    FOREND          reduce using rule 22 (statement -> FOR NUMBER TIMES USING ID randomInFor statementList FOREND SEMICOLON .)
-
-
-state 157
-
-    (29) randomInFor -> LPAREN ID COLON ID . RPAREN SEMICOLON
-
-    RPAREN          shift and go to state 160
-
-
-state 158
-
-    (23) statement -> FORASIGNWORD LPAREN numberType COLON numberType RPAREN DO ASIGNWORD LPAREN . arrayType COLON arrayType RPAREN SEMICOLON
-    (52) arrayType -> . TEXTO LPAREN NUMBER RPAREN ID SLPAREN NUMBER SRPAREN SEMICOLON
-    (53) arrayType -> . ARRAY ID
-
-    TEXTO           shift and go to state 162
-    ARRAY           shift and go to state 163
-
-    arrayType                      shift and go to state 161
-
-state 159
-
-    (25) statement -> OBJECT LPAREN numberType COLON numberType COLON numberType RPAREN SEMICOLON .
-
-    $end            reduce using rule 25 (statement -> OBJECT LPAREN numberType COLON numberType COLON numberType RPAREN SEMICOLON .)
-    ENDDO           reduce using rule 25 (statement -> OBJECT LPAREN numberType COLON numberType COLON numberType RPAREN SEMICOLON .)
-    DOW             reduce using rule 25 (statement -> OBJECT LPAREN numberType COLON numberType COLON numberType RPAREN SEMICOLON .)
-    RANDOM          reduce using rule 25 (statement -> OBJECT LPAREN numberType COLON numberType COLON numberType RPAREN SEMICOLON .)
-    IF              reduce using rule 25 (statement -> OBJECT LPAREN numberType COLON numberType COLON numberType RPAREN SEMICOLON .)
-    INC             reduce using rule 25 (statement -> OBJECT LPAREN numberType COLON numberType COLON numberType RPAREN SEMICOLON .)
-    DEC             reduce using rule 25 (statement -> OBJECT LPAREN numberType COLON numberType COLON numberType RPAREN SEMICOLON .)
-    FOR             reduce using rule 25 (statement -> OBJECT LPAREN numberType COLON numberType COLON numberType RPAREN SEMICOLON .)
-    FORASIGNWORD    reduce using rule 25 (statement -> OBJECT LPAREN numberType COLON numberType COLON numberType RPAREN SEMICOLON .)
-    TELARANA        reduce using rule 25 (statement -> OBJECT LPAREN numberType COLON numberType COLON numberType RPAREN SEMICOLON .)
-    OBJECT          reduce using rule 25 (statement -> OBJECT LPAREN numberType COLON numberType COLON numberType RPAREN SEMICOLON .)
-    FOREND          reduce using rule 25 (statement -> OBJECT LPAREN numberType COLON numberType COLON numberType RPAREN SEMICOLON .)
-
-
-state 160
-
-    (29) randomInFor -> LPAREN ID COLON ID RPAREN . SEMICOLON
-
-    SEMICOLON       shift and go to state 164
-
-
-state 161
-
-    (23) statement -> FORASIGNWORD LPAREN numberType COLON numberType RPAREN DO ASIGNWORD LPAREN arrayType . COLON arrayType RPAREN SEMICOLON
-
-    COLON           shift and go to state 165
-
-
-state 162
-
-    (52) arrayType -> TEXTO . LPAREN NUMBER RPAREN ID SLPAREN NUMBER SRPAREN SEMICOLON
-
-    LPAREN          shift and go to state 166
-
-
-state 163
-
-    (53) arrayType -> ARRAY . ID
-
-    ID              shift and go to state 167
-
-
-state 164
-
-    (29) randomInFor -> LPAREN ID COLON ID RPAREN SEMICOLON .
-
-    DOW             reduce using rule 29 (randomInFor -> LPAREN ID COLON ID RPAREN SEMICOLON .)
-    RANDOM          reduce using rule 29 (randomInFor -> LPAREN ID COLON ID RPAREN SEMICOLON .)
-    IF              reduce using rule 29 (randomInFor -> LPAREN ID COLON ID RPAREN SEMICOLON .)
-    INC             reduce using rule 29 (randomInFor -> LPAREN ID COLON ID RPAREN SEMICOLON .)
-    DEC             reduce using rule 29 (randomInFor -> LPAREN ID COLON ID RPAREN SEMICOLON .)
-    FOR             reduce using rule 29 (randomInFor -> LPAREN ID COLON ID RPAREN SEMICOLON .)
-    FORASIGNWORD    reduce using rule 29 (randomInFor -> LPAREN ID COLON ID RPAREN SEMICOLON .)
-    TELARANA        reduce using rule 29 (randomInFor -> LPAREN ID COLON ID RPAREN SEMICOLON .)
-    OBJECT          reduce using rule 29 (randomInFor -> LPAREN ID COLON ID RPAREN SEMICOLON .)
-    FOREND          reduce using rule 29 (randomInFor -> LPAREN ID COLON ID RPAREN SEMICOLON .)
-
-
-state 165
-
-    (23) statement -> FORASIGNWORD LPAREN numberType COLON numberType RPAREN DO ASIGNWORD LPAREN arrayType COLON . arrayType RPAREN SEMICOLON
-    (52) arrayType -> . TEXTO LPAREN NUMBER RPAREN ID SLPAREN NUMBER SRPAREN SEMICOLON
-    (53) arrayType -> . ARRAY ID
-
-    TEXTO           shift and go to state 162
-    ARRAY           shift and go to state 163
-
-    arrayType                      shift and go to state 168
-
-state 166
-
-    (52) arrayType -> TEXTO LPAREN . NUMBER RPAREN ID SLPAREN NUMBER SRPAREN SEMICOLON
-
-    NUMBER          shift and go to state 169
-
-
-state 167
-
-    (53) arrayType -> ARRAY ID .
-
-    COLON           reduce using rule 53 (arrayType -> ARRAY ID .)
-    RPAREN          reduce using rule 53 (arrayType -> ARRAY ID .)
-
-
-state 168
-
-    (23) statement -> FORASIGNWORD LPAREN numberType COLON numberType RPAREN DO ASIGNWORD LPAREN arrayType COLON arrayType . RPAREN SEMICOLON
-
-    RPAREN          shift and go to state 170
-
-
-state 169
-
-    (52) arrayType -> TEXTO LPAREN NUMBER . RPAREN ID SLPAREN NUMBER SRPAREN SEMICOLON
-
-    RPAREN          shift and go to state 171
-
-
-state 170
-
-    (23) statement -> FORASIGNWORD LPAREN numberType COLON numberType RPAREN DO ASIGNWORD LPAREN arrayType COLON arrayType RPAREN . SEMICOLON
-
-    SEMICOLON       shift and go to state 172
-
-
-state 171
-
-    (52) arrayType -> TEXTO LPAREN NUMBER RPAREN . ID SLPAREN NUMBER SRPAREN SEMICOLON
-
-    ID              shift and go to state 173
-
-
-state 172
-
-    (23) statement -> FORASIGNWORD LPAREN numberType COLON numberType RPAREN DO ASIGNWORD LPAREN arrayType COLON arrayType RPAREN SEMICOLON .
-
-    $end            reduce using rule 23 (statement -> FORASIGNWORD LPAREN numberType COLON numberType RPAREN DO ASIGNWORD LPAREN arrayType COLON arrayType RPAREN SEMICOLON .)
-    ENDDO           reduce using rule 23 (statement -> FORASIGNWORD LPAREN numberType COLON numberType RPAREN DO ASIGNWORD LPAREN arrayType COLON arrayType RPAREN SEMICOLON .)
-    DOW             reduce using rule 23 (statement -> FORASIGNWORD LPAREN numberType COLON numberType RPAREN DO ASIGNWORD LPAREN arrayType COLON arrayType RPAREN SEMICOLON .)
-    RANDOM          reduce using rule 23 (statement -> FORASIGNWORD LPAREN numberType COLON numberType RPAREN DO ASIGNWORD LPAREN arrayType COLON arrayType RPAREN SEMICOLON .)
-    IF              reduce using rule 23 (statement -> FORASIGNWORD LPAREN numberType COLON numberType RPAREN DO ASIGNWORD LPAREN arrayType COLON arrayType RPAREN SEMICOLON .)
-    INC             reduce using rule 23 (statement -> FORASIGNWORD LPAREN numberType COLON numberType RPAREN DO ASIGNWORD LPAREN arrayType COLON arrayType RPAREN SEMICOLON .)
-    DEC             reduce using rule 23 (statement -> FORASIGNWORD LPAREN numberType COLON numberType RPAREN DO ASIGNWORD LPAREN arrayType COLON arrayType RPAREN SEMICOLON .)
-    FOR             reduce using rule 23 (statement -> FORASIGNWORD LPAREN numberType COLON numberType RPAREN DO ASIGNWORD LPAREN arrayType COLON arrayType RPAREN SEMICOLON .)
-    FORASIGNWORD    reduce using rule 23 (statement -> FORASIGNWORD LPAREN numberType COLON numberType RPAREN DO ASIGNWORD LPAREN arrayType COLON arrayType RPAREN SEMICOLON .)
-    TELARANA        reduce using rule 23 (statement -> FORASIGNWORD LPAREN numberType COLON numberType RPAREN DO ASIGNWORD LPAREN arrayType COLON arrayType RPAREN SEMICOLON .)
-    OBJECT          reduce using rule 23 (statement -> FORASIGNWORD LPAREN numberType COLON numberType RPAREN DO ASIGNWORD LPAREN arrayType COLON arrayType RPAREN SEMICOLON .)
-    FOREND          reduce using rule 23 (statement -> FORASIGNWORD LPAREN numberType COLON numberType RPAREN DO ASIGNWORD LPAREN arrayType COLON arrayType RPAREN SEMICOLON .)
-
-
-state 173
-
-    (52) arrayType -> TEXTO LPAREN NUMBER RPAREN ID . SLPAREN NUMBER SRPAREN SEMICOLON
-
-    SLPAREN         shift and go to state 174
-
-
-state 174
-
-    (52) arrayType -> TEXTO LPAREN NUMBER RPAREN ID SLPAREN . NUMBER SRPAREN SEMICOLON
-
-    NUMBER          shift and go to state 175
-
-
-state 175
-
-    (52) arrayType -> TEXTO LPAREN NUMBER RPAREN ID SLPAREN NUMBER . SRPAREN SEMICOLON
-
-    SRPAREN         shift and go to state 176
-
-
-state 176
-
-    (52) arrayType -> TEXTO LPAREN NUMBER RPAREN ID SLPAREN NUMBER SRPAREN . SEMICOLON
-
-    SEMICOLON       shift and go to state 177
-
-
-state 177
-
-    (52) arrayType -> TEXTO LPAREN NUMBER RPAREN ID SLPAREN NUMBER SRPAREN SEMICOLON .
-
-    COLON           reduce using rule 52 (arrayType -> TEXTO LPAREN NUMBER RPAREN ID SLPAREN NUMBER SRPAREN SEMICOLON .)
-    RPAREN          reduce using rule 52 (arrayType -> TEXTO LPAREN NUMBER RPAREN ID SLPAREN NUMBER SRPAREN SEMICOLON .)
-
-WARNING: 
-WARNING: Conflicts:
-WARNING: 
-WARNING: shift/reduce conflict for ID in state 5 resolved as shift
-WARNING: shift/reduce conflict for ID in state 6 resolved as shift
-WARNING: shift/reduce conflict for DOW in state 80 resolved as shift
-WARNING: shift/reduce conflict for RANDOM in state 80 resolved as shift
-WARNING: shift/reduce conflict for IF in state 80 resolved as shift
-WARNING: shift/reduce conflict for INC in state 80 resolved as shift
-WARNING: shift/reduce conflict for DEC in state 80 resolved as shift
-WARNING: shift/reduce conflict for FOR in state 80 resolved as shift
-WARNING: shift/reduce conflict for FORASIGNWORD in state 80 resolved as shift
-WARNING: shift/reduce conflict for TELARANA in state 80 resolved as shift
-WARNING: shift/reduce conflict for OBJECT in state 80 resolved as shift
-WARNING: shift/reduce conflict for ENDDO in state 107 resolved as shift
-WARNING: shift/reduce conflict for DOW in state 107 resolved as shift
-WARNING: shift/reduce conflict for RANDOM in state 107 resolved as shift
-WARNING: shift/reduce conflict for IF in state 107 resolved as shift
-WARNING: shift/reduce conflict for INC in state 107 resolved as shift
-WARNING: shift/reduce conflict for DEC in state 107 resolved as shift
-WARNING: shift/reduce conflict for FOR in state 107 resolved as shift
-WARNING: shift/reduce conflict for FORASIGNWORD in state 107 resolved as shift
-WARNING: shift/reduce conflict for TELARANA in state 107 resolved as shift
-WARNING: shift/reduce conflict for OBJECT in state 107 resolved as shift
-WARNING: shift/reduce conflict for DOW in state 110 resolved as shift
-WARNING: shift/reduce conflict for RANDOM in state 110 resolved as shift
-WARNING: shift/reduce conflict for IF in state 110 resolved as shift
-WARNING: shift/reduce conflict for INC in state 110 resolved as shift
-WARNING: shift/reduce conflict for DEC in state 110 resolved as shift
-WARNING: shift/reduce conflict for FOR in state 110 resolved as shift
-WARNING: shift/reduce conflict for FORASIGNWORD in state 110 resolved as shift
-WARNING: shift/reduce conflict for TELARANA in state 110 resolved as shift
-WARNING: shift/reduce conflict for OBJECT in state 110 resolved as shift
-WARNING: shift/reduce conflict for DOW in state 128 resolved as shift
-WARNING: shift/reduce conflict for RANDOM in state 128 resolved as shift
-WARNING: shift/reduce conflict for IF in state 128 resolved as shift
-WARNING: shift/reduce conflict for INC in state 128 resolved as shift
-WARNING: shift/reduce conflict for DEC in state 128 resolved as shift
-WARNING: shift/reduce conflict for FOR in state 128 resolved as shift
-WARNING: shift/reduce conflict for FORASIGNWORD in state 128 resolved as shift
-WARNING: shift/reduce conflict for TELARANA in state 128 resolved as shift
-WARNING: shift/reduce conflict for OBJECT in state 128 resolved as shift
-WARNING: shift/reduce conflict for DOW in state 128 resolved as shift
-WARNING: shift/reduce conflict for RANDOM in state 128 resolved as shift
-WARNING: shift/reduce conflict for IF in state 128 resolved as shift
-WARNING: shift/reduce conflict for INC in state 128 resolved as shift
-WARNING: shift/reduce conflict for DEC in state 128 resolved as shift
-WARNING: shift/reduce conflict for FOR in state 128 resolved as shift
-WARNING: shift/reduce conflict for FORASIGNWORD in state 128 resolved as shift
-WARNING: shift/reduce conflict for TELARANA in state 128 resolved as shift
-WARNING: shift/reduce conflict for OBJECT in state 128 resolved as shift
-WARNING: shift/reduce conflict for DOW in state 132 resolved as shift
-WARNING: shift/reduce conflict for RANDOM in state 132 resolved as shift
-WARNING: shift/reduce conflict for IF in state 132 resolved as shift
-WARNING: shift/reduce conflict for INC in state 132 resolved as shift
-WARNING: shift/reduce conflict for DEC in state 132 resolved as shift
-WARNING: shift/reduce conflict for FOR in state 132 resolved as shift
-WARNING: shift/reduce conflict for FORASIGNWORD in state 132 resolved as shift
-WARNING: shift/reduce conflict for TELARANA in state 132 resolved as shift
-WARNING: shift/reduce conflict for OBJECT in state 132 resolved as shift
-WARNING: shift/reduce conflict for FOREND in state 145 resolved as shift
-WARNING: shift/reduce conflict for DOW in state 145 resolved as shift
-WARNING: shift/reduce conflict for RANDOM in state 145 resolved as shift
-WARNING: shift/reduce conflict for IF in state 145 resolved as shift
-WARNING: shift/reduce conflict for INC in state 145 resolved as shift
-WARNING: shift/reduce conflict for DEC in state 145 resolved as shift
-WARNING: shift/reduce conflict for FOR in state 145 resolved as shift
-WARNING: shift/reduce conflict for FORASIGNWORD in state 145 resolved as shift
-WARNING: shift/reduce conflict for TELARANA in state 145 resolved as shift
-WARNING: shift/reduce conflict for OBJECT in state 145 resolved as shift
-WARNING: reduce/reduce conflict in state 128 resolved using rule (statement -> IF LPAREN condition RPAREN SEMICOLON statementList)
-WARNING: rejected rule (empty -> <empty>) in state 128
