@@ -1,8 +1,10 @@
-import random
-import threading
-import time
 
 import pygame
+import random
+import time
+import threading
+import socket
+
 
 # Inicializa Pygame y todos sus modulos
 pygame.init()
@@ -619,6 +621,7 @@ ta_mi_fila = 4
 ta_mi_col = 4
 
 # Cambios de posicion
+dn = 97 * 2
 dx = 0
 dy = 0
 
@@ -655,15 +658,16 @@ def run_dl():
         # Ingresa una palabra
         asign_word(1, 1, "Word3", 5000)
         asign_word(0, 3, "Word1", 5000)
-        asign_word(2, 1, "Word4", 5000)
-        asign_word(5, 0, "Word2", 5000)
-        asign_word(7, 4, "Word5", 5000)
-        asign_word(9, 9, "Word6", 5000)
+        asign_word(1, 2, "Word4", 5000)
+        asign_word(2, 3, "Word2", 5000)
+        asign_word(3, 3, "Word5", 5000)
+        asign_word(1, 0, "Word6", 5000)
         asign_word(4, 9, "Word7", 5000)
         asign_word(5, 9, "Word8", 5000)
 
         # Muestra los pies del niño
         place_feet()
+
 
         # Pygame verifica todos los events
         for event in pygame.event.get():
@@ -682,21 +686,28 @@ def run_dl():
             if event.type == pygame.KEYDOWN:
                 # Cambia la direccion del movimiento
                 if event.key == pygame.K_LEFT:  # T. Izquierda
-                    dx = 25
+                    move_left()
+                    # dx = 25
                 if event.key == pygame.K_RIGHT:  # T. Derecha
-                    dx = -25
+                    move_right()
+                    # dx = -25
                 if event.key == pygame.K_UP:  # T. Izquierda
-                    dy = 25
+                    move_front(dl_surface)
+                    # dy = 25
                 if event.key == pygame.K_DOWN:  # T. Derecha
-                    dy = -25
+                    move_back(dl_surface)
+                    # dy = -25
+                #time.sleep(1)
+                break
 
             # Si se suelta una tecla
             if event.type == pygame.KEYUP:
                 # Retorna el movimiento a 0, lo hace estatico de nuevo
                 if event.key == pygame.K_LEFT or event.key == pygame.K_RIGHT \
                         or event.key == pygame.K_UP or event.key == pygame.K_DOWN:  # T. Izquierda o T. Derecha
-                    dx = 0
-                    dy = 0
+                    restore_change()
+                    # dx = 0
+                    # dy = 0
 
         # Actualiza la posicion de la web
         web_x += dx
@@ -747,6 +758,7 @@ def set_starting_point(rows, columns):
     web_y += y
 
 
+# Shoe Dimensions
 shoe_width = 774 // 8
 shoe_height = 1920 // 8
 shoe_l_x = (displayWidth // 2) - (shoe_width) - 50
@@ -755,6 +767,7 @@ shoe_r_x = (displayWidth // 2) + 50  # + (shoe_width)
 shoe_r_y = shoe_l_y
 
 
+# Muestra los zapatos
 def place_feet():
     # Directorio de la imagen por mostrar actual
     shoe_l_directory = "Resources/Character/topShoeLsmall.png"
@@ -775,6 +788,7 @@ def place_feet():
     initialWindow.blit(shoe_r, (shoe_r_x, shoe_r_y))
 
 
+# Dimensiones de las palabras por mostrar en la web
 word_width = 250
 word_height = 150
 
@@ -805,9 +819,172 @@ def asign_word(row, column, word, score):
     initialWindow.blit(text_surface, text_rectangle)
 
 
+# Crea un objeto de texto
 def text_objects(text, font):
     text_surface = font.render(text, True, (255, 255, 255))
     return text_surface, text_surface.get_rect()
+
+'''
+# Shoe Dimensions
+shoe_width = 774 // 8
+shoe_height = 1920 // 8
+shoe_l_x = (displayWidth // 2) - (shoe_width) - 50
+shoe_l_y = displayHeight - (displayWidth * 3 // 7)
+shoe_r_x = (displayWidth // 2) + 50  # + (shoe_width)
+shoe_r_y = shoe_l_y
+'''
+
+
+# Mueve el personaje hacia delante
+def move_front(surface):
+    global dy
+    dy = dn
+
+    global shoe_r_y
+    global shoe_l_y
+
+    shoe_r_y -= dy
+
+    # change its background color
+    surface.fill((255, 255, 255))
+    # blit uLSurface onto the main screen at the position (0, 0)
+    initialWindow.blit(surface, (0, 0))
+    # Mostrara la telaraña en pantalla
+    place_web(ta_mi_fila, ta_mi_col)
+    # Ingresa una palabra
+    asign_word(1, 1, "Word3", 5000)
+    asign_word(0, 3, "Word1", 5000)
+    asign_word(1, 2, "Word4", 5000)
+    asign_word(2, 3, "Word2", 5000)
+    asign_word(3, 3, "Word5", 5000)
+    asign_word(1, 0, "Word6", 5000)
+    asign_word(4, 9, "Word7", 5000)
+    asign_word(5, 9, "Word8", 5000)
+    # Muestra los pies del niño
+    place_feet()
+    # Update display (Actualiza _todo el surface)
+    pygame.display.update()
+    # Da tiempo para que se grafiquen
+    time.sleep(0.3)
+
+    # Segundo Movimiento
+
+    shoe_l_y -= dy
+
+    # change its background color
+    surface.fill((255, 255, 255))
+    # blit uLSurface onto the main screen at the position (0, 0)
+    initialWindow.blit(surface, (0, 0))
+    # Mostrara la telaraña en pantalla
+    place_web(ta_mi_fila, ta_mi_col)
+    # Ingresa una palabra
+    asign_word(1, 1, "Word3", 5000)
+    asign_word(0, 3, "Word1", 5000)
+    asign_word(1, 2, "Word4", 5000)
+    asign_word(2, 3, "Word2", 5000)
+    asign_word(3, 3, "Word5", 5000)
+    asign_word(1, 0, "Word6", 5000)
+    asign_word(4, 9, "Word7", 5000)
+    asign_word(5, 9, "Word8", 5000)
+    # Muestra los pies del niño
+    place_feet()
+    # Update display (Actualiza _todo el surface)
+    pygame.display.update()
+    # Da tiempo para que se grafiquen
+    time.sleep(0.3)
+
+    shoe_r_y += dy
+    shoe_l_y += dy
+
+    time.sleep(0.3)
+
+
+
+# Mueve el personaje hacia atras
+def move_back(surface):
+
+    global dy
+    dy = -dn
+
+    global shoe_r_y
+    global shoe_l_y
+
+    shoe_r_y -= dy
+
+    # change its background color
+    surface.fill((255, 255, 255))
+    # blit uLSurface onto the main screen at the position (0, 0)
+    initialWindow.blit(surface, (0, 0))
+    # Mostrara la telaraña en pantalla
+    place_web(ta_mi_fila, ta_mi_col)
+    # Ingresa una palabra
+    asign_word(1, 1, "Word3", 5000)
+    asign_word(0, 3, "Word1", 5000)
+    asign_word(1, 2, "Word4", 5000)
+    asign_word(2, 3, "Word2", 5000)
+    asign_word(3, 3, "Word5", 5000)
+    asign_word(1, 0, "Word6", 5000)
+    asign_word(4, 9, "Word7", 5000)
+    asign_word(5, 9, "Word8", 5000)
+    # Muestra los pies del niño
+    place_feet()
+    # Update display (Actualiza _todo el surface)
+    pygame.display.update()
+    # Da tiempo para que se grafiquen
+    time.sleep(0.3)
+
+    # Segundo Movimiento
+
+    shoe_l_y -= dy
+
+    # change its background color
+    surface.fill((255, 255, 255))
+    # blit uLSurface onto the main screen at the position (0, 0)
+    initialWindow.blit(surface, (0, 0))
+    # Mostrara la telaraña en pantalla
+    place_web(ta_mi_fila, ta_mi_col)
+    # Ingresa una palabra
+    asign_word(1, 1, "Word3", 5000)
+    asign_word(0, 3, "Word1", 5000)
+    asign_word(1, 2, "Word4", 5000)
+    asign_word(2, 3, "Word2", 5000)
+    asign_word(3, 3, "Word5", 5000)
+    asign_word(1, 0, "Word6", 5000)
+    asign_word(4, 9, "Word7", 5000)
+    asign_word(5, 9, "Word8", 5000)
+    # Muestra los pies del niño
+    place_feet()
+    # Update display (Actualiza _todo el surface)
+    pygame.display.update()
+    # Da tiempo para que se grafiquen
+    time.sleep(0.3)
+
+    shoe_r_y += dy
+    shoe_l_y += dy
+
+    time.sleep(0.3)
+
+
+
+
+# Mueve el personaje hacia la derecha
+def move_right():
+    global dx
+    dx = -dn
+
+
+# Mueve el personaje hacia la izquierda
+def move_left():
+    global dx
+    dx = dn
+
+
+# Reestablece el cambio de los zapatos a cero cuando no esta presionado la tecla
+def restore_change():
+    global dx
+    global dy
+    dx = 0
+    dy = 0
 
 
 ###############################################################################
@@ -953,7 +1130,9 @@ def run_s():
         # Muestra el personaje en pantalla
         show_character()
         # Obtiene las nuevas coordinadas del Kinect
-        get_coordinates()
+        # get_coordinates()
+        # Obtiene las coordenadas del Kinect
+        get_coordinates_from_kinect()
 
         # Pygame verifica todos los events
         for event in pygame.event.get():
@@ -967,6 +1146,9 @@ def run_s():
             # Al presionar el mouse
             if event.type == pygame.MOUSEBUTTONDOWN:
                 running = False
+
+        # Parametro serian la cantidad de frames en un segundo (fps)
+        clock.tick(10)
 
         # Update display (Actualiza _todo el surface)
         pygame.display.update()
@@ -1015,37 +1197,37 @@ def show_character():
     # Directorio de la cabeza
     head_directory = "Resources/Character/headsmall.png"
     head = pygame.image.load(head_directory)
-    head = pygame.transform.scale(head, (hw, hh))
+    #head = pygame.transform.scale(head, (hw, hh))
     initialWindow.blit(head, (hx, hy))
 
     # Directorio del cuerpo
     body_directory = "Resources/Character/bodysmall.png"
     body = pygame.image.load(body_directory)
-    body = pygame.transform.scale(body, (bw, bh))
+    #body = pygame.transform.scale(body, (bw, bh))
     initialWindow.blit(body, (bx, by))
 
     # Directorio de la mano izquierda
     hand_l_directory = "Resources/Character/handLsmall.png"
     hand_l = pygame.image.load(hand_l_directory)
-    hand_l = pygame.transform.scale(hand_l, (hdw, hdh))
+    #hand_l = pygame.transform.scale(hand_l, (hdw, hdh))
     initialWindow.blit(hand_l, (lhx, lhy))
 
     # Directorio de la mano derecha
     hand_r_directory = "Resources/Character/handRsmall.png"
     hand_r = pygame.image.load(hand_r_directory)
-    hand_r = pygame.transform.scale(hand_r, (hdw, hdh))
+    #hand_r = pygame.transform.scale(hand_r, (hdw, hdh))
     initialWindow.blit(hand_r, (rhx, rhy))
 
     # Directorio del pie izquierdo
     shoe_l_directory = "Resources/Character/shoeLsmall.png"
     shoe_l = pygame.image.load(shoe_l_directory)
-    shoe_l = pygame.transform.scale(shoe_l, (fw, fh))
+    #shoe_l = pygame.transform.scale(shoe_l, (fw, fh))
     initialWindow.blit(shoe_l, (lfx, lfy))
 
     # Directorio del pie derecho
     shoe_r_directory = "Resources/Character/shoeRsmall.png"
     shoe_r = pygame.image.load(shoe_r_directory)
-    shoe_r = pygame.transform.scale(shoe_r, (fw, fh))
+    #shoe_r = pygame.transform.scale(shoe_r, (fw, fh))
     initialWindow.blit(shoe_r, (rfx, rfy))
 
 
@@ -1108,15 +1290,50 @@ def get_coordinates():
     update_character_coordinates(dbx, dby, dlhx, dlhy, drhx, drhy, dlfx, dlfy, drfx, drfy)
 
 
-#thread = threading.Thread(target=get_coordinates())
-#thread.start()
-#thread.join()
+# Client
+client = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+client.connect(('192.168.100.80', 5204))
+
+
+# Abre una conexion con Processing para obtener las coordenadas del Kinect
+def get_coordinates_from_kinect():
+
+    client.send(b"I am CLIENT\n")
+
+    #while True:
+    data = client.recv(1024).decode('UTF-8')
+
+    if not data:
+        print("No Data")
+    else:
+        print('Received:' + repr(data))  # Paging Python!
+        n = 0
+        coord = ""
+        coords = []
+        #data = data[1:]
+        while data != "":
+            if data[0] != ",":
+                coord += data[0]
+            else:
+                print("->", coord)
+                n += 1
+                coords.append(int(coord))
+                coord = ""
+            data = data[1:]
+        print("->", coord)
+        coords.append(int(coord))
+
+        update_character_coordinates(coords[0], coords[1], coords[2], coords[3], coords[4],
+                                     coords[5], coords[6], coords[7], coords[8], coords[9])
+
+
+# def set_new_coordinate(coord,n)
 
 
 # Flag
 playing = True
 
-# Loop
+# Main Loop
 while playing:
 
     # Cambia el fondo de la superficie
@@ -1128,7 +1345,9 @@ while playing:
     # Muestra la mano derecha para seleccionar una opcion
     show_hand_selection()
     # Obtiene las nuevas coordinadas del Kinect
-    get_coordinates()
+    # get_coordinates()
+    # Obtiene las coordenadas del Kinect
+    get_coordinates_from_kinect()
 
     # Pygame verifica todos los events
     for event in pygame.event.get():
@@ -1158,6 +1377,9 @@ while playing:
 
     # Parametro serian la cantidad de frames en un segundo (fps)
     clock.tick(fps)
+
+# Cierra el cliente
+client.close()
 
 # Deja de correr Pygame
 pygame.quit()
