@@ -48,10 +48,11 @@ class program(Nodo):
 
 
 class block(Nodo):
-    def __init__(self, son1, son2, name):
+    def __init__(self, son1, son2, son3, name):
         self.name = name
         self.son1 = son1
         self.son2 = son2
+        self.son3 = son3
 
     def imprimir(self, ident):
 
@@ -60,10 +61,16 @@ class block(Nodo):
         else:
             self.son1.imprimir(" " + ident)
 
-        if type(self.son2) == type(tuple()):
+        if isinstance(self.son2, tuple):
             self.son2[0].imprimir(" " + ident)
         else:
             self.son2.imprimir(" " + ident)
+
+        if isinstance(self.son3, tuple):
+            self.son3[0].imprimir(" " + ident)
+        else:
+            self.son3.imprimir(" " + ident)
+
         print ident + "Nodo: " + self.name
 
     def traducir(self):
@@ -80,9 +87,15 @@ class block(Nodo):
         else:
             son2 = self.son2.traducir()
 
+        if isinstance(self.son3, tuple):
+            son3 = self.son2[0].traducir()
+        else:
+            son3 = self.son3.traducir()
+
         txt += id + "[label= " + self.name + "]" + "\n\t"
         txt += id + " -> " + son1 + "\n\t"
         txt += id + " -> " + son2 + "\n\t"
+        txt += id + " -> " + son3 + "\n\t"
 
         return id
 
@@ -116,6 +129,47 @@ class variableDec(Nodo):
         txt += id + " -> " + son2 + "\n\t"
         txt += id + " -> " + son3 + "\n\t"
         txt += id + " -> " + son4 + "\n\t"
+
+        return id
+
+class statementlist(Nodo):
+    def __init__(self, son1, son2, name):
+        self.name = name
+        self.son1 = son1
+        self.son2 = son2
+
+    def imprimir(self, ident):
+
+        if isinstance(self.son1, tuple):
+            self.son1[0].imprimir(" " + ident)
+        else:
+            self.son1.imprimir(" " + ident)
+
+        if isinstance(self.son2, tuple):
+            self.son2[0].imprimir(" " + ident)
+        else:
+            self.son2.imprimir(" " + ident)
+
+        print ident + "Nodo: " + self.name
+
+    def traducir(self):
+        global txt
+        id = sumContador()
+
+        if isinstance(self.son1, tuple):
+            son1 = self.son1[0].traducir()
+        else:
+            son1 = self.son1.traducir()
+
+        if isinstance(self.son2, tuple):
+            son2 = self.son2[0].traducir()
+        else:
+            son2 = self.son2.traducir()
+
+
+        txt += id + "[label= " + self.name + "]" + "\n\t"
+        txt += id + " -> " + son1 + "\n\t"
+        txt += id + " -> " + son2 + "\n\t"
 
         return id
     
@@ -274,9 +328,21 @@ class statement1(Nodo):
         self.son1 = son1
         self.son2 = son2
 
+    def __init__(self, son1, son2, name):
+        self.name = name
+        self.son1 = son1
+        self.son2 = son2
+
     def imprimir(self, ident):
-        self.son1.imprimir(" " + ident)
-        self.son2.imprimir(" " + ident)
+        if isinstance(self.son1, tuple):
+            self.son1[0].imprimir(" " + ident)
+        else:
+            self.son1.imprimir(" " + ident)
+
+        if isinstance(self.son2, tuple):
+            self.son2[0].imprimir(" " + ident)
+        else:
+            self.son2.imprimir(" " + ident)
 
         print ident + "Nodo: " + self.name
 
@@ -284,8 +350,15 @@ class statement1(Nodo):
         global txt
         id = sumContador()
 
-        son1 = self.son1.traducir()
-        son2 = self.son2.traducir()
+        if isinstance(self.son1, tuple):
+            son1 = self.son1[0].traducir()
+        else:
+            son1 = self.son1.traducir()
+
+        if isinstance(self.son2, tuple):
+            son2 = self.son2[0].traducir()
+        else:
+            son2 = self.son2.traducir()
 
         txt += id + "[label= " + self.name + "]" + "\n\t"
         txt += id + " -> " + son1 + "\n\t"
@@ -302,7 +375,7 @@ class statement2(Nodo):
 
     def imprimir(self, ident):
         self.son1.imprimir(" " + ident)
-        if type(self.son2) == type(tuple()):
+        if isinstance(self.son2, tuple):
             self.son2[0].imprimir(" " + ident)
         else:
             self.son2.imprimir(" " + ident)
@@ -361,7 +434,7 @@ class statement4(Nodo):
 
     def imprimir(self, ident):
         self.son1.imprimir(" " + ident)
-        if type(self.son2) == type(tuple()):
+        if isinstance(self.son2, tuple):
             self.son2[0].imprimir(" " + ident)
         else:
             self.son2.imprimir(" " + ident)
@@ -562,6 +635,55 @@ class statement10(Nodo):
 
         return id
 
+class statementList1(Nodo):
+    def __init__(self, son1, son2, name):
+        self.name = name
+        self.son1 = son1
+        self.son2 = son2
+
+    def imprimir(self, ident):
+        self.son1.imprimir(" " + ident)
+        self.son2.imprimir(" " + ident)
+
+        print ident + "Nodo: " + self.name
+
+    def traducir(self):
+        global txt
+        id = sumContador()
+
+        son1 = self.son1.traducir()
+        son2 = self.son2.traducir()
+
+        txt += id + "[label= " + self.name + "]" + "\n\t"
+        txt += id + " -> " + son1 + "\n\t"
+        txt += id + " -> " + son2 + "\n\t"
+
+        return id
+
+class statementList2(Nodo):
+    def __init__(self, son1, son2, name):
+        self.name = name
+        self.son1 = son1
+        self.son2 = son2
+
+    def imprimir(self, ident):
+        self.son1.imprimir(" " + ident)
+        self.son2.imprimir(" " + ident)
+
+        print ident + "Nodo: " + self.name
+
+    def traducir(self):
+        global txt
+        id = sumContador()
+
+        son1 = self.son1.traducir()
+        son2 = self.son2.traducir()
+
+        txt += id + "[label= " + self.name + "]" + "\n\t"
+        txt += id + " -> " + son1 + "\n\t"
+        txt += id + " -> " + son2 + "\n\t"
+
+        return id
 
 class randomInFor(Nodo):
     def __init__(self, son1, son2, name):

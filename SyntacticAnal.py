@@ -22,9 +22,19 @@ def p_program(p):
     p[0] = program(p[1], "program")
 
 def p_block(p):
-    '''block : variableDec statement'''
-    p[0] = block(p[1], p[2], "block")
+    '''block : variableDec statement statementList'''
+    p[0] = block(p[1], p[2], p[3], "block")
     print("block")
+
+def p_statementList(p):
+    '''statementList : statementList1 statementList2'''
+    p[0] = statementlist(p[1], p[2], "statementlist")
+    print("statementlist")
+
+def p_statementlistEmpty(p):
+    '''statementList : empty'''
+    p[0] = Null()
+    print("nulo")
 
 def p_variableDec(p):
     '''variableDec : variableType ID arrayStruct initiateVar SEMICOLON'''
@@ -136,13 +146,15 @@ def p_statementEmpty(p):
     p[0] = Null()
     print("nulo")
 
-# def p_statementList1(p):
-#     '''statementList : statement'''
-#     print ("statementList 1")
-#
-# def p_statementList2(p):
-#     '''statementList : statementList  statement'''
-#     print ("statementList 2")
+def p_statementList1(p):
+     '''statementList1 : block statement'''
+     p[0] = statementList1(p[1], p[2], "statementList1")
+     print ("statementList 1")
+
+def p_statementList2(p):
+     '''statementList2 : block variableDec '''
+     p[0] = statementList2(p[1], p[2], "statementList2")
+     print ("statementList 2")
 
 def p_randomInFor(p):
     '''randomInFor : RANDOM LPAREN numberType COLON numberType RPAREN SEMICOLON'''
