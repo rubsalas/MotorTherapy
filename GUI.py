@@ -197,7 +197,9 @@ def show_game_menu(game):
         # Muestra la mano derecha para seleccionar una opcion
         show_hand_selection()
         # Obtiene las nuevas coordinadas del Kinect
-        get_coordinates()
+        # get_coordinates()
+        # Obtiene las coordenadas del Kinect
+        get_coordinates_from_kinect()
 
         # Pygame verifica todos los events
         for event in pygame.event.get():
@@ -221,30 +223,12 @@ def show_game_menu(game):
 
 # Muestra los cuadros de seleccion del menu del juego XXX xx XXX
 def show_game_menu_options(game):
-    # Dependiendo del juego mostrara diferentes titulos y layouts de las opciones
-    if game == "rg":
-        # print("rg")
-        True
-    elif game == "up":
-        # print("up")
-        True
-    elif game == "ta":
-        # print("ta")
-        True
-    elif game == "ao":
-        # print("ao")
-        True
-    else:
-        print("Error in show_game_menu_options(game)")
 
     # Dibuja un rectangulo -> Titulo
     pygame.draw.rect(initialWindow, (0, 0, 0),
                      (xTitulo, yTitulo, game_title_width, game_title_height))
 
-    # Dibuja un rectangulo -> Start (Izquierda)
-    # pygame.draw.rect(initialWindow, (67, 255, 52),
-    #                 (xOption_left, yOption_left, game_option_width, game_option_height))
-
+    # START BUTTON
     # Directorio de la imagen por mostrar actual
     start_button_directory = "Resources/Menu/" + game + "_Start_Button.png"
     # Imagen cargada
@@ -254,10 +238,7 @@ def show_game_menu_options(game):
     # Muestra la imagen en pantalla con las coordenadas preestablecidas
     initialWindow.blit(start_button, (xOption_left, yOption_left))
 
-    # Dibuja un rectangulo -> Main Menu (Derecha)
-    # pygame.draw.rect(initialWindow, (165, 77, 255),
-    #                 (xOption_right, yOption_right, game_option_width, game_option_height))
-
+    # BACK BUTTON
     # Directorio de la imagen por mostrar actual
     back_button_directory = "Resources/Menu/" + game + "_Back_Button.png"
     # Imagen cargada
@@ -318,6 +299,12 @@ def show_backroom():
     # Muestra la imagen en pantalla con las coordenadas preestablecidas
     initialWindow.blit(background, (0, 0))
 
+
+# Crea un objeto de texto
+def text_objects(text, font, color):
+    text_surface = font.render(text, True, color)
+    return text_surface, text_surface.get_rect()
+
 ###############################################################################
 #                                                                             #
 #                               RAQUETA GLOBO                                 #
@@ -326,17 +313,19 @@ def show_backroom():
 
 
 # Variables de Raqueta Globo
-rg_alt = 100 * 4
-rg_lat = 100 * 2
-rg_cantidad = 5
-# def balloon
-# def Inc
-# def Dec
+rg_alt_inicial = 100 * 2
+rg_lat_inicial = 100 * 2
 
-# Largo de balloon
-balloon_width = 62 // 1
-# Ancho de balloon
-balloon_height = 120 // 1
+rg_alt = rg_alt_inicial
+rg_lat = rg_lat_inicial
+rg_cantidad = 2
+
+# Puntaje por Golpear el Globo
+rg_balloon_points = 1000
+# Puntaje Actual de Raqueta Globo
+rg_score = 0
+# Cantidad Actual de hits recibidos al globo
+rg_hit_count = 0
 
 
 # Corre la seleccion de Raqueta Globo
@@ -344,13 +333,6 @@ balloon_height = 120 // 1
 def run_ul():  # alt, _lat):
 
     print("Raqueta Globo")
-
-    # Altura del Globo
-    # alt = _alt
-    # lat = _lat
-
-    # create a new Surface
-    ul_surface = pygame.Surface((displayWidth, displayHeight))
 
     # Para el sprite del globo
     n = 1
@@ -360,26 +342,20 @@ def run_ul():  # alt, _lat):
 
     while running:
 
-        # change its background color
-        # ul_surface.fill((55, 155, 255))
-
-        # blit ul_surface onto the main screen at the position (0, 0)
-        # initialWindow.blit(ul_surface, (0, 0))
-
         # Muestra el background
         show_backroom()
 
+        # Muestra la informacion del juego
+        rg_show_info()
+
         # Muestra el globo
-        place_balloon(rg_lat, rg_alt, n)
+        place_balloon(rg_lat, rg_alt, (n % 2 + 1))
 
         # Para cambiar el sprite del globo
-        if n < 2:
-            n += 1
-        else:
-            n = 1
+        n += 1
 
-        # Obtiene las nuevas coordinadas del Kinect
-        get_coordinates()
+        # Obtiene las coordenadas del Kinect
+        get_coordinates_from_kinect()
         # Muestra el personaje en pantalla
         show_character()
 
@@ -403,7 +379,17 @@ def run_ul():  # alt, _lat):
         pygame.display.update()
 
         # Verificar la colision
-        check_balloon_hit()
+        # check_ballon_hit() envia false cuando se terminan los intentos
+        # check_ballon_hit() envia true ya que no ha terminado
+        if not check_balloon_hit():
+            # Interfaz para terminar el juego
+            running = end_game("rg")
+
+
+# Largo de balloon
+balloon_width = 62 // 1
+# Ancho de balloon
+balloon_height = 120 // 1
 
 
 # Posiciona el globo y muestra el sprite que se necesite
@@ -426,17 +412,185 @@ def place_balloon(x, y, n):
 # Verifica si el personaje ha impactado al globo
 def check_balloon_hit():
 
+    hasnt_finished = True
+
+    # Verifica si ha sido golpeado con la mano derecha
     if rhy < rg_alt + balloon_height and rhy > rg_alt or rhy + hdh < rg_alt + balloon_height and rhy + hdh > rg_alt:
-
         if rhx > rg_lat and rhx < rg_lat + balloon_width or rhx + hdw > rg_lat and rhx + hdw < rg_lat + balloon_width:
-            print("Rigth Hand Collision")
-            # time.sleep(8)
 
+            print("Right Hand Collision")
+            hasnt_finished = has_hit_balloon()
+
+    # Verifica si ha sido golpeado con la mano izquierda
     elif lhy < rg_alt + balloon_height and lhy > rg_alt or lhy + hdh < rg_alt + balloon_height and lhy + hdh > rg_alt:
-
         if lhx > rg_lat and lhx < rg_lat + balloon_width or lhx + hdw > rg_lat and lhx + hdw < rg_lat + balloon_width:
+
             print("Left Hand Collision")
-            # time.sleep(8)
+            hasnt_finished = has_hit_balloon()
+
+    return hasnt_finished
+
+
+# Actualiza el juego cuando el jugador ha golpeado el globo
+def has_hit_balloon():
+
+    global rg_alt
+    global rg_lat
+    global rg_hit_count
+    global rg_score
+
+    mx = balloon_width
+    my = displayWidth // 2
+
+    # Actualiza la cantidad de golpes que se han logrado
+    rg_hit_count += 1
+
+    # Actualiza el puntaje del juego
+    rg_score += rg_balloon_points
+
+    if (rg_cantidad - rg_hit_count) > 0:
+
+        # Actualiza la posicion del globo
+        rg_lat = random.randrange(0, displayWidth - mx, 1)
+        rg_alt = random.randrange(0, displayHeight - my, 1)
+
+        return True
+
+
+# Muestra la información necesaria del juego Raqueta Globo
+def rg_show_info():
+
+    n = 0
+    font_size = 20
+
+    str_score = "Puntaje: " + str(rg_score)
+    str_hits_left = "Golpes Restantes: " + str(rg_cantidad - rg_hit_count)
+    str_actual_position = "Posición Actual del Globo: (" + str(rg_lat) + "," + str(rg_alt) + ")"
+
+    text_list = [str_score, str_hits_left, str_actual_position]
+
+    for words in text_list:
+        # Cantidad de Golpes Restantes
+        text = pygame.font.Font("freesansbold.ttf", font_size)  # Font
+        text_surface, text_rectangle = text_objects(words, text, (0, 0, 0))
+        text_rectangle.center = (displayWidth//2, (font_size//2) + font_size*2*n)
+        initialWindow.blit(text_surface, text_rectangle)
+        n += 1
+
+
+# Termina el juego de Raqueta Globo
+def end_game(game):
+
+    # Variable para volver al menu del juego
+    stay_in_game = True
+
+    while stay_in_game:
+
+        # Muestra el background
+        show_backroom()
+
+        # Muestra las estadisticas finales
+        show_ending_statistics()
+
+        # Muestra el boton para volver al menu del juego
+        show_ending_button(game)
+
+        # Obtiene las coordenadas del Kinect
+        get_coordinates_from_kinect()
+        # Muestra la mano derecha para seleccionar una opcion
+        show_hand_selection()
+
+        # Pygame verifica todos los events
+        for event in pygame.event.get():
+
+            # Al presionar el mouse
+            if event.type == pygame.MOUSEBUTTONDOWN:
+                # Obtiene las posiciones actuales del mouse
+                mousex, mousey = pygame.mouse.get_pos()
+                # Verifica si puede ingresar a una opcion
+                stay_in_game = back_to_game_menu(mousex, mousey, game)
+
+        # Parametro serian la cantidad de frames en un segundo (fps)
+        clock.tick(fps)
+
+        # Update display (Actualiza _todo el surface)
+        pygame.display.update()
+
+    return stay_in_game
+
+
+back_button_width = game_option_width // 3
+back_button_height = game_option_height // 3
+
+back_ending_button_x = displayWidth // 2 - back_button_width // 2
+back_ending_button_y = 450
+
+
+# Muestra las estadisticas finales
+def show_ending_statistics():
+    n = 0
+    font_size = 30  # Ch
+
+    str_score = "Puntaje: " + str(rg_score)
+    str_hits_left = "Golpes Acertados: " + str(rg_hit_count)  # Ch
+    str_actual_position = "Posición Actual del Globo: (" + str(rg_lat) + "," + str(rg_alt) + ")"
+
+    text_list = [str_score, str_hits_left]
+
+    for words in text_list:
+        # Cantidad de Golpes Restantes
+        text = pygame.font.Font("freesansbold.ttf", font_size)  # Font
+        text_surface, text_rectangle = text_objects(words, text, (0, 0, 0))
+        text_rectangle.center = (displayWidth // 2, back_ending_button_y - 100 - font_size * 3.5 * n)  # Ch
+        initialWindow.blit(text_surface, text_rectangle)
+        n += 1
+
+
+# Muestra el boton para volver
+def show_ending_button(game):
+
+    # START BUTTON
+    # Directorio de la imagen por mostrar actual
+    back_button_directory = "Resources/Menu/" + game + "_Back_Button.png"
+    # Imagen cargada
+    ending_back_button = pygame.image.load(back_button_directory)  # Carga la imagen de la carpeta
+    # Imagen escalada
+    ending_back_button = pygame.transform.scale(ending_back_button,
+                                          (back_button_width, back_button_height))  # Escala la imagen al size deseado
+    # Muestra la imagen en pantalla con las coordenadas preestablecidas
+    initialWindow.blit(ending_back_button, (back_ending_button_x, back_ending_button_y))
+
+
+# Verifica si se ha presionado el boton de Back
+def back_to_game_menu(m_x, m_y, game):
+
+    # Flag
+    stay_in_game = True
+
+    if back_ending_button_x <= m_x <= (back_ending_button_x + back_button_width) and back_ending_button_y <= m_y <= (
+            back_ending_button_y + back_button_height):
+
+        # Restaura las variables del juego
+        restore_game(game)
+        # Cambia el Flag para salir al menu del juego
+        stay_in_game = False
+
+    return stay_in_game
+
+
+# Restaura las variables del juego una vez terminado
+def restore_game(game):
+
+    if game == "rg":
+        global rg_alt
+        global rg_lat
+        global rg_score
+        global rg_hit_count
+
+        rg_alt = rg_alt_inicial
+        rg_lat = rg_lat_inicial
+        rg_score = 0
+        rg_hit_count = 0
 
 
 def balloon(altura, latitud):
@@ -462,6 +616,12 @@ def inc():
 
 def dec():
     print("Dec")
+
+
+###############################################################################
+#                                                                             #
+###############################################################################
+
 
 
 ###############################################################################
@@ -533,7 +693,9 @@ def run_up():
             n = 0
 
         # Obtiene las nuevas coordinadas del Kinect
-        get_coordinates()
+        #get_coordinates()
+        # Obtiene las coordenadas del Kinect
+        get_coordinates_from_kinect()
         # Muestra el personaje en pantalla
         show_character()
 
@@ -609,6 +771,12 @@ def place_flags(flag_cant, n):
 
 ###############################################################################
 #                                                                             #
+###############################################################################
+
+
+
+###############################################################################
+#                                                                             #
 #                                  TELARAÑA                                   #
 #                                                                             #
 ###############################################################################
@@ -621,7 +789,7 @@ ta_mi_fila = 4
 ta_mi_col = 4
 
 # Cambios de posicion
-dn = 97 * 2
+dn = displayWidth // 4 #97 * 4
 dx = 0
 dy = 0
 
@@ -668,7 +836,6 @@ def run_dl():
         # Muestra los pies del niño
         place_feet()
 
-
         # Pygame verifica todos los events
         for event in pygame.event.get():
 
@@ -686,10 +853,10 @@ def run_dl():
             if event.type == pygame.KEYDOWN:
                 # Cambia la direccion del movimiento
                 if event.key == pygame.K_LEFT:  # T. Izquierda
-                    move_left()
+                    move_left(dl_surface)
                     # dx = 25
                 if event.key == pygame.K_RIGHT:  # T. Derecha
-                    move_right()
+                    move_right(dl_surface)
                     # dx = -25
                 if event.key == pygame.K_UP:  # T. Izquierda
                     move_front(dl_surface)
@@ -698,7 +865,7 @@ def run_dl():
                     move_back(dl_surface)
                     # dy = -25
                 #time.sleep(1)
-                break
+                continue
 
             # Si se suelta una tecla
             if event.type == pygame.KEYUP:
@@ -733,7 +900,7 @@ def place_web(rows, columns):
         # Dibuja rect(posX, posY, width, ancho)
         pygame.draw.rect(initialWindow, (0, 0, 0),
                          (web_x * multiplier, (web_y + web_separation * (x + 0)) * multiplier,
-                          (web_separation + web_separation * (columns - 2) + web_width) * multiplier, web_width * multiplier))
+                         (web_separation + web_separation * (columns - 2) + web_width) * multiplier, web_width * multiplier))
 
     for y in range(0, columns):
         # Dibuja rect(posX, posY, ancho, height)
@@ -814,15 +981,9 @@ def asign_word(row, column, word, score):
 
     # Para mostrar la palabra
     text = pygame.font.Font("freesansbold.ttf", int(50 * multiplier))  # Font
-    text_surface, text_rectangle = text_objects(word, text)
+    text_surface, text_rectangle = text_objects(word, text, (255, 255, 255))
     text_rectangle.center = ((word_x + word_width//2), (word_y + word_height//2))
     initialWindow.blit(text_surface, text_rectangle)
-
-
-# Crea un objeto de texto
-def text_objects(text, font):
-    text_surface = font.render(text, True, (255, 255, 255))
-    return text_surface, text_surface.get_rect()
 
 '''
 # Shoe Dimensions
@@ -899,7 +1060,6 @@ def move_front(surface):
     time.sleep(0.3)
 
 
-
 # Mueve el personaje hacia atras
 def move_back(surface):
 
@@ -965,18 +1125,132 @@ def move_back(surface):
     time.sleep(0.3)
 
 
-
-
 # Mueve el personaje hacia la derecha
-def move_right():
+def move_right(surface):
     global dx
     dx = -dn
 
+    global shoe_r_x
+    global shoe_l_x
+
+    shoe_r_x -= dx
+
+    # change its background color
+    surface.fill((255, 255, 255))
+    # blit uLSurface onto the main screen at the position (0, 0)
+    initialWindow.blit(surface, (0, 0))
+    # Mostrara la telaraña en pantalla
+    place_web(ta_mi_fila, ta_mi_col)
+    # Ingresa una palabra
+    asign_word(1, 1, "Word3", 5000)
+    asign_word(0, 3, "Word1", 5000)
+    asign_word(1, 2, "Word4", 5000)
+    asign_word(2, 3, "Word2", 5000)
+    asign_word(3, 3, "Word5", 5000)
+    asign_word(1, 0, "Word6", 5000)
+    asign_word(4, 9, "Word7", 5000)
+    asign_word(5, 9, "Word8", 5000)
+    # Muestra los pies del niño
+    place_feet()
+    # Update display (Actualiza _todo el surface)
+    pygame.display.update()
+    # Da tiempo para que se grafiquen
+    time.sleep(0.3)
+
+    # Segundo Movimiento
+
+    shoe_l_x -= dx
+
+    # change its background color
+    surface.fill((255, 255, 255))
+    # blit uLSurface onto the main screen at the position (0, 0)
+    initialWindow.blit(surface, (0, 0))
+    # Mostrara la telaraña en pantalla
+    place_web(ta_mi_fila, ta_mi_col)
+    # Ingresa una palabra
+    asign_word(1, 1, "Word3", 5000)
+    asign_word(0, 3, "Word1", 5000)
+    asign_word(1, 2, "Word4", 5000)
+    asign_word(2, 3, "Word2", 5000)
+    asign_word(3, 3, "Word5", 5000)
+    asign_word(1, 0, "Word6", 5000)
+    asign_word(4, 9, "Word7", 5000)
+    asign_word(5, 9, "Word8", 5000)
+    # Muestra los pies del niño
+    place_feet()
+    # Update display (Actualiza _todo el surface)
+    pygame.display.update()
+    # Da tiempo para que se grafiquen
+    time.sleep(0.3)
+
+    shoe_r_x += dx
+    shoe_l_x += dx
+
+    time.sleep(0.3)
+
 
 # Mueve el personaje hacia la izquierda
-def move_left():
+def move_left(surface):
     global dx
     dx = dn
+
+    global shoe_r_x
+    global shoe_l_x
+
+    shoe_l_x -= dx
+
+    # change its background color
+    surface.fill((255, 255, 255))
+    # blit uLSurface onto the main screen at the position (0, 0)
+    initialWindow.blit(surface, (0, 0))
+    # Mostrara la telaraña en pantalla
+    place_web(ta_mi_fila, ta_mi_col)
+    # Ingresa una palabra
+    asign_word(1, 1, "Word3", 5000)
+    asign_word(0, 3, "Word1", 5000)
+    asign_word(1, 2, "Word4", 5000)
+    asign_word(2, 3, "Word2", 5000)
+    asign_word(3, 3, "Word5", 5000)
+    asign_word(1, 0, "Word6", 5000)
+    asign_word(4, 9, "Word7", 5000)
+    asign_word(5, 9, "Word8", 5000)
+    # Muestra los pies del niño
+    place_feet()
+    # Update display (Actualiza _todo el surface)
+    pygame.display.update()
+    # Da tiempo para que se grafiquen
+    time.sleep(0.3)
+
+    # Segundo Movimiento
+
+    shoe_r_x -= dx
+
+    # change its background color
+    surface.fill((255, 255, 255))
+    # blit uLSurface onto the main screen at the position (0, 0)
+    initialWindow.blit(surface, (0, 0))
+    # Mostrara la telaraña en pantalla
+    place_web(ta_mi_fila, ta_mi_col)
+    # Ingresa una palabra
+    asign_word(1, 1, "Word3", 5000)
+    asign_word(0, 3, "Word1", 5000)
+    asign_word(1, 2, "Word4", 5000)
+    asign_word(2, 3, "Word2", 5000)
+    asign_word(3, 3, "Word5", 5000)
+    asign_word(1, 0, "Word6", 5000)
+    asign_word(4, 9, "Word7", 5000)
+    asign_word(5, 9, "Word8", 5000)
+    # Muestra los pies del niño
+    place_feet()
+    # Update display (Actualiza _todo el surface)
+    pygame.display.update()
+    # Da tiempo para que se grafiquen
+    time.sleep(0.3)
+
+    shoe_r_x += dx
+    shoe_l_x += dx
+
+    time.sleep(0.3)
 
 
 # Reestablece el cambio de los zapatos a cero cuando no esta presionado la tecla
@@ -989,54 +1263,61 @@ def restore_change():
 
 ###############################################################################
 #                                                                             #
+###############################################################################
+
+
+###############################################################################
+#                                                                             #
 #                           Alcanzando el Objetivo                            #
 #                                                                             #
 ###############################################################################
 
-# Variables de Alcanzando el Objetivo
-ao_object_x = 400
-ao_object_y = 200
 
-ao_cant_colisiones = 0
+# Variables de Alcanzando el Objetivo
+ao_object_longitud = 400  # Fija
+ao_object_altura = 200  # Fija
+
+ao_object_x = displayWidth - ao_object_longitud  # Actualizable
+ao_object_y = displayHeight - ao_object_altura  # Actualizable
+
+ao_seconds = 25  # Fija
+ao_seconds_left = ao_seconds  # Actualizable
+
+# Lista de distancias
+ao_distances = [2, 5, 1, 7, 1]
+
+# Cantidad de iteraciones es igual a la cantidad de distancias
+ao_cantidad = len(ao_distances)
 
 
 # Corre la seleccion de Down Right
 def run_dr():
     print("Alcanzando el Objetivo")
 
-    # create a new Surface
-    dr_surface = pygame.Surface((displayWidth, displayHeight))
-
     # Para el sprite del object
     n = 1
 
+    # Flag
     running = True
 
     while running:
 
-        # change its background color
-        # dr_surface.fill((85, 255, 0))
-
-        # blit uLSurface onto the main screen at the position (0, 0)
-        # initialWindow.blit(dr_surface, (0, 0))
-
         # Muestra el background
         show_backroom()
 
-        # Muestra el globo
-        place_object(ao_object_x, ao_object_y, n)
+        # Muestra la informacion del juego
+        # show_info()
 
-        # Obtiene las nuevas coordinadas del Kinect
-        get_coordinates()
-        # Muestra el personaje en pantalla
-        show_character()
-
+        # Muestra el objeto
+        place_object(ao_object_x, ao_object_y, (n % 2) + 1)
 
         # Para cambiar el sprite del globo
-        if n < 2:
-            n += 1
-        else:
-            n = 1
+        n += 1
+
+        # Obtiene las coordenadas del Kinect
+        get_coordinates_from_kinect()
+        # Muestra el personaje en pantalla
+        show_character()
 
         # Pygame verifica todos los events
         for event in pygame.event.get():
@@ -1052,15 +1333,20 @@ def run_dr():
                 running = False
 
         # Parametro serian la cantidad de frames en un segundo (fps)
-        clock.tick(6)
+        clock.tick(fps)
 
         # Update display (Actualiza _todo el surface)
         pygame.display.update()
 
+        # USAR EL IF DE ABAJO
         # Verifica las colisiones
         check_object_hit()
 
+        '''if not check_object_hit():
+            running = end_game(game)'''
 
+
+# Dimensiones del objeto
 ao_object_width = balloon_width
 ao_object_height = balloon_height
 
@@ -1085,29 +1371,38 @@ def place_object(x, y, n):
 # Verifica si el personaje ha impactado al globo
 def check_object_hit():
 
-    global ao_cant_colisiones
+    # Flag para saber si este juego ha terminado
+    hasnt_finished = True
 
     if rhy < ao_object_y + ao_object_height and rhy > ao_object_y \
             or rhy + hdh < ao_object_y + ao_object_height and rhy + hdh > ao_object_y:
 
         if rhx > ao_object_x and rhx < ao_object_x + ao_object_width \
                 or rhx + hdw > ao_object_x and rhx + hdw < ao_object_x + ao_object_width:
+
             print("Rigth Hand Collision")
-
-            ao_cant_colisiones += 1
-
-            #time.sleep(8)
+            hasnt_finished = has_hit_object()
 
     elif lhy < ao_object_y + ao_object_height and lhy > ao_object_y \
             or lhy + hdh < ao_object_y + ao_object_height and lhy + hdh > ao_object_y:
 
         if lhx > ao_object_x and lhx < ao_object_x + ao_object_width \
                 or lhx + hdw > ao_object_x and lhx + hdw < ao_object_x + ao_object_width:
+
             print("Left Hand Collision")
+            hasnt_finished = has_hit_object()
 
-            ao_cant_colisiones += 1
+    return hasnt_finished
 
-            #time.sleep(8)
+
+#
+def has_hit_object():
+    True
+
+
+###############################################################################
+#                                                                             #
+###############################################################################
 
 
 # Corre la seleccion de Settings
@@ -1256,20 +1551,24 @@ def update_character_coordinates(dbx, dby, dlhx, dlhy, drhx, drhy, dlfx, dlfy, d
     global rfx
     global rfy
 
-    bx = dbx
-    by = dby
-    hx = dbx - 20
-    hy = dby - hh - 10
-    lhx = dlhx
-    lhy = dlhy
-    rhx = drhx
-    rhy = drhy
-    lfx = dlfx
-    lfy = dlfy
-    rfx = drfx
-    rfy = drfy
+    multx = 1.5625
+    multy = 1.3541
+
+    bx = dbx * multx - bw//2
+    by = dby * multy - 100
+    hx = bx - 20 - hdw//2
+    hy = by - hh - 10
+    lhx = dlhx * multx
+    lhy = dlhy * multy
+    rhx = drhx * multx
+    rhy = drhy * multy
+    lfx = dlfx * multx
+    lfy = dlfy * multy
+    rfx = drfx * multx
+    rfy = drfy * multy
 
 
+'''
 # Simulacion de la obtencion de las coordenadas desde el Kinect
 def get_coordinates():
 
@@ -1288,11 +1587,11 @@ def get_coordinates():
     drfy = random.randrange(0, displayHeight - my, 1)
 
     update_character_coordinates(dbx, dby, dlhx, dlhy, drhx, drhy, dlfx, dlfy, drfx, drfy)
-
+'''
 
 # Client
 client = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-client.connect(('192.168.100.80', 5204))
+client.connect(('192.168.100.86', 5204))
 
 
 # Abre una conexion con Processing para obtener las coordenadas del Kinect
@@ -1300,34 +1599,31 @@ def get_coordinates_from_kinect():
 
     client.send(b"I am CLIENT\n")
 
-    #while True:
     data = client.recv(1024).decode('UTF-8')
 
     if not data:
         print("No Data")
     else:
-        print('Received:' + repr(data))  # Paging Python!
+        # print('Received:' + repr(data))
         n = 0
         coord = ""
         coords = []
-        #data = data[1:]
+        # data = data[1:]
         while data != "":
             if data[0] != ",":
                 coord += data[0]
             else:
-                print("->", coord)
+                # print("->", coord)
                 n += 1
                 coords.append(int(coord))
                 coord = ""
             data = data[1:]
-        print("->", coord)
+        # print("->", coord)
         coords.append(int(coord))
 
+        # Actualiza las coordenadas de las posiciones del cuerpo por graficar
         update_character_coordinates(coords[0], coords[1], coords[2], coords[3], coords[4],
                                      coords[5], coords[6], coords[7], coords[8], coords[9])
-
-
-# def set_new_coordinate(coord,n)
 
 
 # Flag
