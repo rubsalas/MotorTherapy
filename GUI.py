@@ -2,7 +2,6 @@
 import pygame
 import random
 import time
-import threading
 import socket
 
 
@@ -56,7 +55,7 @@ xOption_right = game_window_separation * 2 + game_option_width
 yOption_right = game_window_separation * 5
 
 # Surface principal
-initialWindow = pygame.display.set_mode((displayWidth, displayHeight))
+initial_window = pygame.display.set_mode((displayWidth, displayHeight))
 
 # Titulo de la Ventana
 pygame.display.set_caption("MotorTherapy")
@@ -75,10 +74,8 @@ fps = 60
 
 # Muestra los rectangulos de las opciones en menu principal
 def show_main_options():
-    # Dibuja un rectangulo -> Arriba izquierda [UL]
-    # pygame.draw.rect(initialWindow, (255, 49, 31),
-    #                 (xUL, yUL, selectionWidth, selectionHeight))
 
+    # Raqueta Globo
     # Directorio de la imagen por mostrar actual
     rg_directory = "Resources/Menu/Raqueta_Globo_small.png"
     # Imagen cargada
@@ -86,12 +83,9 @@ def show_main_options():
     # Imagen escalada
     rg_title = pygame.transform.scale(rg_title, (selectionWidth, selectionHeight))  # Escala la imagen al size deseado
     # Muestra la imagen en pantalla con las coordenadas preestablecidas
-    initialWindow.blit(rg_title, (xUL, yUL))
+    initial_window.blit(rg_title, (xUL, yUL))
 
-    # Dibuja un rectangulo -> Arriba derecha [UR]
-    # pygame.draw.rect(initialWindow, (67, 255, 52),
-    #                 (xUR, yUR, selectionWidth, selectionHeight))
-
+    # Usando Los Pies
     # Directorio de la imagen por mostrar actual
     up_directory = "Resources/Menu/Usando_Los_Pies_small.png"
     # Imagen cargada
@@ -99,12 +93,9 @@ def show_main_options():
     # Imagen escalada
     up_title = pygame.transform.scale(up_title, (selectionWidth, selectionHeight))  # Escala la imagen al size deseado
     # Muestra la imagen en pantalla con las coordenadas preestablecidas
-    initialWindow.blit(up_title, (xUR, yUR))
+    initial_window.blit(up_title, (xUR, yUR))
 
-    # Dibuja un rectangulo -> Abajo izquierda [DL]
-    # pygame.draw.rect(initialWindow, (165, 77, 255),
-    #                 (xDL, yDL, selectionWidth, selectionHeight))
-
+    # Telarana
     # Directorio de la imagen por mostrar actual
     ta_directory = "Resources/Menu/Telarana_small.png"
     # Imagen cargada
@@ -112,12 +103,9 @@ def show_main_options():
     # Imagen escalada
     ta_title = pygame.transform.scale(ta_title, (selectionWidth, selectionHeight))  # Escala la imagen al size deseado
     # Muestra la imagen en pantalla con las coordenadas preestablecidas
-    initialWindow.blit(ta_title, (xDL, yDL))
+    initial_window.blit(ta_title, (xDL, yDL))
 
-    # Dibuja un rectangulo -> Abajo derecha [DR]
-    # pygame.draw.rect(initialWindow, (52, 181, 255),
-    #                 (xDR, yDR, selectionWidth, selectionHeight))
-
+    # Alcanzando el Objetivo
     # Directorio de la imagen por mostrar actual
     ao_directory = "Resources/Menu/Alcanzando_El_Objetivo_small.png"
     # Imagen cargada
@@ -125,17 +113,166 @@ def show_main_options():
     # Imagen escalada
     ao_title = pygame.transform.scale(ao_title, (selectionWidth, selectionHeight))  # Escala la imagen al size deseado
     # Muestra la imagen en pantalla con las coordenadas preestablecidas
-    initialWindow.blit(ao_title, (xDR, yDR))
+    initial_window.blit(ao_title, (xDR, yDR))
 
     # Dibuja un rectangulo -> Settings [S]
-    pygame.draw.rect(initialWindow, (255, 255, 255),
+    pygame.draw.rect(initial_window, (255, 255, 255),
                      (xS, yS, settingsWidth, settingsHeight))
+
+# Variables de seleccion
+waiting_time = 20
+on_selection_timer = 0
+# Menu Principal
+on_ul = False
+on_ur = False
+on_dl = False
+on_dr = False
+on_s = False
+# Menu de Juego
+on_start = False
+on_back = False
+# Final del Juego
+on_ending_back = False
+
+
+# Verificara la seleccion de la mano en la pantalla principal
+def check_hand_main_options_selection():
+
+    in_place = False
+
+    global on_ul
+    global on_ur
+    global on_dl
+    global on_dr
+    global on_s
+    global on_selection_timer
+
+    if xUL <= rhx <= (xUL + selectionWidth) and xUL <= rhx + hdw <= (xUL + selectionWidth) \
+            and yUL <= rhy <= (yUL + selectionHeight) and yUL <= rhy + hdh <= (yUL + selectionHeight):
+
+        if not on_ul:  # Si estaba en otra seleccion que no haya sido UL
+            on_ul = True
+            on_ur = False
+            on_dl = False
+            on_dr = False
+            on_s = False
+            on_selection_timer = 0
+        else:  # Si ya estaba en UL
+            if on_selection_timer < waiting_time:  # Si no se ha completado el tiempo de espera
+                on_selection_timer += 1
+                print("UL Time: " + str(on_selection_timer))
+            else:  # Cuando se cumple el tiempo de espera
+                # Reset al timer
+                on_selection_timer = 0
+                # Se muestra el menu del juego
+                print("UL: Raqueta Globo")
+                in_place = True
+                show_game_menu("rg")
+
+    elif xUR <= rhx <= (xUR + selectionWidth) and xUR <= rhx + hdw <= (xUR + selectionWidth) \
+            and yUR <= rhy <= (yUR + selectionHeight) and yUR <= rhy + hdh <= (yUR + selectionHeight):
+
+        if not on_ur:  # Si estaba en otra seleccion que no haya sido UR
+            on_ul = False
+            on_ur = True
+            on_dl = False
+            on_dr = False
+            on_s = False
+            on_selection_timer = 0
+        else:  # Si ya estaba en UR
+            if on_selection_timer < waiting_time:  # Si no se ha completado el tiempo de espera
+                on_selection_timer += 1
+                print("UR Time: " + str(on_selection_timer))
+            else:  # Cuando se cumple el tiempo de espera
+                # Reset al timer
+                on_selection_timer = 0
+                # Se muestra el menu del juego
+                print("UR: Usando los Pies")
+                in_place = True
+                show_game_menu("up")
+
+    elif xDL <= rhx <= (xDL + selectionWidth) and xDL <= rhx + hdw <= (xDL + selectionWidth) \
+            and yDL <= rhy <= (yDL + selectionHeight) and yDL <= rhy + hdh <= (yDL + selectionHeight):
+
+        if not on_dl:  # Si estaba en otra seleccion que no haya sido DL
+            on_ul = False
+            on_ur = False
+            on_dl = True
+            on_dr = False
+            on_s = False
+            on_selection_timer = 0
+        else:  # Si ya estaba en DL
+            if on_selection_timer < waiting_time:  # Si no se ha completado el tiempo de espera
+                on_selection_timer += 1
+                print("DL Time: " + str(on_selection_timer))
+            else:  # Cuando se cumple el tiempo de espera
+                # Reset al timer
+                on_selection_timer = 0
+                # Se muestra el menu del juego
+                print("DL: Telaraña")
+                in_place = True
+                show_game_menu("ta")
+
+    elif xDR <= rhx <= (xDR + selectionWidth) and xDR <= rhx + hdw <= (xDR + selectionWidth) \
+            and yDR <= rhy <= (yDR + selectionHeight) and yDR <= rhy + hdh <= (yDR + selectionHeight):
+
+        if not on_dr:  # Si estaba en otra seleccion que no haya sido DR
+            on_ul = False
+            on_ur = False
+            on_dl = False
+            on_dr = True
+            on_s = False
+            on_selection_timer = 0
+        else:  # Si ya estaba en DR
+            if on_selection_timer < waiting_time:  # Si no se ha completado el tiempo de espera
+                on_selection_timer += 1
+                print("DR Time: " + str(on_selection_timer))
+            else:  # Cuando se cumple el tiempo de espera
+                # Reset al timer
+                on_selection_timer = 0
+                # Se muestra el menu del juego
+                print("DR: Alcanzando el Objetivo")
+                in_place = True
+                show_game_menu("ao")
+
+    elif xS <= rhx <= (xS + settingsWidth) and xS <= rhx + hdw <= (xS + settingsWidth)\
+            and yS <= rhy <= (yS + settingsHeight) and yS <= rhy + hdh <= (yS + settingsHeight):
+
+        if not on_s:  # Si estaba en otra seleccion que no haya sido S
+            on_ul = False
+            on_ur = False
+            on_dl = False
+            on_dr = False
+            on_s = True
+            on_selection_timer = 0
+        else:  # Si ya estaba en S
+            if on_selection_timer < waiting_time:  # Si no se ha completado el tiempo de espera
+                on_selection_timer += 1
+                print("S Time: " + str(on_selection_timer))
+            else:  # Cuando se cumple el tiempo de espera
+                # Reset al timer
+                on_selection_timer = 0
+                # Se muestra el menu del juego
+                print("S: Settings")
+                in_place = True
+                run_s()
+
+    else:
+        on_ul = False
+        on_ur = False
+        on_dl = False
+        on_dr = False
+        on_s = False
+        on_selection_timer = 0
+        print("Not an option")
+
+    return in_place
 
 
 # Verifica en que seccion se encuentra posicionado para seleccionarlo
 # @param m_x : Posicion en x
 # @param m_y : Posicion en y
-def main_selection(m_x, m_y):
+def mouse_click_main_selection(m_x, m_y):
     in_place = False
 
     if xUL <= m_x <= (xUL + selectionWidth) and yUL <= m_y <= (yUL + selectionHeight):
@@ -188,18 +325,16 @@ def show_game_menu(game):
         game_menu_second_surface.fill((255, 255, 255))
 
         # Muestra la superficie encima de initialWindow
-        initialWindow.blit(game_menu_surface, (0, 0))
-        initialWindow.blit(game_menu_second_surface, (displaySeparation, displaySeparation))
+        initial_window.blit(game_menu_surface, (0, 0))
+        initial_window.blit(game_menu_second_surface, (displaySeparation, displaySeparation))
 
         # Muestra las opciones del menu
         show_game_menu_options(game)
 
-        # Muestra la mano derecha para seleccionar una opcion
-        show_hand_selection()
-        # Obtiene las nuevas coordinadas del Kinect
-        # get_coordinates()
         # Obtiene las coordenadas del Kinect
         get_coordinates_from_kinect()
+        # Muestra la mano derecha para seleccionar una opcion
+        show_hand_selection()
 
         # Pygame verifica todos los events
         for event in pygame.event.get():
@@ -217,15 +352,17 @@ def show_game_menu(game):
                 # Verifica si puede ingresar a una opcion
                 running_game_menu = game_menu_selection(mousex, mousey, game)
 
+        running_game_menu = check_hand_game_menu_options_selection(game)
+
         # Update display (Actualiza _todo el surface)
         pygame.display.update()
 
 
-# Muestra los cuadros de seleccion del menu del juego XXX xx XXX
+# Muestra los cuadros de seleccion del menu del juego seleccionado
 def show_game_menu_options(game):
 
     # Dibuja un rectangulo -> Titulo
-    pygame.draw.rect(initialWindow, (0, 0, 0),
+    pygame.draw.rect(initial_window, (0, 0, 0),
                      (xTitulo, yTitulo, game_title_width, game_title_height))
 
     # START BUTTON
@@ -236,7 +373,7 @@ def show_game_menu_options(game):
     # Imagen escalada
     start_button = pygame.transform.scale(start_button, (game_option_width, game_option_height))  # Escala la imagen al size deseado
     # Muestra la imagen en pantalla con las coordenadas preestablecidas
-    initialWindow.blit(start_button, (xOption_left, yOption_left))
+    initial_window.blit(start_button, (xOption_left, yOption_left))
 
     # BACK BUTTON
     # Directorio de la imagen por mostrar actual
@@ -247,7 +384,78 @@ def show_game_menu_options(game):
     back_button = pygame.transform.scale(back_button,
                                           (game_option_width, game_option_height))  # Escala la imagen al size deseado
     # Muestra la imagen en pantalla con las coordenadas preestablecidas
-    initialWindow.blit(back_button, (xOption_right, yOption_right))
+    initial_window.blit(back_button, (xOption_right, yOption_right))
+
+
+# Verificara la seleccion de la mano en la pantalla del menu del juego
+def check_hand_game_menu_options_selection(game):
+
+    selection = True
+
+    global on_start
+    global on_back
+    global on_selection_timer
+
+    if xOption_left <= rhx <= (xOption_left + game_option_width) \
+            and xOption_left <= rhx + hdw <= (xOption_left + game_option_width) \
+            and yOption_left <= rhy <= (yOption_left + game_option_height) \
+            and yOption_left <= rhy + hdw <= (yOption_left + game_option_height):
+        # Opcion Start (Izquierda)
+
+        if not on_start:  # Si estaba en otra seleccion que no haya sido Start
+            on_start = True
+            on_back = False
+            on_selection_timer = 0
+        else:  # Si ya estaba en Start
+            if on_selection_timer < waiting_time:  # Si no se ha completado el tiempo de espera
+                on_selection_timer += 1
+                print("Start Time: " + str(on_selection_timer))
+            else:  # Cuando se cumple el tiempo de espera
+                # Reset al timer
+                on_selection_timer = 0
+
+                # Corre el juego al que le pertenece el menu
+                if game == "rg":
+                    run_ul()
+                elif game == "up":
+                    run_up()
+                elif game == "ta":
+                    run_dl()
+                elif game == "ao":
+                    run_dr()
+                else:
+                    print("Error in check_hand_game_menu_options_selection(game)")
+
+                # Mantiene True el Flag para que al salirse de la ventana del juego vuelva al menu del juego
+                selection = True
+
+    elif xOption_right <= rhx <= (xOption_right + game_option_width) \
+            and xOption_right <= rhx + hdw <= (xOption_right + game_option_width) \
+            and yOption_right <= rhy <= (yOption_right + game_option_height) \
+            and yOption_right <= rhy + hdh <= (yOption_right + game_option_height):
+        # Opcion Back (Derecha)
+
+        if not on_back:  # Si estaba en otra seleccion que no haya sido Back
+            on_start = False
+            on_back = True
+            on_selection_timer = 0
+        else:  # Si ya estaba en Back
+            if on_selection_timer < waiting_time:  # Si no se ha completado el tiempo de espera
+                on_selection_timer += 1
+                print("Back Time: " + str(on_selection_timer))
+            else:  # Cuando se cumple el tiempo de espera
+                # Reset al timer
+                on_selection_timer = 0
+                # Hace selection False para retornar al menu principal
+                selection = False
+
+    else:
+        print("Game: Not an option")
+        on_start = False
+        on_back = False
+        on_selection_timer = 0
+
+    return selection
 
 
 # Verifica la seleccion en el menu del juego cuando se selecciona
@@ -297,7 +505,7 @@ def show_backroom():
     # Imagen escalada
     background = pygame.transform.scale(background, (displayWidth, displayHeight))  # Escala la imagen al size deseado
     # Muestra la imagen en pantalla con las coordenadas preestablecidas
-    initialWindow.blit(background, (0, 0))
+    initial_window.blit(background, (0, 0))
 
 
 # Crea un objeto de texto
@@ -406,7 +614,7 @@ def place_balloon(x, y, n):
     balloon_n = pygame.transform.scale(balloon_n, (balloon_width, balloon_height))  # Escala la imagen al size deseado
 
     # Muestra la imagen en pantalla con las coordenadas preestablecidas
-    initialWindow.blit(balloon_n, (x, y))
+    initial_window.blit(balloon_n, (x, y))
 
 
 # Verifica si el personaje ha impactado al globo
@@ -474,7 +682,7 @@ def rg_show_info():
         text = pygame.font.Font("freesansbold.ttf", font_size)  # Font
         text_surface, text_rectangle = text_objects(words, text, (0, 0, 0))
         text_rectangle.center = (displayWidth//2, (font_size//2) + font_size*2*n)
-        initialWindow.blit(text_surface, text_rectangle)
+        initial_window.blit(text_surface, text_rectangle)
         n += 1
 
 
@@ -490,7 +698,7 @@ def end_game(game):
         show_backroom()
 
         # Muestra las estadisticas finales
-        show_ending_statistics()
+        show_ending_statistics(game)
 
         # Muestra el boton para volver al menu del juego
         show_ending_button(game)
@@ -510,6 +718,8 @@ def end_game(game):
                 # Verifica si puede ingresar a una opcion
                 stay_in_game = back_to_game_menu(mousex, mousey, game)
 
+        stay_in_game = check_hand_back_to_game_menu_selection(game)
+
         # Parametro serian la cantidad de frames en un segundo (fps)
         clock.tick(fps)
 
@@ -527,22 +737,31 @@ back_ending_button_y = 450
 
 
 # Muestra las estadisticas finales
-def show_ending_statistics():
+def show_ending_statistics(game):
+
     n = 0
     font_size = 30  # Ch
+    text_list = []
 
-    str_score = "Puntaje: " + str(rg_score)
-    str_hits_left = "Golpes Acertados: " + str(rg_hit_count)  # Ch
-    str_actual_position = "Posición Actual del Globo: (" + str(rg_lat) + "," + str(rg_alt) + ")"
+    if game == "rg":
 
-    text_list = [str_score, str_hits_left]
+        str_score = "Puntaje: " + str(rg_score)
+        str_hits_left = "Golpes Acertados: " + str(rg_hit_count)  # Ch
+
+        text_list = [str_score, str_hits_left]
+
+    elif game == "ao":
+        str_score = "Puntaje (RG): " + str(rg_score)
+        str_hits_left = "Golpes Acertados (RG): " + str(rg_hit_count)  # Ch
+
+        text_list = [str_score, str_hits_left]
 
     for words in text_list:
         # Cantidad de Golpes Restantes
         text = pygame.font.Font("freesansbold.ttf", font_size)  # Font
         text_surface, text_rectangle = text_objects(words, text, (0, 0, 0))
         text_rectangle.center = (displayWidth // 2, back_ending_button_y - 100 - font_size * 3.5 * n)  # Ch
-        initialWindow.blit(text_surface, text_rectangle)
+        initial_window.blit(text_surface, text_rectangle)
         n += 1
 
 
@@ -558,7 +777,41 @@ def show_ending_button(game):
     ending_back_button = pygame.transform.scale(ending_back_button,
                                           (back_button_width, back_button_height))  # Escala la imagen al size deseado
     # Muestra la imagen en pantalla con las coordenadas preestablecidas
-    initialWindow.blit(ending_back_button, (back_ending_button_x, back_ending_button_y))
+    initial_window.blit(ending_back_button, (back_ending_button_x, back_ending_button_y))
+
+
+# Verifica la seleccion de la mano cuando termina el juego
+def check_hand_back_to_game_menu_selection(game):
+
+    # Flag
+    stay_in_game = True
+
+    global on_ending_back
+    global on_selection_timer
+
+    if back_ending_button_x <= rhx <= (back_ending_button_x + back_button_width) \
+            and back_ending_button_x <= rhx + hdw <= (back_ending_button_x + back_button_width) \
+            and back_ending_button_y <= rhy <= (back_ending_button_y + back_button_height) \
+            and back_ending_button_y <= rhy + hdh <= (back_ending_button_y + back_button_height):
+
+        if not on_ending_back:  # Si estaba en otra seleccion que no haya sido Back
+            on_ending_back = True
+            on_selection_timer = 0
+        else:  # Si ya estaba en Back
+            if on_selection_timer < waiting_time:  # Si no se ha completado el tiempo de espera
+                on_selection_timer += 1
+                print("Ending_Back Time: " + str(on_selection_timer))
+            else:  # Cuando se cumple el tiempo de espera
+                # Reset al timer
+                on_selection_timer = 0
+                # Se retorna al menu del juego
+                print("Back to Game Menu")
+                # Restaura las variables del juego
+                restore_game(game)
+                # Cambia el Flag para salir al menu del juego
+                stay_in_game = False
+
+    return stay_in_game
 
 
 # Verifica si se ha presionado el boton de Back
@@ -733,7 +986,7 @@ def place_rope():
     rope = pygame.transform.scale(rope, (int(stick_width), 20))  # Escala la imagen al size deseado
 
     # Muestra la imagen en pantalla con las coordenadas preestablecidas
-    initialWindow.blit(rope, (stick_x, stick_y))
+    initial_window.blit(rope, (stick_x, stick_y))
 
 
 # Posiciona las banderas en pantalla segun la cantidad que hayan y el tamaño
@@ -760,7 +1013,7 @@ def place_flags(flag_cant, n):
         flag_n = pygame.transform.scale(flag_n, (flag_width, flag_height))  # Escala la imagen al size deseado
 
         # Muestra la imagen en pantalla con las coordenadas preestablecidas
-        initialWindow.blit(flag_n, (flag_x, stick_y))
+        initial_window.blit(flag_n, (flag_x, stick_y))
 
         # Aumenta flag_x para la posicion de la siguiente bandera
         flag_x = flag_x + space_per_flag
@@ -818,7 +1071,7 @@ def run_dl():
         dl_surface.fill((255, 255, 255))
 
         # blit uLSurface onto the main screen at the position (0, 0)
-        initialWindow.blit(dl_surface, (0, 0))
+        initial_window.blit(dl_surface, (0, 0))
 
         # Mostrara la telaraña en pantalla
         place_web(ta_mi_fila, ta_mi_col)
@@ -898,13 +1151,13 @@ def place_web(rows, columns):
 
     for x in range(0, rows):
         # Dibuja rect(posX, posY, width, ancho)
-        pygame.draw.rect(initialWindow, (0, 0, 0),
+        pygame.draw.rect(initial_window, (0, 0, 0),
                          (web_x * multiplier, (web_y + web_separation * (x + 0)) * multiplier,
                          (web_separation + web_separation * (columns - 2) + web_width) * multiplier, web_width * multiplier))
 
     for y in range(0, columns):
         # Dibuja rect(posX, posY, ancho, height)
-        pygame.draw.rect(initialWindow, (0, 0, 0),
+        pygame.draw.rect(initial_window, (0, 0, 0),
                          ((web_x + web_separation * (y + 0)) * multiplier, web_y * multiplier,
                           web_width * multiplier, (web_separation + web_separation * (rows - 2)) * multiplier))
 
@@ -943,7 +1196,7 @@ def place_feet():
     # Imagen escalada
     shoe_l = pygame.transform.scale(shoe_l, (int(shoe_width * multiplier), int(shoe_height * multiplier)))  # Escala la imagen al size deseado
     # Muestra la imagen en pantalla con las coordenadas preestablecidas
-    initialWindow.blit(shoe_l, (shoe_l_x, shoe_l_y))
+    initial_window.blit(shoe_l, (shoe_l_x, shoe_l_y))
 
     # Directorio de la imagen por mostrar actual
     shoe_r_directory = "Resources/Character/topShoeRsmall.png"
@@ -952,7 +1205,7 @@ def place_feet():
     # Imagen escalada
     shoe_r = pygame.transform.scale(shoe_r, (int(shoe_width * multiplier), int(shoe_height * multiplier)))  # Escala la imagen al size deseado
     # Muestra la imagen en pantalla con las coordenadas preestablecidas
-    initialWindow.blit(shoe_r, (shoe_r_x, shoe_r_y))
+    initial_window.blit(shoe_r, (shoe_r_x, shoe_r_y))
 
 
 # Dimensiones de las palabras por mostrar en la web
@@ -971,19 +1224,19 @@ def asign_word(row, column, word, score):
     word_separation = 10
 
     # Dibuja rect(posX, posY, ancho, height)
-    pygame.draw.rect(initialWindow, (0, 0, 0),
+    pygame.draw.rect(initial_window, (0, 0, 0),
                      ((word_x - word_separation), (word_y - word_separation),
                       (word_width + word_separation*2) * multiplier, (word_height + word_separation*2) * multiplier))
 
     # Dibuja rect(posX, posY, ancho, height)
-    pygame.draw.rect(initialWindow, (255, 127, 127),
+    pygame.draw.rect(initial_window, (255, 127, 127),
                      (word_x, word_y, word_width * multiplier, word_height * multiplier))
 
     # Para mostrar la palabra
     text = pygame.font.Font("freesansbold.ttf", int(50 * multiplier))  # Font
     text_surface, text_rectangle = text_objects(word, text, (255, 255, 255))
     text_rectangle.center = ((word_x + word_width//2), (word_y + word_height//2))
-    initialWindow.blit(text_surface, text_rectangle)
+    initial_window.blit(text_surface, text_rectangle)
 
 '''
 # Shoe Dimensions
@@ -1009,7 +1262,7 @@ def move_front(surface):
     # change its background color
     surface.fill((255, 255, 255))
     # blit uLSurface onto the main screen at the position (0, 0)
-    initialWindow.blit(surface, (0, 0))
+    initial_window.blit(surface, (0, 0))
     # Mostrara la telaraña en pantalla
     place_web(ta_mi_fila, ta_mi_col)
     # Ingresa una palabra
@@ -1035,7 +1288,7 @@ def move_front(surface):
     # change its background color
     surface.fill((255, 255, 255))
     # blit uLSurface onto the main screen at the position (0, 0)
-    initialWindow.blit(surface, (0, 0))
+    initial_window.blit(surface, (0, 0))
     # Mostrara la telaraña en pantalla
     place_web(ta_mi_fila, ta_mi_col)
     # Ingresa una palabra
@@ -1074,7 +1327,7 @@ def move_back(surface):
     # change its background color
     surface.fill((255, 255, 255))
     # blit uLSurface onto the main screen at the position (0, 0)
-    initialWindow.blit(surface, (0, 0))
+    initial_window.blit(surface, (0, 0))
     # Mostrara la telaraña en pantalla
     place_web(ta_mi_fila, ta_mi_col)
     # Ingresa una palabra
@@ -1100,7 +1353,7 @@ def move_back(surface):
     # change its background color
     surface.fill((255, 255, 255))
     # blit uLSurface onto the main screen at the position (0, 0)
-    initialWindow.blit(surface, (0, 0))
+    initial_window.blit(surface, (0, 0))
     # Mostrara la telaraña en pantalla
     place_web(ta_mi_fila, ta_mi_col)
     # Ingresa una palabra
@@ -1138,7 +1391,7 @@ def move_right(surface):
     # change its background color
     surface.fill((255, 255, 255))
     # blit uLSurface onto the main screen at the position (0, 0)
-    initialWindow.blit(surface, (0, 0))
+    initial_window.blit(surface, (0, 0))
     # Mostrara la telaraña en pantalla
     place_web(ta_mi_fila, ta_mi_col)
     # Ingresa una palabra
@@ -1164,7 +1417,7 @@ def move_right(surface):
     # change its background color
     surface.fill((255, 255, 255))
     # blit uLSurface onto the main screen at the position (0, 0)
-    initialWindow.blit(surface, (0, 0))
+    initial_window.blit(surface, (0, 0))
     # Mostrara la telaraña en pantalla
     place_web(ta_mi_fila, ta_mi_col)
     # Ingresa una palabra
@@ -1202,7 +1455,7 @@ def move_left(surface):
     # change its background color
     surface.fill((255, 255, 255))
     # blit uLSurface onto the main screen at the position (0, 0)
-    initialWindow.blit(surface, (0, 0))
+    initial_window.blit(surface, (0, 0))
     # Mostrara la telaraña en pantalla
     place_web(ta_mi_fila, ta_mi_col)
     # Ingresa una palabra
@@ -1228,7 +1481,7 @@ def move_left(surface):
     # change its background color
     surface.fill((255, 255, 255))
     # blit uLSurface onto the main screen at the position (0, 0)
-    initialWindow.blit(surface, (0, 0))
+    initial_window.blit(surface, (0, 0))
     # Mostrara la telaraña en pantalla
     place_web(ta_mi_fila, ta_mi_col)
     # Ingresa una palabra
@@ -1274,13 +1527,13 @@ def restore_change():
 
 
 # Variables de Alcanzando el Objetivo
-ao_object_longitud = 400  # Fija
-ao_object_altura = 200  # Fija
+ao_object_longitud = 200  # Fija
+ao_object_altura = 500  # Fija
 
 ao_object_x = displayWidth - ao_object_longitud  # Actualizable
 ao_object_y = displayHeight - ao_object_altura  # Actualizable
 
-ao_seconds = 25  # Fija
+ao_seconds = 5  # Fija
 ao_seconds_left = ao_seconds  # Actualizable
 
 # Lista de distancias
@@ -1289,10 +1542,18 @@ ao_distances = [2, 5, 1, 7, 1]
 # Cantidad de iteraciones es igual a la cantidad de distancias
 ao_cantidad = len(ao_distances)
 
+# Iteracion actual
+ao_actual_iteration = 1
+
+# Tiempo total del juego
+ao_total_seconds = ao_seconds * ao_cantidad
+
 
 # Corre la seleccion de Down Right
 def run_dr():
     print("Alcanzando el Objetivo")
+
+    global ao_seconds_left
 
     # Para el sprite del object
     n = 1
@@ -1300,16 +1561,22 @@ def run_dr():
     # Flag
     running = True
 
-    while running:
+    t_end = time.time() + ao_total_seconds
+
+    # while running:
+    while time.time() < t_end and running:
+
+        ao_seconds_left = int(t_end - time.time())
 
         # Muestra el background
         show_backroom()
 
         # Muestra la informacion del juego
         # show_info()
+        print("Time left: " + str(ao_seconds_left))
 
         # Muestra el objeto
-        place_object(ao_object_x, ao_object_y, (n % 2) + 1)
+        place_object((n % 2) + 1)
 
         # Para cambiar el sprite del globo
         n += 1
@@ -1338,12 +1605,9 @@ def run_dr():
         # Update display (Actualiza _todo el surface)
         pygame.display.update()
 
-        # USAR EL IF DE ABAJO
-        # Verifica las colisiones
-        check_object_hit()
-
-        '''if not check_object_hit():
-            running = end_game(game)'''
+        # Verifica si se impacta al objeto y termina el juego
+        if not check_object_hit():
+            running = end_game("ao")
 
 
 # Dimensiones del objeto
@@ -1355,20 +1619,20 @@ ao_object_height = balloon_height
 # @param x
 # @param y
 # @param n: sprite del objeto
-def place_object(x, y, n):
+def place_object(n):
     # Directorio de la imagen por mostrar actual
     ao_object_directory = "Resources/Balloon/balloon" + str(n) + ".png"
-
     # Imagen cargada
     ao_object = pygame.image.load(ao_object_directory)  # Carga la imagen de la carpeta
     # Imagen escalada
     ao_object = pygame.transform.scale(ao_object, (ao_object_width, ao_object_height))  # Escala la imagen al size deseado
 
     # Muestra la imagen en pantalla con las coordenadas preestablecidas
-    initialWindow.blit(ao_object, (x, y))
+    initial_window.blit(ao_object, (ao_object_x, ao_object_y))
 
 
-# Verifica si el personaje ha impactado al globo
+# Verifica si el personaje ha impactado al objeto
+# Si lo impacta envia un False para acabar el juego
 def check_object_hit():
 
     # Flag para saber si este juego ha terminado
@@ -1381,7 +1645,7 @@ def check_object_hit():
                 or rhx + hdw > ao_object_x and rhx + hdw < ao_object_x + ao_object_width:
 
             print("Rigth Hand Collision")
-            hasnt_finished = has_hit_object()
+            hasnt_finished = False
 
     elif lhy < ao_object_y + ao_object_height and lhy > ao_object_y \
             or lhy + hdh < ao_object_y + ao_object_height and lhy + hdh > ao_object_y:
@@ -1390,14 +1654,62 @@ def check_object_hit():
                 or lhx + hdw > ao_object_x and lhx + hdw < ao_object_x + ao_object_width:
 
             print("Left Hand Collision")
-            hasnt_finished = has_hit_object()
+            hasnt_finished = False
+
+    else:
+        # Al no ser golpeado
+        hasnt_finished = set_object_state()
 
     return hasnt_finished
 
 
-#
-def has_hit_object():
-    True
+# Define la posicion del objeto y el tiempo restante por posicion
+def set_object_state():
+
+    continue_setting = True
+
+    global ao_actual_iteration
+
+    # Tiempo al cual se tiene que cambiar de iteracion
+    iteration_change_time = (ao_cantidad - ao_actual_iteration) * ao_seconds
+
+    # Si falta tiempo
+    if ao_seconds_left > 0:
+
+        print("Iteration: " + str(ao_actual_iteration))
+        print("Iteration Change Time: " + str(iteration_change_time))
+
+        # Si es tiempo de cambiar de iteracion
+        if ao_seconds_left < iteration_change_time:
+            # Cambia de iteracion
+            ao_actual_iteration += 1
+            # Cambia la posicion del objeto
+            change_object_position()
+
+    else:
+        # Tiempo se ha acabado, se terminara el juego
+        continue_setting = False
+
+    return continue_setting
+
+
+ao_highest = max(ao_distances)
+ao_distance_multiplier = displayHeight // ao_highest
+
+
+# Cambia la posicion del objeto por la siguiente en la lista
+# Promedia la distancia mas alta para que ninguna se salga de la ventana
+def change_object_position():
+
+    global ao_object_x
+    global ao_object_y
+
+    # Toma la siguiente posicion de la lista de posiciones brindada por el usuario
+    new_y = ao_distances[ao_actual_iteration - 1]
+
+    # Cambia las posiciones del objeto
+    ao_object_y = ao_distance_multiplier * new_y
+    ao_object_x = random.randrange(0, displayWidth - ao_object_width, 1)
 
 
 ###############################################################################
@@ -1420,7 +1732,7 @@ def run_s():
     while running:
 
         # blit uLSurface onto the main screen at the position (0, 0)
-        initialWindow.blit(s_surface, (0, 0))
+        initial_window.blit(s_surface, (0, 0))
 
         # Muestra el personaje en pantalla
         show_character()
@@ -1493,46 +1805,54 @@ def show_character():
     head_directory = "Resources/Character/headsmall.png"
     head = pygame.image.load(head_directory)
     #head = pygame.transform.scale(head, (hw, hh))
-    initialWindow.blit(head, (hx, hy))
+    initial_window.blit(head, (hx, hy))
 
     # Directorio del cuerpo
     body_directory = "Resources/Character/bodysmall.png"
     body = pygame.image.load(body_directory)
     #body = pygame.transform.scale(body, (bw, bh))
-    initialWindow.blit(body, (bx, by))
+    initial_window.blit(body, (bx, by))
 
     # Directorio de la mano izquierda
     hand_l_directory = "Resources/Character/handLsmall.png"
     hand_l = pygame.image.load(hand_l_directory)
     #hand_l = pygame.transform.scale(hand_l, (hdw, hdh))
-    initialWindow.blit(hand_l, (lhx, lhy))
+    initial_window.blit(hand_l, (lhx, lhy))
 
     # Directorio de la mano derecha
     hand_r_directory = "Resources/Character/handRsmall.png"
     hand_r = pygame.image.load(hand_r_directory)
     #hand_r = pygame.transform.scale(hand_r, (hdw, hdh))
-    initialWindow.blit(hand_r, (rhx, rhy))
+    initial_window.blit(hand_r, (rhx, rhy))
 
     # Directorio del pie izquierdo
     shoe_l_directory = "Resources/Character/shoeLsmall.png"
     shoe_l = pygame.image.load(shoe_l_directory)
     #shoe_l = pygame.transform.scale(shoe_l, (fw, fh))
-    initialWindow.blit(shoe_l, (lfx, lfy))
+    initial_window.blit(shoe_l, (lfx, lfy))
 
     # Directorio del pie derecho
     shoe_r_directory = "Resources/Character/shoeRsmall.png"
     shoe_r = pygame.image.load(shoe_r_directory)
     #shoe_r = pygame.transform.scale(shoe_r, (fw, fh))
-    initialWindow.blit(shoe_r, (rfx, rfy))
+    initial_window.blit(shoe_r, (rfx, rfy))
 
 
 # Muestra solo la mano derecha, que sera utilizada para seleccionar
 def show_hand_selection():
+
+    global rhx
+    global rhy
+
+    # Modificar la posicion de la mano para escoger mas facilmente si cambiar la mano de cuadrante
+    rhx = (rhx - displayWidth//2) * 4 - 200
+    rhy = rhy * 2 - 100
+
     # Directorio de la mano derecha
     hand_r_directory = "Resources/Character/handRsmall.png"
     hand_r = pygame.image.load(hand_r_directory)
     hand_r = pygame.transform.scale(hand_r, (hdw, hdh))
-    initialWindow.blit(hand_r, (rhx, rhy))
+    initial_window.blit(hand_r, (rhx, rhy))
 
 
 # Actualiza las posiciones del Personaje
@@ -1633,17 +1953,15 @@ playing = True
 while playing:
 
     # Cambia el fondo de la superficie
-    initialWindow.fill(black)
+    initial_window.fill(black)
 
     # Muestra las posibles cuadros de las opciones de los juegos
     show_main_options()
 
-    # Muestra la mano derecha para seleccionar una opcion
-    show_hand_selection()
-    # Obtiene las nuevas coordinadas del Kinect
-    # get_coordinates()
     # Obtiene las coordenadas del Kinect
     get_coordinates_from_kinect()
+    # Muestra la mano derecha para seleccionar una opcion
+    show_hand_selection()
 
     # Pygame verifica todos los events
     for event in pygame.event.get():
@@ -1654,12 +1972,15 @@ while playing:
             playing = False
             print("QUIT")
 
-        # Al presionar el mouse
+        # Al presionar el mouse [NO SE USARA]
         if event.type == pygame.MOUSEBUTTONDOWN:
             # Obtiene las posiciones actuales del mouse
             mousex, mousey = pygame.mouse.get_pos()
             # Verifica si puede ingresar a una opcion
-            main_selection(mousex, mousey)
+            mouse_click_main_selection(mousex, mousey)
+
+    # Verifica la seleccion de la mano
+    check_hand_main_options_selection()
 
     # Update display (Actualiza _todo el surface)
     pygame.display.update()
