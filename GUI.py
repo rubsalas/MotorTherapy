@@ -317,8 +317,10 @@ def show_game_menu(game):
 
     # Flag para mantener el menu del juego corriendo
     running_game_menu = True
+    running_game_menu_test = True
 
-    while running_game_menu:
+
+    while running_game_menu and running_game_menu_test:
 
         # Background Color
         game_menu_surface.fill((0, 0, 0))
@@ -350,7 +352,7 @@ def show_game_menu(game):
                 # Obtiene las posiciones actuales del mouse
                 mousex, mousey = pygame.mouse.get_pos()
                 # Verifica si puede ingresar a una opcion
-                running_game_menu = game_menu_selection(mousex, mousey, game)
+                running_game_menu_test = game_menu_selection(mousex, mousey, game)
 
         running_game_menu = check_hand_game_menu_options_selection(game)
 
@@ -554,7 +556,7 @@ def run_ul():  # alt, _lat):
         show_backroom()
 
         # Muestra la informacion del juego
-        rg_show_info()
+        show_info("rg")
 
         # Muestra el globo
         place_balloon(rg_lat, rg_alt, (n % 2 + 1))
@@ -666,16 +668,28 @@ def has_hit_balloon():
 
 
 # Muestra la información necesaria del juego Raqueta Globo
-def rg_show_info():
+def show_info(game):
 
     n = 0
     font_size = 20
+    text_list = []
+    # y_center = displayHeight//2
 
-    str_score = "Puntaje: " + str(rg_score)
-    str_hits_left = "Golpes Restantes: " + str(rg_cantidad - rg_hit_count)
-    str_actual_position = "Posición Actual del Globo: (" + str(rg_lat) + "," + str(rg_alt) + ")"
+    if game == "rg":
 
-    text_list = [str_score, str_hits_left, str_actual_position]
+        str_score_rg = "Puntaje: " + str(rg_score)
+        str_hits_left_rg = "Golpes Restantes: " + str(rg_cantidad - rg_hit_count)
+        str_actual_position_rg = "Posición Actual del Globo: (" + str(rg_lat) + "," + str(rg_alt) + ")"
+
+        text_list = [str_score_rg, str_hits_left_rg, str_actual_position_rg]
+
+    if game == "ao":
+
+        str_distances_left_ao = "Distancias Restantes: " + str(ao_cantidad - ao_actual_iteration)
+        str_time_left = "Tiempo Restante por Distancia: " + str(ao_seconds_left - ((ao_cantidad - ao_actual_iteration) * ao_seconds))
+        str_thrown_hits = "Golpes Dados: "  # + str(ao_thrown_hits)
+
+        text_list = [str_distances_left_ao, str_time_left, str_thrown_hits]
 
     for words in text_list:
         # Cantidad de Golpes Restantes
@@ -692,7 +706,9 @@ def end_game(game):
     # Variable para volver al menu del juego
     stay_in_game = True
 
-    while stay_in_game:
+    stay_in_game_test = True
+
+    while stay_in_game and stay_in_game_test:
 
         # Muestra el background
         show_backroom()
@@ -716,7 +732,7 @@ def end_game(game):
                 # Obtiene las posiciones actuales del mouse
                 mousex, mousey = pygame.mouse.get_pos()
                 # Verifica si puede ingresar a una opcion
-                stay_in_game = back_to_game_menu(mousex, mousey, game)
+                stay_in_game_test = back_to_game_menu(mousex, mousey, game)
 
         stay_in_game = check_hand_back_to_game_menu_selection(game)
 
@@ -745,16 +761,17 @@ def show_ending_statistics(game):
 
     if game == "rg":
 
-        str_score = "Puntaje: " + str(rg_score)
-        str_hits_left = "Golpes Acertados: " + str(rg_hit_count)  # Ch
+        str_score_rg = "Puntaje: " + str(rg_score)
+        str_hits_left_rg = "Golpes Acertados: " + str(rg_hit_count)  # Ch
 
-        text_list = [str_score, str_hits_left]
+        text_list = [str_score_rg, str_hits_left_rg]
 
     elif game == "ao":
-        str_score = "Puntaje (RG): " + str(rg_score)
-        str_hits_left = "Golpes Acertados (RG): " + str(rg_hit_count)  # Ch
+        str_score_ao = "Puntaje : " + str(ao_score)
+        str_distances_left_ao = "Distancias Restantes: " + str(ao_cantidad - ao_actual_iteration)
+        str_time_left_ao = "Tiempo Total Restante: " + str(ao_seconds_left)
 
-        text_list = [str_score, str_hits_left]
+        text_list = [str_score_ao, str_distances_left_ao, str_time_left_ao]
 
     for words in text_list:
         # Cantidad de Golpes Restantes
@@ -845,22 +862,13 @@ def restore_game(game):
         rg_score = 0
         rg_hit_count = 0
 
+    elif game == "ao":
+        global ao_seconds_left
+        global ao_actual_iteration
 
-def balloon(altura, latitud):
-    # Show balloon en (alt,lat)
+        ao_seconds_left = ao_seconds * ao_cantidad
+        ao_actual_iteration = 1
 
-    n = 1
-
-    hit = False
-
-    while not hit:
-        hit = False
-
-        # Check and record hits
-
-        # if hitted
-        # + puntaje
-        # hit = True
 
 
 def inc():
@@ -1533,20 +1541,25 @@ ao_object_altura = 500  # Fija
 ao_object_x = displayWidth - ao_object_longitud  # Actualizable
 ao_object_y = displayHeight - ao_object_altura  # Actualizable
 
-ao_seconds = 5  # Fija
-ao_seconds_left = ao_seconds  # Actualizable
-
 # Lista de distancias
-ao_distances = [2, 5, 1, 7, 1]
+ao_distances = [2, 5, 1, 7, 1]  # 4, 9, 6, 3,
 
 # Cantidad de iteraciones es igual a la cantidad de distancias
 ao_cantidad = len(ao_distances)
+
+# Time
+ao_seconds = 4  # Fija
+ao_seconds_left = ao_seconds * ao_cantidad  # Actualizable
 
 # Iteracion actual
 ao_actual_iteration = 1
 
 # Tiempo total del juego
 ao_total_seconds = ao_seconds * ao_cantidad
+
+# Score
+ao_score = 0
+ao_max_score = 10000
 
 
 # Corre la seleccion de Down Right
@@ -1570,10 +1583,6 @@ def run_dr():
 
         # Muestra el background
         show_backroom()
-
-        # Muestra la informacion del juego
-        # show_info()
-        print("Time left: " + str(ao_seconds_left))
 
         # Muestra el objeto
         place_object((n % 2) + 1)
@@ -1602,12 +1611,15 @@ def run_dr():
         # Parametro serian la cantidad de frames en un segundo (fps)
         clock.tick(fps)
 
-        # Update display (Actualiza _todo el surface)
-        pygame.display.update()
-
         # Verifica si se impacta al objeto y termina el juego
         if not check_object_hit():
             running = end_game("ao")
+
+        # Muestra la informacion del juego
+        show_info("ao")
+
+        # Update display (Actualiza _todo el surface)
+        pygame.display.update()
 
 
 # Dimensiones del objeto
@@ -1646,6 +1658,7 @@ def check_object_hit():
 
             print("Rigth Hand Collision")
             hasnt_finished = False
+            set_object_score()
 
     elif lhy < ao_object_y + ao_object_height and lhy > ao_object_y \
             or lhy + hdh < ao_object_y + ao_object_height and lhy + hdh > ao_object_y:
@@ -1655,6 +1668,7 @@ def check_object_hit():
 
             print("Left Hand Collision")
             hasnt_finished = False
+            set_object_score()
 
     else:
         # Al no ser golpeado
@@ -1711,6 +1725,13 @@ def change_object_position():
     ao_object_y = ao_distance_multiplier * new_y
     ao_object_x = random.randrange(0, displayWidth - ao_object_width, 1)
 
+
+# Define el puntaje del Juego AO
+def set_object_score():
+
+    global ao_score
+
+    ao_score = int((ao_max_score // ao_total_seconds + 0.000001) * (ao_seconds_left + 0.000001))
 
 ###############################################################################
 #                                                                             #
