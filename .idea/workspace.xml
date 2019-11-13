@@ -183,7 +183,7 @@
       <workItem from="1573014050420" duration="14209000" />
       <workItem from="1573186689505" duration="19604000" />
       <workItem from="1573294729448" duration="25315000" />
-      <workItem from="1573535252847" duration="56220000" />
+      <workItem from="1573535252847" duration="72438000" />
     </task>
     <servers />
   </component>
@@ -208,22 +208,22 @@
       <breakpoints>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/GUI.py</url>
-          <line>2215</line>
+          <line>2415</line>
           <option name="timeStamp" value="3" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/GUI.py</url>
-          <line>1999</line>
+          <line>2199</line>
           <option name="timeStamp" value="4" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/GUI.py</url>
-          <line>1175</line>
+          <line>1374</line>
           <option name="timeStamp" value="5" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/GUI.py</url>
-          <line>938</line>
+          <line>988</line>
           <option name="timeStamp" value="6" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
@@ -236,7 +236,7 @@
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
     <SUITE FILE_PATH="coverage/MotorTherapy$SyntacticAnal.coverage" NAME="SyntacticAnal Coverage Results" MODIFIED="1573639295786" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/Compilador" />
-    <SUITE FILE_PATH="coverage/MotorTherapy$GUI.coverage" NAME="GUI Coverage Results" MODIFIED="1573640256393" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/MotorTherapy$GUI.coverage" NAME="GUI Coverage Results" MODIFIED="1573659370894" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/MotorTherapy$MotorTherapy.coverage" NAME="MotorTherapy Coverage Results" MODIFIED="1570898976164" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="" />
     <SUITE FILE_PATH="coverage/MotorTherapy$test.coverage" NAME="test Coverage Results" MODIFIED="1570918488589" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
   </component>

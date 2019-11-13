@@ -261,7 +261,7 @@ def check_hand_main_options_selection():
         on_dr = False
         on_s = False
         on_selection_timer = 0
-        print("Not an option")
+        # print("Not an option")
 
     return in_place
 
@@ -407,7 +407,7 @@ def check_hand_game_menu_options_selection(game):
         else:  # Si ya estaba en Start
             if on_selection_timer < waiting_time:  # Si no se ha completado el tiempo de espera
                 on_selection_timer += 1
-                print("Start Time: " + str(on_selection_timer))
+                # print("Start Time: " + str(on_selection_timer))
             else:  # Cuando se cumple el tiempo de espera
                 # Reset al timer
                 on_selection_timer = 0
@@ -440,7 +440,7 @@ def check_hand_game_menu_options_selection(game):
         else:  # Si ya estaba en Back
             if on_selection_timer < waiting_time:  # Si no se ha completado el tiempo de espera
                 on_selection_timer += 1
-                print("Back Time: " + str(on_selection_timer))
+                # print("Back Time: " + str(on_selection_timer))
             else:  # Cuando se cumple el tiempo de espera
                 # Reset al timer
                 on_selection_timer = 0
@@ -448,7 +448,7 @@ def check_hand_game_menu_options_selection(game):
                 selection = False
 
     else:
-        print("Game: Not an option")
+        # print("Game: Not an option")
         on_start = False
         on_back = False
         on_selection_timer = 0
@@ -674,8 +674,16 @@ def show_info(game):
         text_list = [str_score_rg, str_hits_left_rg, str_actual_position_rg]
 
     elif game == "up":
+
+        str_score_up = "Puntaje: " + str(up_score)
+        str_time_left_up = "Tiempo Restante: " + str(int(up_actual_iteration_time_left))
+        str_actual_iteration_up = "Secuencia Actual: " + str(up_actual_iteration)
+        str_iterations_left_up = "Secuencias Restantes: " + str(up_iterations - up_actual_iteration)
+        str_fail_hits_up = "Fallos de Secuencia: " + str(up_failed_sequences)
+
+        text_list = [str_score_up, str_time_left_up, str_actual_iteration_up, str_iterations_left_up, str_fail_hits_up]
+
         print("Showing UP info")
-        True
 
     elif game == "ta":
         str_score_ta = "Puntaje: " + str(ta_score)
@@ -770,7 +778,11 @@ def show_ending_statistics(game):
         text_list = [str_score_rg, str_hits_left_rg]
 
     elif game == "up":
-        True
+        print("show_ending_statistics(up)")
+
+        str = "show_ending_statistics(up)"
+
+        text_list = [str]
 
     elif game == "ta":
         str_score_ta = "Puntaje: " + str(ta_score)
@@ -869,12 +881,21 @@ def restore_game(game):
         rg_score = 0
         rg_hit_count = 0
 
+    elif game == "up":
+        print("restore_game(\"up\") -> FALTA")
+
+    elif game == "ta":
+        print("restore_game(\"ta\") -> FALTA")
+
     elif game == "ao":
         global ao_seconds_left
         global ao_actual_iteration
 
         ao_seconds_left = ao_seconds * ao_cantidad
         ao_actual_iteration = 1
+
+    else:
+        print("Error en restore_game(game)")
 
 
 def inc():
@@ -905,15 +926,44 @@ up_colores = ["rosado", "rojo", "anaranjado", "amarillo", "verde_claro", "verde_
 # Lista de los puntajes de las banderas existentes con su color respectivo
 up_puntaje = [500, 1000, 1500, 2000, 2500, 3000, 3500, 4000, 4500, 5000]
 # Cantidad de tiempo que tendra el jugador para completar la secuencia
-up_tiempo = 60
+up_tiempo = 20
 # Cantidad maxima de indices del arreglo de banderas para ingresar en el orden por completar
-up_cantidad = 10
+up_cantidad = 4
 
 # Cantidad de iteraciones que se correra el juego
 up_iterations = 5
 
+# Iteracion en la que se encuentra el juego actualmente
+up_actual_iteration = 1
+
+# Lista con los index de las banderas ordenadas
+flag_index_order = []
+
+# Lista en orden de flag_index_order
+flag_index_order_in_order = []
+
 # Lista con el orden de banderas por completar
 up_ordered_flags = []
+
+# Lista de todos los colores disponibles con su respectivo indice de sprite
+up_flag_color_list = [["rosado", 0], ["rojo", 1], ["anaranjado", 2], ["amarillo", 3], ["verde_claro", 4],
+                      ["verde_oscuro", 5], ["turqueza", 6], ["celeste", 7], ["azul", 8], ["morado", 9]]
+
+up_actual_hitten_flags = []
+
+# Hora exacta de terminar la iteracion actual
+up_end_time = 0
+
+# Tiempo restante de la iteracion actual
+up_actual_iteration_time_left = up_tiempo
+
+# Fallos de Secuencia
+up_failed_sequences = 0
+
+# Cambio en tiempo
+up_dtime = -3
+# Cambio en up_cantidad
+up_dcantidad = 1
 
 # Puntaje total
 up_score = 0
@@ -939,23 +989,29 @@ space_per_flag = stick_width // 10
 def run_up():
     print("Usando los Pies")
 
+    global up_end_time
+    up_end_time = time.time() + up_tiempo
+
+    set_flag_order()
+
     n = 0
 
     running = True
 
+    # while running:
     while running:
 
         # Muestra el background
         show_backroom()
 
         # Muestra la informacion del juego
-        # show_info("up")
+        show_info("up")
 
         # Muestra el sosten de las banderas
         place_rope()
 
         # Muestra y pone las banderas en pantalla
-        place_flags(up_cantidad, n)
+        place_flags(n)
 
         # n para seleccionar el tipo de sprite
         if n < 5:
@@ -963,8 +1019,9 @@ def run_up():
         else:
             n = 0
 
-        # Obtiene las nuevas coordinadas del Kinect
-        # get_coordinates()
+        # Muestra el orden de la secuencia actual por seguir
+        show_actual_sequence()
+
         # Obtiene las coordenadas del Kinect
         get_coordinates_from_kinect()
         # Muestra el personaje en pantalla
@@ -983,14 +1040,15 @@ def run_up():
             if event.type == pygame.MOUSEBUTTONDOWN:
                 running = False
 
-        # Update display (Actualiza _todo el surface)
-        # pygame.display.update()
-
         # Parametro serian la cantidad de frames en un segundo (fps)
         clock.tick(10)
 
         # Update display (Actualiza _todo el surface)
         pygame.display.update()
+
+        if not check_correct_order():
+            # Interfaz para terminar el juego
+            running = end_game("up")
 
 
 # Muestra lo que sostendra las banderas
@@ -1012,18 +1070,23 @@ def place_rope():
 # @param display: donde se mostraran las banderas
 # @param flag_cant: cantidad de banderas
 # @param n: sprite de la bandera
-def place_flags(flag_cant, n):
+def place_flags(n):
     # Posicion en x de la bandera:
     #   (Mitad del espacio que sobra del display )
     #    + (Mitad del espacio donde estaran las banderas)
     #    - (Mitad del space_per_flag por bandera que exista)
     #    + (Espacio sobrante en space_per_flag con la bandera, solo de un lado)
-    flag_x = ((displayWidth - stick_width) // 2) + (stick_width // 2) - ((space_per_flag * flag_cant) // 2) + (
+    flag_x = ((displayWidth - stick_width) // 2) + (stick_width // 2) - ((space_per_flag * up_cantidad) // 2) + (
             (space_per_flag - flag_width) // 2)
 
-    while flag_cant > 0:
+
+    # for i in flag_index_order:
+    for i in flag_index_order_in_order:
+
+        str_sprite_index = str(get_sprite_index(up_colores[i]))
+
         # Directorio de la imagen por mostrar actual
-        directory = "Resources/Flags/Flag" + str(flag_cant - 1) + "/F" + str(flag_cant - 1) + str(n) + ".png"
+        directory = "Resources/Flags/Flag" + str_sprite_index + "/F" + str_sprite_index + str(n) + ".png"
 
         # Imagen cargada
         flag_n = pygame.image.load(directory)  # Carga la imagen de la carpeta
@@ -1037,23 +1100,145 @@ def place_flags(flag_cant, n):
         flag_x = flag_x + space_per_flag
 
         # Cantidad de banderas restantes por mostrar
-        flag_cant = flag_cant - 1
+        # flag_cant = flag_cant - 1
 
 
-# up_ordered_flags = [ [,] , [,] , ... ]
+# Retorna el indice del color donde estan guardados sus sprites
+def get_sprite_index(color):
+
+    for i in up_flag_color_list:
+        if color == i[0]:
+            return i[1]
+
+    return -1
+
+
 # Genera el orden de las banderas por ser
 # Utiliza array de COLOR para escoger una CANTIDAD maxima de banderas por golpear
 def set_flag_order():
-    True
+
+    global flag_index_order
+    global up_ordered_flags
+    global flag_index_order_in_order
+
+    playable = True
+
+    print("up_cantidad", up_cantidad)
+    print("len(up_colores)", len(up_colores))
+
+    if up_cantidad <= len(up_colores):
+
+        # De 0 al maximo index del total de banderas se escogeran solo la CANTIDAD necesaria
+        flag_index_order = random.sample(range(0, len(up_colores)), up_cantidad)
+        print("flag_index_order", flag_index_order)
+
+        # Cambia el orden de los indices de la lista de banderas por patear
+        flag_index_order_in_order = random.sample(flag_index_order, len(flag_index_order))
+        flag_index_order_in_order.sort()
+
+        # Vacia la lista
+        up_ordered_flags = []
+        for i in flag_index_order:
+            up_ordered_flags.append([up_colores[i], up_puntaje[i]])
+
+        print("up_ordered_flags", up_ordered_flags)
+
+    else:
+        # Error!
+        playable = False
+        print("ERROR: Indice fuera de rango!")
+
+    return playable
 
 
+# Muestra el orden de las banderas en pantalla
+def show_actual_sequence():
+    n = 0
+    font_size = 20
+
+    # Muestra en pantalla el texto
+    for flag in up_ordered_flags:
+        # Cantidad de Golpes Restantes
+        text = pygame.font.Font("freesansbold.ttf", font_size)  # Font
+        text_surface, text_rectangle = text_objects(flag[0], text, (0, 0, 0))
+        text_rectangle.center = (70, 115 + font_size * 2 * n)
+        initial_window.blit(text_surface, text_rectangle)
+        n += 1
 
 
+# Verifica el correcto orden del juego, sus colisiones, su iteracion y el tiempo restante
+def check_correct_order():
 
+    global up_actual_iteration
+    global up_actual_iteration_time_left
+
+    still_kicking = True
+
+    # Se actualiza el tiempo restante por iteracion
+    up_actual_iteration_time_left = up_end_time - time.time()
+
+    if up_actual_iteration_time_left > 0:
+        # Aun queda tiempo en la iteracion actual
+
+        if check_flag_hit():
+            # Se ha impactado una bandera correctamente
+
+            if len(up_actual_hitten_flags) == len(up_ordered_flags):
+                # Se ha completado la secuencia
+
+                if up_actual_iteration == up_iterations:
+                    # Es la ultima secuencia
+                    still_kicking = False
+
+                else:
+                    # Si quedan iteraciones
+                    up_actual_iteration += 1
+                    # Actualizar la cantidad de banderas y el tiempo de la siguiente iteracion
+                    update_flag_arrangement()
+                    print("New Sequence")
+
+            else:
+                # No se ha completado la secuencia
+                print("Nice, keep going")
+
+        else:
+            # No se ha impactado correctamente la bandera siguiente en la secuencia
+            print("Not hit and still time left")
+
+    else:
+        # Se acabo el tiempo en la iteracion
+        if up_actual_iteration < up_iterations:
+            # Si quedan iteraciones
+            up_actual_iteration += 1
+            # Actualizar la cantidad de banderas y el tiempo de la siguiente iteracion
+            update_flag_arrangement()
+        else:
+            still_kicking = False
+
+    return still_kicking
 
 
 # Verifica si el personaje ha impactado alguna bandera
+# Retorna True si es asi, False si no
 def check_flag_hit():
+    False
+
+    '''
+    if correctly hit flag:
+        add this flag to hit_flag list
+        # up_actual_hitten_flags += hit_flag
+        sum score to iteration score
+        return True
+    elif incorrectly hit flag:
+        send error
+        +1 to up_failed_sequences
+        fail sign
+    else:
+        send error
+        +1 to failed_sequences
+        fail sign
+        return False
+    '''
 
 
 
@@ -1083,8 +1268,6 @@ def check_flag_hit():
             hasnt_finished = has_hit_balloon()
 
     return hasnt_finished
-
-
 
 
 
@@ -1131,10 +1314,26 @@ def has_hit_flag():
         return True
 
 
+# Actualiza la cantidad de banderas por utilzar en la secuencia
+# Actualiza la cantidad de tiempo por iteracion
+def update_flag_arrangement():
 
+    global up_tiempo
+    global up_cantidad
+    global up_end_time
+    global up_actual_iteration_time_left
 
+    up_tiempo += up_dtime
+    # No agrega mas banderas si se va a pasar del limite
+    if up_cantidad < len(up_flag_color_list):
+        up_cantidad += up_dcantidad
 
+    # Modifica las variables de tiempo
+    up_end_time = time.time() + up_tiempo
+    up_actual_iteration_time_left = up_end_time
 
+    # Modifica la secuencia de banderas
+    set_flag_order()
 
 
 
@@ -1152,10 +1351,10 @@ def has_hit_flag():
 
 
 # Variables de Telaraña
-ta_mi_arreglo = ["Azul", "Rojo"]#, "Naranja", "Verde", "Amarillo"]
-ta_mi_puntaje = [1000, 2000]#,3000, 4000, 5000]
-ta_mi_fila = 2
-ta_mi_col = 2
+ta_mi_arreglo = ["Azul", "Rojo", "Naranja"]  #, "Verde", "Amarillo"]
+ta_mi_puntaje = [1000, 2000,3000]  #, 4000, 5000]
+ta_mi_fila = 3
+ta_mi_col = 3
 
 # Lista de las palabras, con su puntaje y posicion en la web
 ta_words_list = []
@@ -1358,7 +1557,7 @@ def place_feet():
     initial_window.blit(shoe_r, (shoe_r_x, shoe_r_y))
 
 
-# Muestra las palabras en la web
+# Asigna las palabras, con su respectivo puntaje, las posiciones en la web
 def for_asign_word_initial():
     global ta_words_list
 
@@ -1945,6 +2144,7 @@ def show_owned_words():
         text_rectangle.center = (70, 50 + font_size * 2 * n)
         initial_window.blit(text_surface, text_rectangle)
         n += 1
+
 
 # Verifica que se hayan recogido todas las palabras
 def check_words_completed():
