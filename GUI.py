@@ -336,20 +336,20 @@ def show_game_menu(game):
         show_hand_selection()
 
         # Pygame verifica todos los events
-        for event in pygame.event.get():
+        for game_menu_event in pygame.event.get():
 
             # Si se cierra la ventana
-            if event.type == pygame.QUIT:
+            if game_menu_event.type == pygame.QUIT:
                 # Va a salir del while
                 running_game_menu = False
                 print("QUIT")
 
             # Al presionar el mouse
-            if event.type == pygame.MOUSEBUTTONDOWN:
+            if game_menu_event.type == pygame.MOUSEBUTTONDOWN:
                 # Obtiene las posiciones actuales del mouse
-                mousex, mousey = pygame.mouse.get_pos()
+                game_menu_mousex, game_menu_mousey = pygame.mouse.get_pos()
                 # Verifica si puede ingresar a una opcion
-                running_game_menu_test = game_menu_selection(mousex, mousey, game)
+                running_game_menu_test = game_menu_selection(game_menu_mousex, game_menu_mousey, game)
 
         running_game_menu = check_hand_game_menu_options_selection(game)
 
@@ -521,11 +521,11 @@ def text_objects(text, font, color):
 
 # Variables de Raqueta Globo
 rg_alt_inicial = 100 * 2
-rg_lat_inicial = 100 * 2
+rg_lat_inicial = 100 * 0.5
 
 rg_alt = rg_alt_inicial
 rg_lat = rg_lat_inicial
-rg_cantidad = 2
+rg_cantidad = 15
 
 # Puntaje por Golpear el Globo
 rg_balloon_points = 1000
@@ -537,7 +537,7 @@ rg_hit_count = 0
 
 # Corre la seleccion de Raqueta Globo
 # Corre la seleccion de Up Left
-def run_ul():  # alt, _lat):
+def run_ul():
 
     print("Raqueta Globo")
 
@@ -780,9 +780,9 @@ def show_ending_statistics(game):
     elif game == "up":
         print("show_ending_statistics(up)")
 
-        str = "show_ending_statistics(up)"
+        str_ = "show_ending_statistics(up)"
 
-        text_list = [str]
+        text_list = [str_]
 
     elif game == "ta":
         str_score_ta = "Puntaje: " + str(ta_score)
@@ -984,6 +984,9 @@ flag_height = 200 // 2
 # Largo del espacio por bandera en espacio del sosten
 space_per_flag = stick_width // 10
 
+# Posiciones de la bandera
+flag_x = 0
+
 
 # Corre la seleccion de Up Right: Usando los Pies
 def run_up():
@@ -1005,7 +1008,7 @@ def run_up():
         show_backroom()
 
         # Muestra la informacion del juego
-        show_info("up")
+        #show_info("up")
 
         # Muestra el sosten de las banderas
         place_rope()
@@ -1071,6 +1074,9 @@ def place_rope():
 # @param flag_cant: cantidad de banderas
 # @param n: sprite de la bandera
 def place_flags(n):
+
+    global flag_x
+
     # Posicion en x de la bandera:
     #   (Mitad del espacio que sobra del display )
     #    + (Mitad del espacio donde estaran las banderas)
@@ -1079,8 +1085,6 @@ def place_flags(n):
     flag_x = ((displayWidth - stick_width) // 2) + (stick_width // 2) - ((space_per_flag * up_cantidad) // 2) + (
             (space_per_flag - flag_width) // 2)
 
-
-    # for i in flag_index_order:
     for i in flag_index_order_in_order:
 
         str_sprite_index = str(get_sprite_index(up_colores[i]))
@@ -1196,15 +1200,17 @@ def check_correct_order():
                     # Actualizar la cantidad de banderas y el tiempo de la siguiente iteracion
                     update_flag_arrangement()
                     print("New Sequence")
-
+        '''
             else:
                 # No se ha completado la secuencia
-                print("Nice, keep going")
+                # print("Nice, keep going")
+                True
 
         else:
             # No se ha impactado correctamente la bandera siguiente en la secuencia
-            print("Not hit and still time left")
-
+            #print("Not hit and still time left")
+            True
+        '''
     else:
         # Se acabo el tiempo en la iteracion
         if up_actual_iteration < up_iterations:
@@ -1221,9 +1227,72 @@ def check_correct_order():
 # Verifica si el personaje ha impactado alguna bandera
 # Retorna True si es asi, False si no
 def check_flag_hit():
-    False
 
-    '''
+    global flag_x
+
+    has_hit = False
+
+    dflag_x = flag_x
+
+    for i in flag_index_order_in_order:
+
+        # Verifica si ha sido golpeado con la mano derecha
+        if rfy < stick_y + flag_height and rfy > stick_y \
+                or rfy + fh < stick_y + flag_height and rfy + fh > stick_y:
+            if rfx > (dflag_x + space_per_flag*i) and rfx < (dflag_x + space_per_flag*i) + flag_width \
+                    or rfx + fw > (dflag_x + space_per_flag*i) and rfx + fw < (dflag_x + space_per_flag*i) + flag_width:
+                print("Right Feet Collision")
+                has_hit = True
+                # hasnt_finished = has_hit_balloon()
+
+
+        '''
+        # ESTE ES IGUAL AL DE ARRIBA (Usa el pie derecho),
+        # CAMBIAR POR IZQUIERDO -> lfx y lfy
+        
+        # Verifica si ha sido golpeado con la mano derecha
+        if rfy < stick_y + flag_height and rfy > stick_y \
+                or rfy + fh < stick_y + flag_height and rfy + fh > stick_y:
+            if rfx > (dflag_x + space_per_flag * i) and rfx < (dflag_x + space_per_flag * i) + flag_width \
+                    or rfx + fw > (dflag_x + space_per_flag * i) and rfx + fw < (
+                    dflag_x + space_per_flag * i) + flag_width:
+                print("Right Feet Collision")
+                has_hit = True
+                # hasnt_finished = has_hit_balloon()
+        '''
+
+    return has_hit
+
+
+
+
+
+
+
+
+
+
+'''
+        str_sprite_index = str(get_sprite_index(up_colores[i]))
+
+        # Directorio de la imagen por mostrar actual
+        directory = "Resources/Flags/Flag" + str_sprite_index + "/F" + str_sprite_index + str(n) + ".png"
+
+        # Imagen cargada
+        flag_n = pygame.image.load(directory)  # Carga la imagen de la carpeta
+        # Imagen escalada
+        flag_n = pygame.transform.scale(flag_n, (flag_width, flag_height))  # Escala la imagen al size deseado
+
+        # Muestra la imagen en pantalla con las coordenadas preestablecidas
+        initial_window.blit(flag_n, (flag_x, stick_y))
+
+        # Aumenta flag_x para la posicion de la siguiente bandera
+        flag_x = flag_x + space_per_flag
+    
+
+
+
+
     if correctly hit flag:
         add this flag to hit_flag list
         # up_actual_hitten_flags += hit_flag
@@ -1238,19 +1307,11 @@ def check_flag_hit():
         +1 to failed_sequences
         fail sign
         return False
-    '''
+'''
 
 
 
-
-
-
-
-
-
-
-
-
+'''
     #RAQUETA GLOBO
 
     hasnt_finished = True
@@ -1268,6 +1329,13 @@ def check_flag_hit():
             hasnt_finished = has_hit_balloon()
 
     return hasnt_finished
+'''
+
+
+
+
+
+
 
 
 
@@ -1336,8 +1404,6 @@ def update_flag_arrangement():
     set_flag_order()
 
 
-
-
 ###############################################################################
 #                                                                             #
 ###############################################################################
@@ -1352,9 +1418,9 @@ def update_flag_arrangement():
 
 # Variables de Telaraña
 ta_mi_arreglo = ["Azul", "Rojo", "Naranja"]  #, "Verde", "Amarillo"]
-ta_mi_puntaje = [1000, 2000,3000]  #, 4000, 5000]
-ta_mi_fila = 3
-ta_mi_col = 3
+ta_mi_puntaje = [1000, 2000, 3000]  #, 4000, 5000]
+ta_mi_fila = 2
+ta_mi_col = 2
 
 # Lista de las palabras, con su puntaje y posicion en la web
 ta_words_list = []
@@ -1389,6 +1455,11 @@ def run_dl():
 
     # Verifica las posiciones iniciales de la red
     set_starting_point(ta_mi_fila, ta_mi_col)
+
+    # Define las coordenadas viejas
+    # redefine_old_coordinates()
+
+
 
     running = True
 
@@ -1677,11 +1748,14 @@ gesture_change = 25
 # Verifica el gesto para mover al personaje
 def check_gesture(surface):
 
-    print("UNCOMMENT check_gesture(surface)")
+    # print("UNCOMMENT check_gesture(surface)")
 
-    '''global time_o
+    global time_o
 
-    if (time.time() - time_o >= wait_time_min) & (time.time() - time_o < wait_time_max):
+    # print("NOTTime change: " + str(time.time() - time_o))
+    # print("NOTold_lhy: " + str(old_lhy) + "\nlhy: " + str(lhy))
+
+    if wait_time_min < (time.time() - time_o): # < wait_time_max:
 
         print("Time change: " + str(time.time() - time_o))
         print("old_lhy: " + str(old_lhy) + "\nlhy: " + str(lhy))
@@ -1703,9 +1777,12 @@ def check_gesture(surface):
             move_back(surface)
             print("move_back(surface)")
 
-        redefine_old_coordinates()
+        # Verifica si llega a recoger una palabra
+        pick_up_word()
 
-        time_o = time.time()'''
+        time_o = time.time()
+
+        redefine_old_coordinates()
 
 
 # Redefine las coordenadas viejas para compararse en la telarana
@@ -2432,7 +2509,7 @@ fm = 13
 fw = 400 // fm
 fh = 460 // fm
 
-bx = displayWidth // 2 - 40
+'''bx = displayWidth // 2 - 40
 by = (displayHeight - displayHeight * 0.8) + hh + 10
 hx = bx - 20
 hy = by - hh - 10
@@ -2443,7 +2520,21 @@ rhy = lhy
 lfx = bx + 10
 lfy = by + 150
 rfx = lfx + 50
-rfy = lfy
+rfy = lfy'''
+
+bx = -200
+by = -200
+hx = -200
+hy = -200
+lhx = -200
+lhy = -200
+rhx = -200
+rhy = -200
+lfx = -200
+lfy = -200
+rfx = -200
+rfy = -200
+
 character_coordinates = [bx, by, lhx, lhy, rhx, rhy, lfx, lfy, rfx, rfy]
 
 old_lhx = lhx
@@ -2529,6 +2620,7 @@ def update_character_coordinates(dbx, dby, dlhx, dlhy, drhx, drhy, dlfx, dlfy, d
     multx = 1.5625
     multy = 1.3541
 
+    '''
     bx = dbx * multx - bw // 2
     by = dby * multy - 100
     hx = bx - 20 - hdw // 2
@@ -2541,9 +2633,69 @@ def update_character_coordinates(dbx, dby, dlhx, dlhy, drhx, drhy, dlfx, dlfy, d
     lfy = dlfy * multy
     rfx = drfx * multx
     rfy = drfy * multy
+    '''
+
+    # Coordenada x del cuerpo
+    if -5 < dbx < 5:
+        bx = -200
+        hx = 0
+    else:
+        bx = dbx * multx - bw // 2
+        hx = bx - 20 - hdw // 2
+    # Coordenada y del cuerpo
+    if -5 < dby < 5:
+        by = -200
+        hy = -200
+    else:
+        by = dby * multy - 100
+        hy = by - hh - 10
+
+    # Coordenada x de la mano izquierda
+    if -5 < dlhx < 5:
+        lhx = -200
+    else:
+        lhx = dlhx * multx
+    # Coordenada y de la mano izquierda
+    if -5 < dlhy < 5:
+        lhy = -200
+    else:
+        lhy = dlhy * multy
+
+    # Coordenada x de la mano derecha
+    if -5 < drhx < 5:
+        rhx = -200
+    else:
+        rhx = drhx * multx
+    # Coordenada y de la mano derecha
+    if -5 < drhy < 5:
+        rhy = -200
+    else:
+        rhy = drhy * multy
+
+    # Coordenada x del pie izquierdo
+    if -5 < dlfx < 5:
+        lfx = -200
+    else:
+        lfx = dlfx * multx
+    # Coordenada y del pie izquierdo
+    if -5 < dlfy < 5:
+        lfy = -200
+    else:
+        lfy = dlfy * multy
+
+    # Coordenada x del pie derecho
+    if -5 < drfx < 5:
+        rfx = -200
+    else:
+        rfx = drfx * multx
+    # Coordenada y del pie derecho
+    if -5 < drfy < 5:
+        rfy = -200
+    else:
+        rfy = drfy * multy
 
 
-#'''
+'''
 # Simulacion de la obtencion de las coordenadas desde el Kinect
 def get_coordinates():
 
@@ -2562,22 +2714,21 @@ def get_coordinates():
     drfy = random.randrange(0, displayHeight - my, 1)
 
     update_character_coordinates(dbx, dby, dlhx, dlhy, drhx, drhy, dlfx, dlfy, drfx, drfy)
-#'''
-
 '''
+
 # Client
 client = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-client.connect(('192.168.100.98', 5204))
-'''
+client.connect(('192.168.100.80', 5555))
 
 
 # Abre una conexion con Processing para obtener las coordenadas del Kinect
 def get_coordinates_from_kinect():
 
-    get_coordinates()
-    print("UNCOMMENT check_gesture(surface)") # AND CLIENT UPWARDS
-
     '''
+    # For testing w/o Kinect
+    get_coordinates()
+    print("UNCOMMENT check_gesture(surface)") # AND CLIENT UPWARDS'''
+
     client.send(b"I am CLIENT\n")
 
     data = client.recv(1024).decode('UTF-8')
@@ -2605,7 +2756,6 @@ def get_coordinates_from_kinect():
         # Actualiza las coordenadas de las posiciones del cuerpo por graficar
         update_character_coordinates(coords[0], coords[1], coords[2], coords[3], coords[4],
                                      coords[5], coords[6], coords[7], coords[8], coords[9])
-    '''
 
 
 # Flag
