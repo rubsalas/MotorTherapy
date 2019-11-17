@@ -3,6 +3,8 @@ import random
 import time
 import socket
 
+from Compilador.AnalizadorSintactico import *
+
 # Inicializa Pygame y todos sus modulos
 pygame.init()
 
@@ -119,6 +121,8 @@ def show_main_options():
 
 # Variables de seleccion
 waiting_time = 20
+# waiting_time_mm
+# waiting_time_gm
 on_selection_timer = 0
 # Menu Principal
 on_ul = False
@@ -157,7 +161,7 @@ def check_hand_main_options_selection():
         else:  # Si ya estaba en UL
             if on_selection_timer < waiting_time:  # Si no se ha completado el tiempo de espera
                 on_selection_timer += 1
-                print("UL Time: " + str(on_selection_timer))
+                # print("UL Time: " + str(on_selection_timer))
             else:  # Cuando se cumple el tiempo de espera
                 # Reset al timer
                 on_selection_timer = 0
@@ -179,7 +183,7 @@ def check_hand_main_options_selection():
         else:  # Si ya estaba en UR
             if on_selection_timer < waiting_time:  # Si no se ha completado el tiempo de espera
                 on_selection_timer += 1
-                print("UR Time: " + str(on_selection_timer))
+                # print("UR Time: " + str(on_selection_timer))
             else:  # Cuando se cumple el tiempo de espera
                 # Reset al timer
                 on_selection_timer = 0
@@ -201,7 +205,7 @@ def check_hand_main_options_selection():
         else:  # Si ya estaba en DL
             if on_selection_timer < waiting_time:  # Si no se ha completado el tiempo de espera
                 on_selection_timer += 1
-                print("DL Time: " + str(on_selection_timer))
+                # print("DL Time: " + str(on_selection_timer))
             else:  # Cuando se cumple el tiempo de espera
                 # Reset al timer
                 on_selection_timer = 0
@@ -223,7 +227,7 @@ def check_hand_main_options_selection():
         else:  # Si ya estaba en DR
             if on_selection_timer < waiting_time:  # Si no se ha completado el tiempo de espera
                 on_selection_timer += 1
-                print("DR Time: " + str(on_selection_timer))
+                # print("DR Time: " + str(on_selection_timer))
             else:  # Cuando se cumple el tiempo de espera
                 # Reset al timer
                 on_selection_timer = 0
@@ -245,7 +249,7 @@ def check_hand_main_options_selection():
         else:  # Si ya estaba en S
             if on_selection_timer < waiting_time:  # Si no se ha completado el tiempo de espera
                 on_selection_timer += 1
-                print("S Time: " + str(on_selection_timer))
+                # print("S Time: " + str(on_selection_timer))
             else:  # Cuando se cumple el tiempo de espera
                 # Reset al timer
                 on_selection_timer = 0
@@ -360,8 +364,21 @@ def show_game_menu(game):
 # Muestra los cuadros de seleccion del menu del juego seleccionado
 def show_game_menu_options(game):
     # Dibuja un rectangulo -> Titulo
-    pygame.draw.rect(initial_window, (0, 0, 0),
+    pygame.draw.rect(initial_window, (255, 0, 0),
                      (xTitulo, yTitulo, game_title_width, game_title_height))
+
+
+    # TITLE
+    # Directorio de la imagen por mostrar actual
+    title_directory = "Resources/Menu/" + game + "_Title.png"
+
+    # Imagen cargada
+    title = pygame.image.load(title_directory)  # Carga la imagen de la carpeta
+    # Imagen escalada
+    title = pygame.transform.scale(title, (game_title_width, game_title_height))  # Escala la imagen al size deseado
+
+    # Muestra la imagen en pantalla con las coordenadas preestablecidas
+    initial_window.blit(title, (xTitulo, yTitulo))
 
     # START BUTTON
     # Directorio de la imagen por mostrar actual
@@ -497,7 +514,7 @@ def game_menu_selection(m_x, m_y, game):
 # Muestra el fondo para cada juego
 def show_backroom():
     # Directorio de la imagen por mostrar actual
-    background_directory = "Resources/Background/white_room.png"
+    background_directory = "Resources/Background/bwhite_room.png"
     # Imagen cargada
     background = pygame.image.load(background_directory)  # Carga la imagen de la carpeta
     # Imagen escalada
@@ -519,7 +536,7 @@ def text_objects(text, font, color):
 ###############################################################################
 
 
-# Variables de Raqueta Globo
+# Variables de Raqueta Globo [Test]
 rg_alt_inicial = 100 * 2
 rg_lat_inicial = 100 * 0.5
 
@@ -533,6 +550,9 @@ rg_balloon_points = 1000
 rg_score = 0
 # Cantidad Actual de hits recibidos al globo
 rg_hit_count = 0
+
+rg_real_x = 0
+rg_real_y = 0
 
 
 # Corre la seleccion de Raqueta Globo
@@ -556,7 +576,7 @@ def run_ul():
         show_info("rg")
 
         # Muestra el globo
-        place_balloon(rg_lat, rg_alt, (n % 2 + 1))
+        place_balloon(displayWidth - rg_lat, displayHeight - rg_alt, (n % 2 + 1))
 
         # Para cambiar el sprite del globo
         n += 1
@@ -604,6 +624,10 @@ balloon_height = 120 // 1
 # @param y
 # @param n: sprite de la bandera
 def place_balloon(x, y, n):
+
+    global rg_real_x
+    global rg_real_y
+
     # Directorio de la imagen por mostrar actual
     directory = "Resources/Balloon/balloon" + str(n) + ".png"
 
@@ -611,6 +635,9 @@ def place_balloon(x, y, n):
     balloon_n = pygame.image.load(directory)  # Carga la imagen de la carpeta
     # Imagen escalada
     balloon_n = pygame.transform.scale(balloon_n, (balloon_width, balloon_height))  # Escala la imagen al size deseado
+
+    rg_real_x = x
+    rg_real_y = y
 
     # Muestra la imagen en pantalla con las coordenadas preestablecidas
     initial_window.blit(balloon_n, (x, y))
@@ -621,14 +648,14 @@ def check_balloon_hit():
     hasnt_finished = True
 
     # Verifica si ha sido golpeado con la mano derecha
-    if rhy < rg_alt + balloon_height and rhy > rg_alt or rhy + hdh < rg_alt + balloon_height and rhy + hdh > rg_alt:
-        if rhx > rg_lat and rhx < rg_lat + balloon_width or rhx + hdw > rg_lat and rhx + hdw < rg_lat + balloon_width:
+    if rhy < rg_real_y + balloon_height and rhy > rg_real_y or rhy + hdh < rg_real_y + balloon_height and rhy + hdh > rg_real_y:
+        if rhx > rg_real_x and rhx < rg_real_x + balloon_width or rhx + hdw > rg_real_x and rhx + hdw < rg_real_x + balloon_width:
             print("Right Hand Collision")
             hasnt_finished = has_hit_balloon()
 
     # Verifica si ha sido golpeado con la mano izquierda
-    elif lhy < rg_alt + balloon_height and lhy > rg_alt or lhy + hdh < rg_alt + balloon_height and lhy + hdh > rg_alt:
-        if lhx > rg_lat and lhx < rg_lat + balloon_width or lhx + hdw > rg_lat and lhx + hdw < rg_lat + balloon_width:
+    elif lhy < rg_real_y + balloon_height and lhy > rg_real_y or lhy + hdh < rg_real_y + balloon_height and lhy + hdh > rg_real_y:
+        if lhx > rg_real_x and lhx < rg_real_x + balloon_width or lhx + hdw > rg_real_x and lhx + hdw < rg_real_x + balloon_width:
             print("Left Hand Collision")
             hasnt_finished = has_hit_balloon()
 
@@ -653,8 +680,11 @@ def has_hit_balloon():
 
     if (rg_cantidad - rg_hit_count) > 0:
         # Actualiza la posicion del globo
-        rg_lat = random.randrange(0, displayWidth - mx, 1)
-        rg_alt = random.randrange(0, displayHeight - my, 1)
+        # rg_lat = random.randrange(0, displayWidth - mx, 1)
+        # rg_alt = random.randrange(0, displayHeight - my, 1)
+
+        rg_lat += search_change_from_compiler("rg", "lat")
+        rg_alt += search_change_from_compiler("rg", "alt")
 
         return True
 
@@ -683,7 +713,7 @@ def show_info(game):
 
         text_list = [str_score_up, str_time_left_up, str_actual_iteration_up, str_iterations_left_up, str_fail_hits_up]
 
-        print("Showing UP info")
+        # print("Showing UP info")
 
     elif game == "ta":
         str_score_ta = "Puntaje: " + str(ta_score)
@@ -778,11 +808,9 @@ def show_ending_statistics(game):
         text_list = [str_score_rg, str_hits_left_rg]
 
     elif game == "up":
-        print("show_ending_statistics(up)")
+        str_score_up = "Puntaje: " + str(up_score)
 
-        str_ = "show_ending_statistics(up)"
-
-        text_list = [str_]
+        text_list = [str_score_up]
 
     elif game == "ta":
         str_score_ta = "Puntaje: " + str(ta_score)
@@ -870,6 +898,7 @@ def back_to_game_menu(m_x, m_y, game):
 
 # Restaura las variables del juego una vez terminado
 def restore_game(game):
+
     if game == "rg":
         global rg_alt
         global rg_lat
@@ -882,10 +911,44 @@ def restore_game(game):
         rg_hit_count = 0
 
     elif game == "up":
-        print("restore_game(\"up\") -> FALTA")
+
+        global up_actual_iteration
+        global flag_index_order
+        global flag_index_order_in_order
+        global up_ordered_flags
+        global up_actual_flags_left
+        global up_actual_hitten_flags
+        global up_end_time
+        global up_actual_iteration_time_left
+        global up_failed_sequences
+        global up_score
+        global flag_x
+
+        up_actual_iteration = 1
+        flag_index_order = []
+        flag_index_order_in_order = []
+        up_ordered_flags = []
+        up_actual_flags_left = []
+        up_actual_hitten_flags = []
+        up_end_time = 0
+        up_actual_iteration_time_left = up_tiempo
+        up_failed_sequences = 0
+        up_score = 0
+        flag_x = 0
 
     elif game == "ta":
-        print("restore_game(\"ta\") -> FALTA")
+
+        global ta_words_list
+        global ta_owned_words_list
+        global ta_score
+        global dx
+        global dy
+
+        ta_words_list = []
+        ta_owned_words_list = []
+        ta_score = 0
+        dx = 0
+        dy = 0
 
     elif game == "ao":
         global ao_seconds_left
@@ -896,14 +959,6 @@ def restore_game(game):
 
     else:
         print("Error en restore_game(game)")
-
-
-def inc():
-    print("Inc")
-
-
-def dec():
-    print("Dec")
 
 
 ###############################################################################
@@ -921,17 +976,16 @@ def dec():
 # Variables de Usando los Pies
 
 # Lista de todos los colores posibles de las banderas
-up_colores = ["rosado", "rojo", "anaranjado", "amarillo", "verde_claro", "verde_oscuro", "turqueza", "celeste", "azul",
+up_colores = ["\"rosado\"", "rojo", "anaranjado", "amarillo", "verde_claro", "verde_oscuro", "turqueza", "celeste", "azul",
               "morado"]
 # Lista de los puntajes de las banderas existentes con su color respectivo
 up_puntaje = [500, 1000, 1500, 2000, 2500, 3000, 3500, 4000, 4500, 5000]
 # Cantidad de tiempo que tendra el jugador para completar la secuencia
-up_tiempo = 20
+up_tiempo = 50
 # Cantidad maxima de indices del arreglo de banderas para ingresar en el orden por completar
-up_cantidad = 4
-
+up_cantidad = 3
 # Cantidad de iteraciones que se correra el juego
-up_iterations = 5
+up_iterations = 2
 
 # Iteracion en la que se encuentra el juego actualmente
 up_actual_iteration = 1
@@ -946,16 +1000,21 @@ flag_index_order_in_order = []
 up_ordered_flags = []
 
 # Lista de todos los colores disponibles con su respectivo indice de sprite
-up_flag_color_list = [["rosado", 0], ["rojo", 1], ["anaranjado", 2], ["amarillo", 3], ["verde_claro", 4],
-                      ["verde_oscuro", 5], ["turqueza", 6], ["celeste", 7], ["azul", 8], ["morado", 9]]
+up_flag_color_list = [["\"rosado\"", 0], ["\"rojo\"", 1], ["\"anaranjado\"", 2], ["\"amarillo\"", 3], ["\"verde_claro\"", 4],
+                      ["\"verde_oscuro\"", 5], ["\"turqueza\"", 6], ["\"celeste\"", 7], ["\"azul\"", 8], ["\"morado\"", 9]]
 
+# Lista con las listas de banderas y puntaje que faltan por completar en la iteracion actual
+up_actual_flags_left = []
+
+# Lista con las listas de banderas y puntaje que ya se han completado en la iteracion actual
 up_actual_hitten_flags = []
 
 # Hora exacta de terminar la iteracion actual
 up_end_time = 0
 
 # Tiempo restante de la iteracion actual
-up_actual_iteration_time_left = up_tiempo
+up_actual_iteration_time_left = 0
+
 
 # Fallos de Secuencia
 up_failed_sequences = 0
@@ -967,7 +1026,10 @@ up_dcantidad = 1
 
 # Puntaje total
 up_score = 0
-up_actual_iteration_score = 0
+# up_actual_iteration_score = 0
+
+# Posiciones de la bandera
+flag_x = 0
 
 
 # Largo del sosten de las banderas (cambiar multiplier para cambiar el largo solamente)
@@ -984,16 +1046,16 @@ flag_height = 200 // 2
 # Largo del espacio por bandera en espacio del sosten
 space_per_flag = stick_width // 10
 
-# Posiciones de la bandera
-flag_x = 0
-
 
 # Corre la seleccion de Up Right: Usando los Pies
 def run_up():
     print("Usando los Pies")
 
     global up_end_time
+    global up_actual_iteration_time_left
+
     up_end_time = time.time() + up_tiempo
+    up_actual_iteration_time_left = up_tiempo
 
     set_flag_order()
 
@@ -1008,7 +1070,7 @@ def run_up():
         show_backroom()
 
         # Muestra la informacion del juego
-        #show_info("up")
+        show_info("up")
 
         # Muestra el sosten de las banderas
         place_rope()
@@ -1089,6 +1151,8 @@ def place_flags(n):
 
         str_sprite_index = str(get_sprite_index(up_colores[i]))
 
+        print("str_sprite_index",str_sprite_index,"i",i,"up_colores[i]",up_colores[i])
+
         # Directorio de la imagen por mostrar actual
         directory = "Resources/Flags/Flag" + str_sprite_index + "/F" + str_sprite_index + str(n) + ".png"
 
@@ -1105,6 +1169,9 @@ def place_flags(n):
 
         # Cantidad de banderas restantes por mostrar
         # flag_cant = flag_cant - 1
+
+    flag_x = ((displayWidth - stick_width) // 2) + (stick_width // 2) - ((space_per_flag * up_cantidad) // 2) + (
+            (space_per_flag - flag_width) // 2)
 
 
 # Retorna el indice del color donde estan guardados sus sprites
@@ -1124,6 +1191,7 @@ def set_flag_order():
     global flag_index_order
     global up_ordered_flags
     global flag_index_order_in_order
+    global up_actual_flags_left
 
     playable = True
 
@@ -1134,7 +1202,7 @@ def set_flag_order():
 
         # De 0 al maximo index del total de banderas se escogeran solo la CANTIDAD necesaria
         flag_index_order = random.sample(range(0, len(up_colores)), up_cantidad)
-        print("flag_index_order", flag_index_order)
+        # print("flag_index_order", flag_index_order)
 
         # Cambia el orden de los indices de la lista de banderas por patear
         flag_index_order_in_order = random.sample(flag_index_order, len(flag_index_order))
@@ -1142,15 +1210,36 @@ def set_flag_order():
 
         # Vacia la lista
         up_ordered_flags = []
+
         for i in flag_index_order:
             up_ordered_flags.append([up_colores[i], up_puntaje[i]])
 
-        print("up_ordered_flags", up_ordered_flags)
+        # Copia la lista en una lista dinamica que se ira borrando mientras se van seleccionando las banderas
+        up_actual_flags_left = up_ordered_flags
+
+        # print("up_ordered_flags", up_ordered_flags)
 
     else:
         # Error!
-        playable = False
-        print("ERROR: Indice fuera de rango!")
+        #playable = False
+        print("ERROR: Indice fuera de rango!", len(up_colores))
+
+        # De 0 al maximo index del total de banderas se escogeran solo la CANTIDAD necesaria
+        flag_index_order = random.sample(range(0, len(up_colores)), len(up_colores))
+        # print("flag_index_order", flag_index_order)
+
+        # Cambia el orden de los indices de la lista de banderas por patear
+        flag_index_order_in_order = random.sample(flag_index_order, len(flag_index_order))
+        flag_index_order_in_order.sort()
+
+        # Vacia la lista
+        up_ordered_flags = []
+
+        for i in flag_index_order:
+            up_ordered_flags.append([up_colores[i], up_puntaje[i]])
+
+        # Copia la lista en una lista dinamica que se ira borrando mientras se van seleccionando las banderas
+        up_actual_flags_left = up_ordered_flags
 
     return playable
 
@@ -1161,7 +1250,7 @@ def show_actual_sequence():
     font_size = 20
 
     # Muestra en pantalla el texto
-    for flag in up_ordered_flags:
+    for flag in up_actual_flags_left:
         # Cantidad de Golpes Restantes
         text = pygame.font.Font("freesansbold.ttf", font_size)  # Font
         text_surface, text_rectangle = text_objects(flag[0], text, (0, 0, 0))
@@ -1175,6 +1264,7 @@ def check_correct_order():
 
     global up_actual_iteration
     global up_actual_iteration_time_left
+    global up_actual_hitten_flags
 
     still_kicking = True
 
@@ -1183,6 +1273,9 @@ def check_correct_order():
 
     if up_actual_iteration_time_left > 0:
         # Aun queda tiempo en la iteracion actual
+
+        #print("up_actual_hitten_flags", up_actual_hitten_flags)
+        #print("up_ordered_flags", up_ordered_flags)
 
         if check_flag_hit():
             # Se ha impactado una bandera correctamente
@@ -1199,7 +1292,9 @@ def check_correct_order():
                     up_actual_iteration += 1
                     # Actualizar la cantidad de banderas y el tiempo de la siguiente iteracion
                     update_flag_arrangement()
-                    print("New Sequence")
+                    print("\nNew Sequence")
+
+                up_actual_hitten_flags = []
         '''
             else:
                 # No se ha completado la secuencia
@@ -1228,71 +1323,66 @@ def check_correct_order():
 # Retorna True si es asi, False si no
 def check_flag_hit():
 
+    #print("up_ordered_flags:", up_ordered_flags)
+
     global flag_x
 
     has_hit = False
 
+    drfx = str(rfx)[0:3]
+    irfx = int(drfx)
+
+    drfy = str(rfy)[0:3]
+    irfy = int(drfy)
+
+    dlfx = str(lfx)[0:3]
+    ilfx = int(dlfx)
+
+    dlfy = str(lfy)[0:3]
+    ilfy = int(dlfy)
+
     dflag_x = flag_x
 
-    for i in flag_index_order_in_order:
+    n = 1
+
+    print("up_ordered_flags", up_ordered_flags)
+
+    # for i in range(len(flag_index_order_in_order)):
+    for i in up_ordered_flags:
+
+        # print("Flag:", i, "       n:", n, "       irfy + (fh // 2):", irfy + (fh // 2))      # "       dflag_x:", dflag_x, "       dflag_x + flag_width", dflag_x + flag_width)
+
+        z = i
+
+        '''                                                    #print("\nstick_y:", stick_y, "\nirfy + (fh // 2):", irfy + (fh // 2), "\nstick_y + flag_height",
+                    #      stick_y + flag_height)
+                    #print("\ndflag_x:",dflag_x,"\nirfx + (fw // 2):",irfy + (fh // 2),"\ndflag_x + flag_width",dflag_x + flag_width)'''
 
         # Verifica si ha sido golpeado con la mano derecha
-        if rfy < stick_y + flag_height and rfy > stick_y \
-                or rfy + fh < stick_y + flag_height and rfy + fh > stick_y:
-            if rfx > (dflag_x + space_per_flag*i) and rfx < (dflag_x + space_per_flag*i) + flag_width \
-                    or rfx + fw > (dflag_x + space_per_flag*i) and rfx + fw < (dflag_x + space_per_flag*i) + flag_width:
-                print("Right Feet Collision")
-                has_hit = True
-                # hasnt_finished = has_hit_balloon()
+        if stick_y < irfy + (fh // 2) < stick_y + flag_height:
+            if dflag_x < irfx + (fw // 2) < dflag_x + flag_width:
+                print("Right Hit:", i)
+                print("Flag:", i[0])
+                has_hit = has_hit_flag(i)
 
-
-        '''
-        # ESTE ES IGUAL AL DE ARRIBA (Usa el pie derecho),
-        # CAMBIAR POR IZQUIERDO -> lfx y lfy
-        
         # Verifica si ha sido golpeado con la mano derecha
-        if rfy < stick_y + flag_height and rfy > stick_y \
-                or rfy + fh < stick_y + flag_height and rfy + fh > stick_y:
-            if rfx > (dflag_x + space_per_flag * i) and rfx < (dflag_x + space_per_flag * i) + flag_width \
-                    or rfx + fw > (dflag_x + space_per_flag * i) and rfx + fw < (
-                    dflag_x + space_per_flag * i) + flag_width:
-                print("Right Feet Collision")
-                has_hit = True
-                # hasnt_finished = has_hit_balloon()
-        '''
+        if stick_y < ilfy + (fh // 2) < stick_y + flag_height:
+            if dflag_x < ilfx + (fw // 2) < dflag_x + flag_width:
+                print("Left Hit:", i)
+                print("Flag:", i[0])
+                has_hit = has_hit_flag(i)
 
+        dflag_x = flag_x + space_per_flag*n
+
+        # print("dflag_x:",dflag_x,"for: ", i)
+
+        n += 1
+
+    print("\n")
     return has_hit
 
 
-
-
-
-
-
-
-
-
 '''
-        str_sprite_index = str(get_sprite_index(up_colores[i]))
-
-        # Directorio de la imagen por mostrar actual
-        directory = "Resources/Flags/Flag" + str_sprite_index + "/F" + str_sprite_index + str(n) + ".png"
-
-        # Imagen cargada
-        flag_n = pygame.image.load(directory)  # Carga la imagen de la carpeta
-        # Imagen escalada
-        flag_n = pygame.transform.scale(flag_n, (flag_width, flag_height))  # Escala la imagen al size deseado
-
-        # Muestra la imagen en pantalla con las coordenadas preestablecidas
-        initial_window.blit(flag_n, (flag_x, stick_y))
-
-        # Aumenta flag_x para la posicion de la siguiente bandera
-        flag_x = flag_x + space_per_flag
-    
-
-
-
-
     if correctly hit flag:
         add this flag to hit_flag list
         # up_actual_hitten_flags += hit_flag
@@ -1310,76 +1400,35 @@ def check_flag_hit():
 '''
 
 
-
-'''
-    #RAQUETA GLOBO
-
-    hasnt_finished = True
-
-    # Verifica si ha sido golpeado con la mano derecha
-    if rhy < rg_alt + balloon_height and rhy > rg_alt or rhy + hdh < rg_alt + balloon_height and rhy + hdh > rg_alt:
-        if rhx > rg_lat and rhx < rg_lat + balloon_width or rhx + hdw > rg_lat and rhx + hdw < rg_lat + balloon_width:
-            print("Right Hand Collision")
-            hasnt_finished = has_hit_balloon()
-
-    # Verifica si ha sido golpeado con la mano izquierda
-    elif lhy < rg_alt + balloon_height and lhy > rg_alt or lhy + hdh < rg_alt + balloon_height and lhy + hdh > rg_alt:
-        if lhx > rg_lat and lhx < rg_lat + balloon_width or lhx + hdw > rg_lat and lhx + hdw < rg_lat + balloon_width:
-            print("Left Hand Collision")
-            hasnt_finished = has_hit_balloon()
-
-    return hasnt_finished
-'''
-
-
-
-
-
-
-
-
-
 # Actualiza el juego cuando el jugador ha golpeado algun globo
-def has_hit_flag():
+def has_hit_flag(hit_flag):
 
+    global up_score
+    global up_failed_sequences
 
+    # print("hit_flag:", hit_flag, "= up_actual_flags_left[0]", up_actual_flags_left[0])
 
+    if hit_flag == up_actual_flags_left[0]:
+        # Ingresa la bandera a la lista de banderas golpeadas
+        up_actual_hitten_flags.append(hit_flag)
+        # Elimina la bandera
+        up_actual_flags_left.pop(0)
+        # Suma el puntaje
+        up_score += hit_flag[1]
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-    # RAQUETA GLOBO
-    global rg_alt
-    global rg_lat
-    global rg_hit_count
-    global rg_score
-
-    mx = balloon_width
-    my = displayWidth // 2
-
-    # Actualiza la cantidad de golpes que se han logrado
-    rg_hit_count += 1
-
-    # Actualiza el puntaje del juego
-    rg_score += rg_balloon_points
-
-    if (rg_cantidad - rg_hit_count) > 0:
-        # Actualiza la posicion del globo
-        rg_lat = random.randrange(0, displayWidth - mx, 1)
-        rg_alt = random.randrange(0, displayHeight - my, 1)
+        print("\n\nCORRECT HIT!")
+        print("up_actual_hitten_flags:", up_actual_hitten_flags)
+        print("up_actual_flags_left:", up_actual_flags_left)
 
         return True
+
+    else:
+        # Error en orden
+        up_failed_sequences += 1
+        print("\nError en Secuencia!")
+        print("Bandera siguiente:", up_actual_flags_left[0][0])
+
+        return False
 
 
 # Actualiza la cantidad de banderas por utilzar en la secuencia
@@ -1391,10 +1440,18 @@ def update_flag_arrangement():
     global up_end_time
     global up_actual_iteration_time_left
 
-    up_tiempo += up_dtime
+    # up_tiempo += up_dtime
+    up_tiempo += search_change_from_compiler("up", "lat")
+
+    print("up_tiempo: ", up_tiempo)
+
     # No agrega mas banderas si se va a pasar del limite
-    if up_cantidad < len(up_flag_color_list):
-        up_cantidad += up_dcantidad
+    if up_cantidad < len(up_colores):  # len(up_flag_color_list):
+        # up_cantidad += up_dcantidad
+        up_cantidad += search_change_from_compiler("up", "alt")
+
+        if up_cantidad > len(up_colores):
+            up_cantidad = len(up_colores)
 
     # Modifica las variables de tiempo
     up_end_time = time.time() + up_tiempo
@@ -1441,6 +1498,12 @@ dy = 0
 def run_dl():
     print("Telaraña")
 
+    global ta_sr
+    global ta_sc
+
+    ta_sr = ta_mi_fila - 1
+    ta_sc = (ta_mi_col - 1) / 2
+
     # Acomoda las palabras, con su puntaje y genera su posicion en la web
     for_asign_word_initial()
 
@@ -1459,14 +1522,12 @@ def run_dl():
     # Define las coordenadas viejas
     # redefine_old_coordinates()
 
-
-
     running = True
 
     while running:
 
         # change its background color
-        dl_surface.fill((255, 255, 255))
+        dl_surface.fill((205, 205, 205))
 
         # blit uLSurface onto the main screen at the position (0, 0)
         initial_window.blit(dl_surface, (0, 0))
@@ -1551,6 +1612,9 @@ def run_dl():
         if not check_words_completed():
             running = end_game("ta")
 
+        # Verifica si se sale de la linea
+        # over_line()
+
         # Update display (Actualiza _todo el surface)
         pygame.display.update()
 
@@ -1610,7 +1674,7 @@ shoe_r_y = shoe_l_y
 # Muestra los zapatos
 def place_feet():
     # Directorio de la imagen por mostrar actual
-    shoe_l_directory = "Resources/Character/topShoeLsmall.png"
+    shoe_l_directory = "Resources/Character/dtopShoeLsmall.png"
     # Imagen cargada
     shoe_l = pygame.image.load(shoe_l_directory)  # Carga la imagen de la carpeta
     # Imagen escalada
@@ -1619,7 +1683,7 @@ def place_feet():
     initial_window.blit(shoe_l, (shoe_l_x, shoe_l_y))
 
     # Directorio de la imagen por mostrar actual
-    shoe_r_directory = "Resources/Character/topShoeRsmall.png"
+    shoe_r_directory = "Resources/Character/dtopShoeRsmall.png"
     # Imagen cargada
     shoe_r = pygame.image.load(shoe_r_directory)  # Carga la imagen de la carpeta
     # Imagen escalada
@@ -1659,6 +1723,8 @@ def for_asign_word_initial():
     else:
         row_list = random.sample(range(0, ta_mi_fila), ta_mi_fila)
 
+    print("row_list:", row_list)
+
     f = 0
     # Ingresa la fila en la lista propia de la palabra
     while f < len(ta_words_list):
@@ -1677,6 +1743,8 @@ def for_asign_word_initial():
     else:
         column_list = random.sample(range(0, ta_mi_col), ta_mi_col)
 
+    print("column_list:", column_list)
+
     c = 0
     # Ingresa la columna en la lista propia de la palabra
     while c < len(ta_words_list):
@@ -1689,7 +1757,13 @@ def for_asign_word_initial():
 # Toma la lista de palabras ya lista para mostrarlas en pantalla
 def for_asign_word():
     # PARA INGRESAR EN LA WEB
-    for i in range(len(ta_words_list)):
+
+    word_quan = len(ta_words_list)
+
+    '''    if word_quan > ta_mi_fila * ta_mi_col:
+            word_quan = ta_mi_fila * ta_mi_col'''
+
+    for i in range(word_quan):
         # show_word(str(ta_words_list[i][0]), str(ta_words_list[i][1]), ta_words_list[i][2], ta_words_list[i][3])
         show_word(ta_words_list[i][2], ta_words_list[i][3], str(ta_words_list[i][0]), ta_words_list[i][1])
 
@@ -1757,8 +1831,8 @@ def check_gesture(surface):
 
     if wait_time_min < (time.time() - time_o): # < wait_time_max:
 
-        print("Time change: " + str(time.time() - time_o))
-        print("old_lhy: " + str(old_lhy) + "\nlhy: " + str(lhy))
+        # print("Time change: " + str(time.time() - time_o))
+        # print("old_lhy: " + str(old_lhy) + "\nlhy: " + str(lhy))
 
         # Cambia la direccion del movimiento
         if old_lhy - gesture_change > lhy:  # T. Izquierda
@@ -1821,7 +1895,7 @@ def move_front(surface):
     shoe_r_y -= dy
 
     # change its background color
-    surface.fill((255, 255, 255))
+    surface.fill((205, 205, 205))
     # blit uLSurface onto the main screen at the position (0, 0)
     initial_window.blit(surface, (0, 0))
     # Mostrara la telaraña en pantalla
@@ -1858,7 +1932,7 @@ def move_front(surface):
     shoe_l_y -= dy
 
     # change its background color
-    surface.fill((255, 255, 255))
+    surface.fill((205, 205, 205))
     # blit uLSurface onto the main screen at the position (0, 0)
     initial_window.blit(surface, (0, 0))
     # Mostrara la telaraña en pantalla
@@ -1911,7 +1985,7 @@ def move_back(surface):
     shoe_r_y -= dy
 
     # change its background color
-    surface.fill((255, 255, 255))
+    surface.fill((205, 205, 205))
     # blit uLSurface onto the main screen at the position (0, 0)
     initial_window.blit(surface, (0, 0))
     # Mostrara la telaraña en pantalla
@@ -1948,7 +2022,7 @@ def move_back(surface):
     shoe_l_y -= dy
 
     # change its background color
-    surface.fill((255, 255, 255))
+    surface.fill((205, 205, 205))
     # blit uLSurface onto the main screen at the position (0, 0)
     initial_window.blit(surface, (0, 0))
     # Mostrara la telaraña en pantalla
@@ -2001,7 +2075,7 @@ def move_right(surface):
     shoe_r_x -= dx
 
     # change its background color
-    surface.fill((255, 255, 255))
+    surface.fill((205, 205, 205))
     # blit uLSurface onto the main screen at the position (0, 0)
     initial_window.blit(surface, (0, 0))
     # Mostrara la telaraña en pantalla
@@ -2038,7 +2112,7 @@ def move_right(surface):
     shoe_l_x -= dx
 
     # change its background color
-    surface.fill((255, 255, 255))
+    surface.fill((205, 205, 205))
     # blit uLSurface onto the main screen at the position (0, 0)
     initial_window.blit(surface, (0, 0))
     # Mostrara la telaraña en pantalla
@@ -2091,7 +2165,7 @@ def move_left(surface):
     shoe_l_x -= dx
 
     # change its background color
-    surface.fill((255, 255, 255))
+    surface.fill((205, 205, 205))
     # blit uLSurface onto the main screen at the position (0, 0)
     initial_window.blit(surface, (0, 0))
     # Mostrara la telaraña en pantalla
@@ -2128,7 +2202,7 @@ def move_left(surface):
     shoe_r_x -= dx
 
     # change its background color
-    surface.fill((255, 255, 255))
+    surface.fill((205, 205, 205))
     # blit uLSurface onto the main screen at the position (0, 0)
     initial_window.blit(surface, (0, 0))
     # Mostrara la telaraña en pantalla
@@ -2176,14 +2250,18 @@ def restore_change():
 
 ta_sx = 0
 ta_sy = 0
-ta_sr = ta_mi_fila - 1
-ta_sc = ta_mi_col / 2 - 0.5
+ta_sr = ta_mi_fila
+ta_sc = (ta_mi_col-1) / 2
 
 
 # Dependiendo de la posicion del usuario, recoge las palabras por las cuales ya ha pasado
 def pick_up_word():
 
     global ta_score
+
+    print("pick_up_word()")
+    print("ta_sr",ta_sr)
+    print("ta_sc",ta_sc)
 
     # Verifica las coordenadas por fila y columna ta_sr y ta_sc
     # para ver si son iguales a la posicion de alguna palabra en la web
@@ -2233,6 +2311,23 @@ def check_words_completed():
     return incomplete_words
 
 
+'''
+# Verifica cuando el jugador se sale de la linea
+def over_line():
+
+    v1 = ta_sc%1 == 0
+    v2 = ta_sr%1 != 0
+
+    v3 = ta_sc%1 != 0
+    v4 = ta_sr%1 == 0
+
+    if v2 & v1 or v3 & v4 or v2 & v3:
+        print("OUT")
+'''
+
+
+
+
 ###############################################################################
 #                                                                             #
 ###############################################################################
@@ -2246,31 +2341,38 @@ def check_words_completed():
 
 
 # Variables de Alcanzando el Objetivo
-ao_object_longitud = 200  # Fija
-ao_object_altura = 500  # Fija
+ao_object_longitud = 0  # Fija
+ao_object_altura = 0  # Fija
 
-ao_object_x = displayWidth - ao_object_longitud  # Actualizable
-ao_object_y = displayHeight - ao_object_altura  # Actualizable
+ao_object_x = 0  # displayWidth - ao_object_longitud  # Actualizable
+ao_object_y = 0  # displayHeight - ao_object_altura  # Actualizable
+
+# Variable utilizada en FOR X TIMES using "VAR1"
+ao_var1 = 0
 
 # Lista de distancias
-ao_distances = [2, 5, 1, 7, 1]  # 4, 9, 6, 3,
+ao_distances = []  # [2, 5, 1, 7, 1]  # 4, 9, 6, 3,
 
-# Cantidad de iteraciones es igual a la cantidad de distancias
-ao_cantidad = len(ao_distances)
+# Cantidad de iteraciones
+ao_cantidad = 0  # puede que != len(ao_distances)
 
 # Time
-ao_seconds = 4  # Fija
-ao_seconds_left = ao_seconds * ao_cantidad  # Actualizable
+ao_seconds = 0  # Fija
+ao_seconds_left = 0  # ao_seconds * ao_cantidad  # Actualizable
 
 # Iteracion actual
 ao_actual_iteration = 1
 
 # Tiempo total del juego
-ao_total_seconds = ao_seconds * ao_cantidad
+ao_total_seconds = 0  #ao_seconds * ao_cantidad
 
 # Score
 ao_score = 0
 ao_max_score = 10000
+
+
+ao_highest = 0  # max(ao_distances)
+ao_distance_multiplier = 0  # displayHeight // ao_highest
 
 
 # Corre la seleccion de Down Right
@@ -2278,6 +2380,44 @@ def run_dr():
     print("Alcanzando el Objetivo")
 
     global ao_seconds_left
+    global ao_object_x
+    global ao_object_y
+    global ao_cantidad
+    global ao_seconds_left
+    global ao_total_seconds
+    global ao_highest
+    global ao_distance_multiplier
+    global ao_object_longitud
+
+    if isinstance(ao_distances, int):
+        # Si es solo una longitud, un int
+        ao_object_longitud = ao_distances
+
+        # ao_cantidad = 1
+
+        # Altura mas alta
+        ao_highest = ao_distances
+
+    else:
+        # Si es una lista de longitudes
+        ao_object_longitud = ao_distances[0]
+
+        # Cantidad de iteraciones es igual a la cantidad de distancias
+        # ao_cantidad = len(ao_distances)
+
+        # Altura mas alta
+        ao_highest = max(ao_distances)
+
+    ao_object_x = displayWidth - ao_object_longitud  # Actualizable
+    ao_object_y = displayHeight - ao_object_altura  # Actualizable
+
+    ao_seconds_left = ao_seconds * ao_cantidad  # Actualizable
+
+    # Tiempo total del juego
+    ao_total_seconds = ao_seconds * ao_cantidad
+
+    # Multiplicador de distancias
+    ao_distance_multiplier = displayHeight // ao_highest
 
     # Para el sprite del object
     n = 1
@@ -2351,8 +2491,16 @@ def place_object(n):
     ao_object = pygame.transform.scale(ao_object,
                                        (ao_object_width, ao_object_height))  # Escala la imagen al size deseado
 
+    '''global ao_object_x
+    global ao_object_y
+
+    ao_object_x = displayWidth - ao_object_longitud  # Actualizable
+    ao_object_y = displayHeight - ao_object_altura  # Actualizable'''
+
     # Muestra la imagen en pantalla con las coordenadas preestablecidas
     initial_window.blit(ao_object, (ao_object_x, ao_object_y))
+
+    print("(",ao_object_x,",",ao_object_y,")")
 
 
 # Verifica si el personaje ha impactado al objeto
@@ -2415,22 +2563,53 @@ def set_object_state():
     return continue_setting
 
 
-ao_highest = max(ao_distances)
-ao_distance_multiplier = displayHeight // ao_highest
-
-
 # Cambia la posicion del objeto por la siguiente en la lista
 # Promedia la distancia mas alta para que ninguna se salga de la ventana
 def change_object_position():
     global ao_object_x
     global ao_object_y
+    global ao_var1
+
+    # Actualiza el "for"
+    ao_var1 += 1
 
     # Toma la siguiente posicion de la lista de posiciones brindada por el usuario
-    new_y = ao_distances[ao_actual_iteration - 1]
+    new_y = ao_distances[ao_var1]
+
+    #ao_object_x = displayWidth - ao_object_longitud  # Actualizable
+    #ao_object_y = displayHeight - ao_object_altura  # Actualizable
 
     # Cambia las posiciones del objeto
-    ao_object_y = ao_distance_multiplier * new_y
+    ao_object_y = displayHeight - ao_distance_multiplier * new_y
+    # ao_object_y = get_Object_from_compiler("ao", "alt")
     ao_object_x = random.randrange(0, displayWidth - ao_object_width, 1)
+    # ao_object_x = get_Object_from_compiler("ao", "lat")
+
+
+# Retona las varibar
+def get_Object_from_compiler(game,variable):
+
+    if game == "ao":
+
+        source_function = get_variables_from_compilers_list("ao", "Object")
+
+        if variable == "alt":
+            if isinstance(source_function[1], int):
+                return source_function[1]
+
+        elif variable == "lat":
+            if isinstance(source_function[2], int):
+                return source_function[2]
+            else:
+                print(get_variables_from_compilers_list("ao", source_function[2][0]))
+                return get_variables_from_compilers_list("ao", source_function[2][0])[ao_var1+1]
+
+        elif variable == "tiempo":
+            if isinstance(source_function[3], int):
+                return source_function[3]
+
+        else:
+            return -1
 
 
 # Define el puntaje del Juego AO
@@ -2487,6 +2666,16 @@ def run_s():
 
         # Update display (Actualiza _todo el surface)
         pygame.display.update()
+
+
+###############################################################################
+#                                                                             #
+###############################################################################
+
+
+###############################################################################
+#                                                                             #
+###############################################################################
 
 
 # Head Dimensions
@@ -2550,7 +2739,7 @@ old_rfy = rfy
 # Muestra el personaje en pantalla
 def show_character():
     # Directorio de la cabeza
-    head_directory = "Resources/Character/headsmall.png"
+    head_directory = "Resources/Character/dheadsmall.png"
     head = pygame.image.load(head_directory)
     # head = pygame.transform.scale(head, (hw, hh))
     initial_window.blit(head, (hx, hy))
@@ -2562,25 +2751,25 @@ def show_character():
     initial_window.blit(body, (bx, by))
 
     # Directorio de la mano izquierda
-    hand_l_directory = "Resources/Character/handLsmall.png"
+    hand_l_directory = "Resources/Character/bhandLsmall.png"
     hand_l = pygame.image.load(hand_l_directory)
     # hand_l = pygame.transform.scale(hand_l, (hdw, hdh))
     initial_window.blit(hand_l, (lhx, lhy))
 
     # Directorio de la mano derecha
-    hand_r_directory = "Resources/Character/handRsmall.png"
+    hand_r_directory = "Resources/Character/bhandRsmall.png"
     hand_r = pygame.image.load(hand_r_directory)
     # hand_r = pygame.transform.scale(hand_r, (hdw, hdh))
     initial_window.blit(hand_r, (rhx, rhy))
 
     # Directorio del pie izquierdo
-    shoe_l_directory = "Resources/Character/shoeLsmall.png"
+    shoe_l_directory = "Resources/Character/dshoeLsmall.png"
     shoe_l = pygame.image.load(shoe_l_directory)
     # shoe_l = pygame.transform.scale(shoe_l, (fw, fh))
     initial_window.blit(shoe_l, (lfx, lfy))
 
     # Directorio del pie derecho
-    shoe_r_directory = "Resources/Character/shoeRsmall.png"
+    shoe_r_directory = "Resources/Character/dshoeRsmall.png"
     shoe_r = pygame.image.load(shoe_r_directory)
     # shoe_r = pygame.transform.scale(shoe_r, (fw, fh))
     initial_window.blit(shoe_r, (rfx, rfy))
@@ -2596,7 +2785,7 @@ def show_hand_selection():
     rhy = rhy * 2 - 100
 
     # Directorio de la mano derecha
-    hand_r_directory = "Resources/Character/handRsmall.png"
+    hand_r_directory = "Resources/Character/bhandRsmall.png"
     hand_r = pygame.image.load(hand_r_directory)
     hand_r = pygame.transform.scale(hand_r, (hdw, hdh))
     initial_window.blit(hand_r, (rhx, rhy))
@@ -2635,6 +2824,9 @@ def update_character_coordinates(dbx, dby, dlhx, dlhy, drhx, drhy, dlfx, dlfy, d
     rfy = drfy * multy
     '''
 
+    offset = 100
+    f_offset = -50
+
     # Coordenada x del cuerpo
     if -5 < dbx < 5:
         bx = -200
@@ -2647,7 +2839,7 @@ def update_character_coordinates(dbx, dby, dlhx, dlhy, drhx, drhy, dlfx, dlfy, d
         by = -200
         hy = -200
     else:
-        by = dby * multy - 100
+        by = dby * multy - 100 + offset
         hy = by - hh - 10
 
     # Coordenada x de la mano izquierda
@@ -2659,40 +2851,64 @@ def update_character_coordinates(dbx, dby, dlhx, dlhy, drhx, drhy, dlfx, dlfy, d
     if -5 < dlhy < 5:
         lhy = -200
     else:
-        lhy = dlhy * multy
+        lhy = int(dlhy * multy) + offset
 
     # Coordenada x de la mano derecha
     if -5 < drhx < 5:
         rhx = -200
     else:
-        rhx = drhx * multx
+        rhx = int(drhx * multx)
     # Coordenada y de la mano derecha
     if -5 < drhy < 5:
         rhy = -200
     else:
-        rhy = drhy * multy
+        rhy = int(drhy * multy) + offset
 
     # Coordenada x del pie izquierdo
     if -5 < dlfx < 5:
         lfx = -200
     else:
-        lfx = dlfx * multx
+        lfx = int(dlfx * multx)
+
+        if lfx > 999:
+            div = 10 ** (len(str(lfx)) - 3)
+            lfx = lfx // div
+
+        #print("\nlfx:", lfx)
     # Coordenada y del pie izquierdo
     if -5 < dlfy < 5:
         lfy = -200
     else:
-        lfy = dlfy * multy
+        lfy = int(dlfy * multy) + offset
+
+        if lfy > 999:
+            div = 10 ** (len(str(lfy)) - 3)
+            lfy = lfy // div + f_offset
+
+        #print("lfy:", lfy)
 
     # Coordenada x del pie derecho
     if -5 < drfx < 5:
         rfx = -200
     else:
-        rfx = drfx * multx
+        rfx = int(drfx * multx)
+
+        if rfx > 999:
+            div = 10 ** (len(str(rfx)) - 3)
+            rfx = rfx // div
+
+        #print("\nrfx:", rfx)
     # Coordenada y del pie derecho
     if -5 < drfy < 5:
         rfy = -200
     else:
-        rfy = drfy * multy
+        rfy = int(drfy * multy)
+
+        if rfy > 999:
+            div = 10 ** (len(str(rfy)) - 3)
+            rfy = rfy // div + f_offset
+
+        #print("rfy:", rfy)
 
 
 '''
@@ -2756,6 +2972,645 @@ def get_coordinates_from_kinect():
         # Actualiza las coordenadas de las posiciones del cuerpo por graficar
         update_character_coordinates(coords[0], coords[1], coords[2], coords[3], coords[4],
                                      coords[5], coords[6], coords[7], coords[8], coords[9])
+
+# -------------------------------------------------------------------------------------------------------------------- #
+
+
+# Proceso de Compilado
+
+
+# Inicia el proceso de Compilado e Interpretado para generar una lista con las variables y funciones especificas del
+# Archivo de text con nuestro lenguaje de programacion
+def compile_file():
+    directorio = 'C:\\Users\\Rubsalas\\Desktop\TEC\\2019 - Semestre II - CE\\Lenguajes, Compiladores e Intérpretes\\Compiladores e Interpretes\\Proyecto\\MotorTherapy\\Text Files\\'
+    archivo = buscarFicheros(directorio)
+    test = directorio + archivo
+    fp = codecs.open(test, "r", "utf-8")
+    cadena = fp.read()
+    fp.close()
+
+    yacc.yacc()
+    result = yacc.parse(cadena, debug=1)
+    # print('\n')
+    result.imprimir(" ")
+    # print('\n')
+    # print(list)
+
+    traducir(result)
+    # print('\n')
+    # print("Var sintacticas ")
+    # print(varsintac)
+    # checkType(variables)
+
+    if len(varsintac) == 0:
+        raise ValueError("No hay variables")
+
+    contador = 0
+    for i in raquetaGlobo(list, varsintac):
+        if i == "game":
+            contador = contador + 1
+        else:
+            pass
+    if contador != 4:
+        raise ValueError("No estan las 4 funciones de juego")
+
+    return raquetaGlobo(list, varsintac)
+
+
+# Compila el archivo de texto
+complist = compile_file()
+
+
+print("\n\n\n\n\n\n\n\nCOMPILER'S LIST:\n", complist)
+
+
+# Listas con las variables y funciones necesarias para correr cada juego
+games_lists = []
+
+
+# Obtiene la cantidad de listas que representaran los juegos en el archivo
+# Los juegos son separados por los strings 'game' y 'END'
+def get_games():
+
+    global games_lists
+
+    on_game = False
+    game_i = []
+
+    for i in complist:
+
+        # Se verifica que haya un string 'game'
+        if i == "game":
+            # Se hace True el flag para empezar a guardar todo_ lo del juego
+            on_game = True
+
+        else:
+
+            if i == "END":
+                games_lists.append(game_i)
+                on_game = False
+                game_i = []
+            else:
+                game_i.append(i)
+
+    print("\n\ngames_lists:")
+    for i in games_lists:
+        print("\n",i)
+
+
+get_games()
+
+
+'''
+# Manda a cada juego en Pygame las variables encontradas en el archivo de texto luego de la compilacion
+def set_game_variables(game):
+    if game == "rg":
+        return compilers_list[0]
+    elif game == "up":
+        return compilers_list[1]
+    elif game == "ta":
+        return compilers_list[2]
+    elif game == "ao":
+        return compilers_list[3]
+    else:
+        print("Error in get_from_compilers_list(game)")
+        return [-1]'''
+
+
+# Guarda las variables que necesita cada juego de las listas provenientes del compilador
+def set_variables_from_compilers_list(game):
+    if game == "rg":
+        global rg_alt
+        global rg_lat
+        global rg_cantidad
+
+        rg_alt = search_variables_from_compilers_list("rg", "alt")
+        rg_lat = search_variables_from_compilers_list("rg", "lat")
+        rg_cantidad = search_variables_from_compilers_list("rg", "cantidad")
+
+        print("rg_alt", rg_alt)
+        print("rg_lat", rg_lat)
+        print("rg_cantidad", rg_cantidad)
+
+    elif game == "up":
+        global up_colores
+        global up_puntaje
+        global up_tiempo
+        global up_cantidad
+        global up_iterations
+
+        up_colores = search_variables_from_compilers_list("up", "color")
+        up_puntaje = search_variables_from_compilers_list("up", "puntaje")
+        # up_tiempo = search_variables_from_compilers_list("up", "tiempo")
+        # up_cantidad = search_variables_from_compilers_list("up", "cant")
+        up_tiempo = search_variables_from_compilers_list("up", "lat")
+        up_cantidad = search_variables_from_compilers_list("up", "alt")
+        up_iterations = search_variables_from_compilers_list("up", "Reps")
+
+        print("up_colores", up_colores)
+        print("up_puntaje", up_puntaje)
+        print("up_tiempo", up_tiempo)
+        print("up_cantidad", up_cantidad)
+        print("up_iterations", up_iterations)
+
+    elif game == "ta":
+        global ta_mi_arreglo
+        global ta_mi_puntaje
+        global ta_mi_fila
+        global ta_mi_col
+
+        ta_mi_arreglo = search_variables_from_compilers_list("ta", "palabra")
+        ta_mi_puntaje = search_variables_from_compilers_list("ta", "puntaje")
+        ta_mi_fila = search_variables_from_compilers_list("ta", "fila")
+        ta_mi_col = search_variables_from_compilers_list("ta", "columna")
+
+        print("ta_mi_arreglo", ta_mi_arreglo)
+        print("ta_mi_puntaje", ta_mi_puntaje)
+        print("ta_mi_fila", ta_mi_fila)
+        print("ta_mi_col", ta_mi_col)
+
+    elif game == "ao":
+
+        global ao_object_altura
+        global ao_distances
+        global ao_seconds
+        global ao_cantidad
+
+        ao_object_altura = search_variables_from_compilers_list("ao", "Altura")
+        ao_distances = search_variables_from_compilers_list("ao", "longitud")
+        ao_seconds = search_variables_from_compilers_list("ao", "Second")
+        ao_cantidad = search_variables_from_compilers_list("ao", "Reps")
+
+        print("ao_object_altura", ao_object_altura)
+        print("ao_distances", ao_distances)
+        print("ao_seconds", ao_seconds)
+        print("ao_cantidad", ao_cantidad)
+
+    else:
+        print("Error in set_variables_from_compilers_list(game)")
+
+
+# Funcion que buscara en la lista del juego indicado las variables necesarias para su funcionamiento
+def search_variables_from_compilers_list(game, variable):
+
+    if game == "rg":
+
+        # print("games_lists[0]:", games_lists[0])
+
+        for i in games_lists[0]:
+            # print("i", i)
+            
+            if variable == "alt":
+                if i[0] == "alt":
+                    # print(variable, "from", game, "is", i[1])
+                    return i[1]
+                else:
+                    True  # print(variable, "in", game, "not found")
+                    #return -1
+
+            elif variable == "lat":
+                if i[0] == "lat":
+                    # print(variable, "from", game, "is", i[1])
+                    return i[1]
+                else:
+                    True  # print(variable, "in", game, "not found")
+                    #return -1
+
+            elif variable == "cantidad":
+                if i[0] == "cantidad":
+                    # print(variable, "from", game, "is", i[1])
+                    return i[1]
+                else:
+                    True  # print(variable, "in", game, "not found")
+                    #return -1
+
+    elif game == "up":
+        
+        for i in games_lists[1]:
+            # print("i[0]", i[0])
+            
+            if variable == "color":
+                if i[0] == "color":
+                    # print(variable, "from", game, "is", i[1:])
+                    print("color", i[1:])
+                    return i[1:]
+                else:
+                    True  # print(variable, "in", game, "not found")
+                    # return [""]
+                
+            elif variable == "puntaje":
+                if i[0] == "puntaje":
+                    # print(variable, "from", game, "is", i[1:])
+                    return i[1:]
+                else:
+                    True  # print(variable, "in", game, "not found")
+                    # return [-1]
+                
+                '''elif variable == "tiempo":
+                if i[0] == "tiempo":'''
+            elif variable == "lat":
+                if i[0] == "lat":
+                    # print(variable, "from", game, "is", i[1])
+                    return i[1]
+                else:
+                    True  # print(variable, "in", game, "not found")
+                    # return -1
+                
+                '''elif variable == "cant":
+                if i[0] == "cant":'''
+
+            elif variable == "alt":
+                if i[0] == "alt":
+                    # print(variable, "from", game, "is", i[1])
+                    return i[1]
+                else:
+                    True  # print(variable, "in", game, "not found")
+                    # return -1
+                
+            elif variable == "Reps":
+                if i[0] == "Reps":
+                    # print(variable, "from", game, "is", i[1])
+                    return i[1]
+                else:
+                    True  # print(variable, "in", game, "not found")
+                    # return -1
+        
+    elif game == "ta":
+
+        for i in games_lists[2]:
+            # print("i[0]", i[0])
+
+            if variable == "palabra":
+                if i[0] == "palabra":
+                    # print(variable, "from", game, "is", i[1:])
+                    return i[1:]
+                else:
+                    True  # print(variable, "in", game, "not found")
+                    # return [""]
+
+            elif variable == "puntaje":
+                if i[0] == "puntaje":
+                    # print(variable, "from", game, "is", i[1:])
+                    return i[1:]
+                else:
+                    True  # print(variable, "in", game, "not found")
+                    # return [""]
+
+            elif variable == "fila":
+                if i[0] == "fila":
+                    # print(variable, "from", game, "is", i[1])
+                    return i[1]
+                else:
+                    True  # print(variable, "in", game, "not found")
+                    # return -1
+
+            elif variable == "columna":
+                if i[0] == "columna":
+                    # print(variable, "from", game, "is", i[1])
+                    return i[1]
+                else:
+                    True  # print(variable, "in", game, "not found")
+                    # return -1
+    
+    elif game == "ao":
+        
+        for i in games_lists[3]:
+            # print("i[0]", i[0])
+
+            if variable == "Altura":
+                if i[0] == "Altura":
+                    # print(variable, "from", game, "is", i[1])
+                    return i[1]
+                elif i[0] == "Object":
+                    return i[1]
+                else:
+                    True  # print(variable, "in", game, "not found")
+                    # return -1
+            
+            elif variable == "longitud":
+                if i[0] == "longitud":
+                    if len(i[0]) == 2:
+                        # Si es solo un dato, seria un int
+                        # print(variable, "from", game, "is", i[1])
+                        return i[1]
+                    else:
+                        # Si son dos o mas datos es una array
+                        # print(variable, "from", game, "is", i[1])
+                        return i[1:]
+                elif i[0] == "Object":
+                    return i[2]
+                else:
+                    True  # print(variable, "in", game, "not found")
+                    # return -1
+
+            elif variable == "Second":
+                if i[0] == "Second":
+                    # print(variable, "from", game, "is", i[1])
+                    return i[1]
+                elif i[0] == "Object":
+                    return i[3]
+                else:
+                    True  # print(variable, "in", game, "not found")
+                    # return -1
+
+            elif variable == "Reps":
+                if i[0] == "Reps":
+                    # print(variable, "from", game, "is", i[1])
+                    return i[2]
+                else:
+                    True  # print(variable, "in", game, "not found")
+                    # return -1
+
+
+print("\n\n\n")
+set_variables_from_compilers_list("rg")
+print("\n\n\n")
+set_variables_from_compilers_list("up")
+print("\n\n\n")
+set_variables_from_compilers_list("ta")
+print("\n\n\n")
+set_variables_from_compilers_list("ao")
+print("\n\n\n")
+
+
+
+
+
+
+
+
+
+
+# Corre el Compilador [Ejemplo]
+def compile_motor_therapy():
+
+    # Simula las listas provenientes del Compilador
+
+    clg1 = [["alt", 300], ["lat", 850], ["cantidad", 5], ["Start"], ["Balloon", "alt", "lat"], ["Inc", "alt", 30],
+                   ["Dec", "lat", 50], ["End"]]
+    clg2 = [["Color", "rosado", "rojo", "anaranjado", "amarillo", "verde_claro", "verde_oscuro", "turqueza", "celeste", "azul",
+              "morado"], ["Puntaje", 500, 1000, 1500, 2000, 2500, 3000, 3500, 4000, 4500, 5000], ["tiempo", 90], ["cant", 3], ["Start"], ["reps", 5],
+                   ["Random", "Color", "cant", "tiempo"], ["Inc", "cant", 3], ["Dec", "tiempo", 10], ["End"]]
+    clg3 = [["MiArreglo", "Azul", "Rojo", "Naranja", "Verde", "Amarillo"],
+                   ["Puntaje", 1000, 2000, 3000, 4000, 5000],
+                   ["MiFila", 3], ["MiCol", 3]]
+    clg4 = [["Dist", 300, 500, 575, 450, 375], ["Start"], ["reps", "Var1", 5], ["Object", 600, ["Dist", "Var1"], 15], ["End"]]
+
+    # Lista completa proveniente del compilador
+    cl = [clg1, clg2, clg3, clg4]
+
+    global clist_game1
+    global clist_game2
+    global clist_game3
+    global clist_game4
+    global compilers_list
+
+    # Ingresa las sublistas a las listas respectivas en el programa
+    clist_game1 = cl[0]
+    clist_game2 = cl[1]
+    clist_game3 = cl[2]
+    clist_game4 = cl[3]
+
+    compilers_list = [clist_game1, clist_game2, clist_game3, clist_game4]
+
+
+# Listas con las variables y funciones del programa en nuestro lenguaje
+clist_game1 = []
+clist_game2 = []
+clist_game3 = []
+clist_game4 = []
+
+compilers_list = [clist_game1, clist_game2, clist_game3, clist_game4]
+
+
+# Lectura de la salida del Compilador
+def get_from_compilers_list(game):
+
+    if game == "rg":
+        return compilers_list[0]
+    elif game == "up":
+        return compilers_list[1]
+    elif game == "ta":
+        return compilers_list[2]
+    elif game == "ao":
+        return compilers_list[3]
+    else:
+        print("Error in get_from_compilers_list(game)")
+        return [-1]
+
+'''
+# Guarda las variables que necesita cada juego de las listas provenientes del compilador
+def set_variables_from_compilers_list(game):
+
+    if game == "rg":
+        global rg_alt
+        global rg_lat
+        global rg_cantidad
+
+        rg_alt = get_variables_from_compilers_list("rg", "alt")[1]
+        rg_lat = get_variables_from_compilers_list("rg", "lat")[1]
+        rg_cantidad = get_variables_from_compilers_list("rg", "cantidad")[1]
+
+        #print("rg_alt", rg_alt)
+        #print("rg_lat", rg_lat)
+        #print("rg_cantidad", rg_cantidad)
+
+    elif game == "up":
+        global up_colores
+        global up_puntaje
+        global up_tiempo
+        global up_cantidad
+        global up_iterations
+
+        up_colores = get_variables_from_compilers_list("up", "Color")[1:]
+        up_puntaje = get_variables_from_compilers_list("up", "Puntaje")[1:]
+        up_tiempo = get_variables_from_compilers_list("up", "tiempo")[1]
+        up_cantidad = get_variables_from_compilers_list("up", "cant")[1]
+        up_iterations = get_variables_from_compilers_list("up", "reps")[1]
+
+        #print("up_colores", up_colores)
+        #print("up_puntaje", up_puntaje)
+        #print("up_tiempo", up_tiempo)
+        #print("up_cantidad", up_cantidad)
+        #print("up_iterations", up_iterations)
+
+        # Cambio en tiempo ?
+        up_dtime = -1
+        # Cambio en up_cantidad ?
+        up_dcantidad = -1
+
+    elif game == "ta":
+        global ta_mi_arreglo
+        global ta_mi_puntaje
+        global ta_mi_fila
+        global ta_mi_col
+
+        ta_mi_arreglo = get_variables_from_compilers_list("ta", "MiArreglo")[1:]
+        ta_mi_puntaje = get_variables_from_compilers_list("ta", "Puntaje")[1:]
+        ta_mi_fila = get_variables_from_compilers_list("ta", "MiFila")[1]
+        ta_mi_col = get_variables_from_compilers_list("ta", "MiCol")[1]
+
+        #print("ta_mi_arreglo", ta_mi_arreglo)
+        #print("ta_mi_puntaje", ta_mi_puntaje)
+        #print("ta_mi_fila", ta_mi_fila)
+        #print("ta_mi_col", ta_mi_col)
+
+    elif game == "ao":
+        global compilers_list
+        global ao_distances
+        global ao_var1
+
+        global ao_object_longitud
+        global ao_object_altura
+        global ao_seconds
+
+        compilers_list[3].append([get_variables_from_compilers_list("ao", "reps")[1], 0])
+
+        ao_distances = get_variables_from_compilers_list("ao", "Dist")[1:]
+        ao_var1 = get_variables_from_compilers_list("ao", "Var1")[1]
+        ao_object_longitud = get_variables_from_compilers_list("ao", get_variables_from_compilers_list("ao", "Object")[2][get_variables_from_compilers_list("ao", "Var1")[1]])[1]
+        ao_object_altura = get_variables_from_compilers_list("ao", "Object")[1]
+        ao_seconds = get_variables_from_compilers_list("ao", "Object")[3]
+
+        print("ao_distances", ao_distances)
+        print("Var1", ao_var1)
+        print("ao_object_longitud", ao_object_longitud)
+        print("ao_object_altura", ao_object_altura)
+        print("ao_seconds", ao_seconds)
+        # print("compilers_list[3]", compilers_list[3])
+
+    else:
+        print("Error in set_variables_from_compilers_list(game)")
+'''
+
+'''
+# Verifica si el valor viene de algun array o es solo una variable
+def is_variable(game, variable):
+    if isinstance(variable, int) or isinstance(variable, str):
+        return variable
+    else:
+        get_variables_from_compilers_list(game, variable[0])
+'''
+
+
+# Retorna la variable necesaria de la lista especifica del juego deseado
+def get_variables_from_compilers_list(game, variable):
+    if game == "rg":
+        for list_rg in compilers_list[0]:
+            if list_rg[0] == variable:
+                return list_rg
+
+    elif game == "up":
+        for list_up in compilers_list[1]:
+            if list_up[0] == variable:
+                return list_up
+
+    elif game == "ta":
+        for list_ta in compilers_list[2]:
+            if list_ta[0] == variable:
+                return list_ta
+
+    elif game == "ao":
+        for list_ao in compilers_list[3]:
+            if list_ao[0] == variable:
+                return list_ao
+
+    else:
+        print("Error in get_variables_from_compilers_list(game)")
+    return [-1]
+
+
+# Busca los cambios de Inc y Dec en las listas del compilador
+def search_change_from_compiler(game, variable):
+
+    change = 0
+    n = 1
+
+    if game == "rg":
+        for list_rg in games_lists[0]:
+            n += 1
+            if list_rg[0] == "START":
+                for list_rg_o in games_lists[0][n:]:
+                    print(list_rg_o)
+                    if list_rg_o[1] == variable:
+                        # print(list_rg_o[1])
+                        if list_rg_o[0] == "Inc":
+                            change += list_rg_o[2]
+                        elif list_rg_o[0] == "Dec":
+                            change -= list_rg_o[2]
+        print(variable, "->", change)
+        return change
+
+    elif game == "up":  # Aca tambien
+        for list_rg in games_lists[1]:
+            n += 1
+            if list_rg[0] == "START":
+                for list_rg_o in games_lists[1][n:]:
+                    print(list_rg_o)
+                    if list_rg_o[1] == variable:
+                        # print(list_rg_o[1])
+                        if list_rg_o[0] == "Inc":
+                            change += list_rg_o[2]
+                        elif list_rg_o[0] == "Dec":
+                            change -= list_rg_o[2]
+        print(variable, "->", change)
+        return change
+
+    elif game == "ta":  #
+        for list_rg in games_lists[2]:
+            n += 1
+            if list_rg[0] == "START":
+                for list_rg_o in games_lists[2][n:]:
+                    print(list_rg_o)
+                    if list_rg_o[1] == variable:
+                        # print(list_rg_o[1])
+                        if list_rg_o[0] == "Inc":
+                            change += list_rg_o[2]
+                        elif list_rg_o[0] == "Dec":
+                            change -= list_rg_o[2]
+        print(variable, "->", change)
+        return change
+
+    elif game == "ao":
+        for list_rg in games_lists[3]:
+            n += 1
+            if list_rg[0] == "START":
+                for list_rg_o in games_lists[3][n:]:
+                    print(list_rg_o)
+                    if list_rg_o[1] == variable:
+                        # print(list_rg_o[1])
+                        if list_rg_o[0] == "Inc":
+                            change += list_rg_o[2]
+                        elif list_rg_o[0] == "Dec":
+                            change -= list_rg_o[2]
+        print(variable, "->", change)
+        return change
+
+    else:
+        print("Error in get_variables_from_compilers_list(game)")
+    return [-1]
+
+'''
+# Inicia el proceso de compilacion y asignacion de las variables
+compile_motor_therapy()
+print("\n")
+set_variables_from_compilers_list("rg")
+print("\n")
+set_variables_from_compilers_list("up")
+print("\n")
+set_variables_from_compilers_list("ta")
+print("\n")
+set_variables_from_compilers_list("ao")
+print("\n")
+
+
+'''
+
+
+
+
+
+# -------------------------------------------------------------------------------------------------------------------- #
 
 
 # Flag

@@ -36,7 +36,7 @@
   <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
   <component name="PropertiesComponent">
     <property name="WebServerToolWindowFactoryState" value="false" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/Test" />
     <property name="node.js.detected.package.eslint" value="true" />
     <property name="node.js.detected.package.tslint" value="true" />
     <property name="node.js.path.for.package.eslint" value="project" />
@@ -44,7 +44,15 @@
     <property name="node.js.selected.package.eslint" value="(autodetect)" />
     <property name="node.js.selected.package.tslint" value="(autodetect)" />
     <property name="restartRequiresConfirmation" value="false" />
-    <property name="settings.editor.selected.configurable" value="vcs.Git" />
+    <property name="settings.editor.selected.configurable" value="editor.preferences.fonts.default" />
+  </component>
+  <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\Users\Rubsalas\Desktop\TEC\2019 - Semestre II - CE\Lenguajes, Compiladores e Intérpretes\Compiladores e Interpretes\Proyecto\MotorTherapy\Test" />
+      <recent name="C:\Users\Rubsalas\Desktop\TEC\2019 - Semestre II - CE\Lenguajes, Compiladores e Intérpretes\Compiladores e Interpretes\Proyecto\MotorTherapy\Compilador" />
+      <recent name="C:\Users\Rubsalas\Desktop\TEC\2019 - Semestre II - CE\Lenguajes, Compiladores e Intérpretes\Compiladores e Interpretes\Proyecto\MotorTherapy\C1" />
+      <recent name="C:\Users\Rubsalas\Desktop\TEC\2019 - Semestre II - CE\Lenguajes, Compiladores e Intérpretes\Compiladores e Interpretes\Proyecto\MotorTherapy\Compilador2" />
+    </key>
   </component>
   <component name="RunDashboard">
     <option name="ruleStates">
@@ -186,7 +194,7 @@
       <workItem from="1573294729448" duration="25315000" />
       <workItem from="1573535252847" duration="72663000" />
       <workItem from="1573726442928" duration="1589000" />
-      <workItem from="1573735388764" duration="11132000" />
+      <workItem from="1573735388764" duration="137944000" />
     </task>
     <servers />
   </component>
@@ -211,30 +219,34 @@
       <breakpoints>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/GUI.py</url>
-          <line>2276</line>
+          <line>2378</line>
           <option name="timeStamp" value="4" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/GUI.py</url>
-          <line>1440</line>
+          <line>1497</line>
           <option name="timeStamp" value="5" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/GUI.py</url>
-          <line>991</line>
+          <line>1050</line>
           <option name="timeStamp" value="6" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/GUI.py</url>
-          <line>539</line>
+          <line>559</line>
           <option name="timeStamp" value="7" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/GUI.py</url>
+          <option name="timeStamp" value="9" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
     <SUITE FILE_PATH="coverage/MotorTherapy$SyntacticAnal.coverage" NAME="SyntacticAnal Coverage Results" MODIFIED="1573639295786" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/Compilador" />
-    <SUITE FILE_PATH="coverage/MotorTherapy$GUI.coverage" NAME="GUI Coverage Results" MODIFIED="1573743447413" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/MotorTherapy$GUI.coverage" NAME="GUI Coverage Results" MODIFIED="1573968548660" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/MotorTherapy$MotorTherapy.coverage" NAME="MotorTherapy Coverage Results" MODIFIED="1570898976164" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="" />
     <SUITE FILE_PATH="coverage/MotorTherapy$test.coverage" NAME="test Coverage Results" MODIFIED="1570918488589" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
   </component>

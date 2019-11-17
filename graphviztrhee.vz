@@ -1,0 +1,1206 @@
+digraph G {
+	6[label=nodo_nulo]
+	7[label= "game"]
+	14[label=nodo_nulo]
+	15[label=nodo_nulo]
+	13[label= statementList1]
+	13 -> 14
+	13 -> 15
+	17[label=nodo_nulo]
+	20[label= Int]
+	19[label= variableType1]
+	19 -> 20
+	21[label= alt]
+	22[label=nodo_nulo]
+	24[label= "="]
+	26[label= 400]
+	25[label= value1]
+	25 -> 26
+	23[label= initiateVar]
+	23 -> 24
+	23 -> 25
+	18[label= variableDec]
+	18 -> 19
+	18 -> 21
+	18 -> 22
+	18 -> 23
+	16[label= statementList2]
+	16 -> 17
+	16 -> 18
+	12[label= statementlist]
+	12 -> 13
+	12 -> 16
+	29[label= Int]
+	28[label= variableType1]
+	28 -> 29
+	30[label= lat]
+	31[label=nodo_nulo]
+	33[label= "="]
+	35[label= 850]
+	34[label= value1]
+	34 -> 35
+	32[label= initiateVar]
+	32 -> 33
+	32 -> 34
+	27[label= variableDec]
+	27 -> 28
+	27 -> 30
+	27 -> 31
+	27 -> 32
+	36[label=nodo_nulo]
+	11[label= block]
+	11 -> 12
+	11 -> 27
+	11 -> 36
+	37[label=nodo_nulo]
+	10[label= statementList1]
+	10 -> 11
+	10 -> 37
+	39[label=nodo_nulo]
+	42[label= Int]
+	41[label= variableType1]
+	41 -> 42
+	43[label= cantidad]
+	44[label=nodo_nulo]
+	46[label= "="]
+	48[label= 5]
+	47[label= value1]
+	47 -> 48
+	45[label= initiateVar]
+	45 -> 46
+	45 -> 47
+	40[label= variableDec]
+	40 -> 41
+	40 -> 43
+	40 -> 44
+	40 -> 45
+	38[label= statementList2]
+	38 -> 39
+	38 -> 40
+	9[label= statementlist]
+	9 -> 10
+	9 -> 38
+	49[label=nodo_nulo]
+	52[label= Int]
+	53[label= cantidad]
+	51[label= numberType2]
+	51 -> 52
+	51 -> 53
+	56[label=nodo_nulo]
+	59[label= Int]
+	60[label= alt]
+	58[label= numberType2]
+	58 -> 59
+	58 -> 60
+	62[label= Int]
+	63[label= lat]
+	61[label= numberType2]
+	61 -> 62
+	61 -> 63
+	57[label= statement1]
+	57 -> 58
+	57 -> 61
+	55[label= statementList1]
+	55 -> 56
+	55 -> 57
+	68[label=nodo_nulo]
+	71[label= Int]
+	72[label= alt]
+	70[label= numberType2]
+	70 -> 71
+	70 -> 72
+	74[label= 70]
+	73[label= numberType1]
+	73 -> 74
+	69[label= statement5]
+	69 -> 70
+	69 -> 73
+	67[label= statementList1]
+	67 -> 68
+	67 -> 69
+	79[label=nodo_nulo]
+	82[label= Int]
+	83[label= lat]
+	81[label= numberType2]
+	81 -> 82
+	81 -> 83
+	85[label= 100]
+	84[label= numberType1]
+	84 -> 85
+	80[label= statement6]
+	80 -> 81
+	80 -> 84
+	78[label= statementList1]
+	78 -> 79
+	78 -> 80
+	87[label=nodo_nulo]
+	88[label=nodo_nulo]
+	86[label= statementList2]
+	86 -> 87
+	86 -> 88
+	77[label= statementlist]
+	77 -> 78
+	77 -> 86
+	89[label=nodo_nulo]
+	90[label=nodo_nulo]
+	76[label= block]
+	76 -> 77
+	76 -> 89
+	76 -> 90
+	91[label=nodo_nulo]
+	75[label= statementList2]
+	75 -> 76
+	75 -> 91
+	66[label= statementlist]
+	66 -> 67
+	66 -> 75
+	92[label=nodo_nulo]
+	93[label=nodo_nulo]
+	65[label= block]
+	65 -> 66
+	65 -> 92
+	65 -> 93
+	94[label=nodo_nulo]
+	64[label= statementList2]
+	64 -> 65
+	64 -> 94
+	54[label= statementlist]
+	54 -> 55
+	54 -> 64
+	95[label= "Enddo"]
+	50[label= statement2]
+	50 -> 51
+	50 -> 54
+	50 -> 95
+	8[label= block]
+	8 -> 9
+	8 -> 49
+	8 -> 50
+	96[label= "}"]
+	5[label= subB]
+	5 -> 6
+	5 -> 7
+	5 -> 8
+	5 -> 96
+	97[label= "game"]
+	104[label=nodo_nulo]
+	105[label=nodo_nulo]
+	103[label= statementList1]
+	103 -> 104
+	103 -> 105
+	107[label=nodo_nulo]
+	110[label= Texto]
+	111[label= 10]
+	109[label= variableType2]
+	109 -> 110
+	109 -> 111
+	112[label= color]
+	114[label= 10]
+	113[label= arrayStruct]
+	113 -> 114
+	115[label=nodo_nulo]
+	108[label= variableDec]
+	108 -> 109
+	108 -> 112
+	108 -> 113
+	108 -> 115
+	106[label= statementList2]
+	106 -> 107
+	106 -> 108
+	102[label= statementlist]
+	102 -> 103
+	102 -> 106
+	116[label=nodo_nulo]
+	118[label= color]
+	120[label= 1]
+	119[label= numberType1]
+	119 -> 120
+	122[label= "="]
+	124[label= "azul"]
+	123[label= value2]
+	123 -> 124
+	121[label= initiateVar]
+	121 -> 122
+	121 -> 123
+	117[label= statement12]
+	117 -> 118
+	117 -> 119
+	117 -> 121
+	101[label= block]
+	101 -> 102
+	101 -> 116
+	101 -> 117
+	126[label= color]
+	128[label= 2]
+	127[label= numberType1]
+	127 -> 128
+	130[label= "="]
+	132[label= "rojo"]
+	131[label= value2]
+	131 -> 132
+	129[label= initiateVar]
+	129 -> 130
+	129 -> 131
+	125[label= statement12]
+	125 -> 126
+	125 -> 127
+	125 -> 129
+	100[label= statementList1]
+	100 -> 101
+	100 -> 125
+	137[label=nodo_nulo]
+	139[label= color]
+	141[label= 3]
+	140[label= numberType1]
+	140 -> 141
+	143[label= "="]
+	145[label= "amarillo"]
+	144[label= value2]
+	144 -> 145
+	142[label= initiateVar]
+	142 -> 143
+	142 -> 144
+	138[label= statement12]
+	138 -> 139
+	138 -> 140
+	138 -> 142
+	136[label= statementList1]
+	136 -> 137
+	136 -> 138
+	150[label=nodo_nulo]
+	152[label= color]
+	154[label= 4]
+	153[label= numberType1]
+	153 -> 154
+	156[label= "="]
+	158[label= "morado"]
+	157[label= value2]
+	157 -> 158
+	155[label= initiateVar]
+	155 -> 156
+	155 -> 157
+	151[label= statement12]
+	151 -> 152
+	151 -> 153
+	151 -> 155
+	149[label= statementList1]
+	149 -> 150
+	149 -> 151
+	166[label=nodo_nulo]
+	168[label= color]
+	170[label= 5]
+	169[label= numberType1]
+	169 -> 170
+	172[label= "="]
+	174[label= "turqueza"]
+	173[label= value2]
+	173 -> 174
+	171[label= initiateVar]
+	171 -> 172
+	171 -> 173
+	167[label= statement12]
+	167 -> 168
+	167 -> 169
+	167 -> 171
+	165[label= statementList1]
+	165 -> 166
+	165 -> 167
+	176[label=nodo_nulo]
+	179[label= Int]
+	178[label= variableType1]
+	178 -> 179
+	180[label= puntaje]
+	182[label= 10]
+	181[label= arrayStruct]
+	181 -> 182
+	183[label=nodo_nulo]
+	177[label= variableDec]
+	177 -> 178
+	177 -> 180
+	177 -> 181
+	177 -> 183
+	175[label= statementList2]
+	175 -> 176
+	175 -> 177
+	164[label= statementlist]
+	164 -> 165
+	164 -> 175
+	184[label=nodo_nulo]
+	186[label= puntaje]
+	188[label= 1]
+	187[label= numberType1]
+	187 -> 188
+	190[label= "="]
+	192[label= 1000]
+	191[label= value1]
+	191 -> 192
+	189[label= initiateVar]
+	189 -> 190
+	189 -> 191
+	185[label= statement12]
+	185 -> 186
+	185 -> 187
+	185 -> 189
+	163[label= block]
+	163 -> 164
+	163 -> 184
+	163 -> 185
+	194[label= puntaje]
+	196[label= 2]
+	195[label= numberType1]
+	195 -> 196
+	198[label= "="]
+	200[label= 2000]
+	199[label= value1]
+	199 -> 200
+	197[label= initiateVar]
+	197 -> 198
+	197 -> 199
+	193[label= statement12]
+	193 -> 194
+	193 -> 195
+	193 -> 197
+	162[label= statementList1]
+	162 -> 163
+	162 -> 193
+	205[label=nodo_nulo]
+	207[label= puntaje]
+	209[label= 3]
+	208[label= numberType1]
+	208 -> 209
+	211[label= "="]
+	213[label= 3000]
+	212[label= value1]
+	212 -> 213
+	210[label= initiateVar]
+	210 -> 211
+	210 -> 212
+	206[label= statement12]
+	206 -> 207
+	206 -> 208
+	206 -> 210
+	204[label= statementList1]
+	204 -> 205
+	204 -> 206
+	218[label=nodo_nulo]
+	220[label= puntaje]
+	222[label= 4]
+	221[label= numberType1]
+	221 -> 222
+	224[label= "="]
+	226[label= 4000]
+	225[label= value1]
+	225 -> 226
+	223[label= initiateVar]
+	223 -> 224
+	223 -> 225
+	219[label= statement12]
+	219 -> 220
+	219 -> 221
+	219 -> 223
+	217[label= statementList1]
+	217 -> 218
+	217 -> 219
+	231[label=nodo_nulo]
+	233[label= puntaje]
+	235[label= 5]
+	234[label= numberType1]
+	234 -> 235
+	237[label= "="]
+	239[label= 5000]
+	238[label= value1]
+	238 -> 239
+	236[label= initiateVar]
+	236 -> 237
+	236 -> 238
+	232[label= statement12]
+	232 -> 233
+	232 -> 234
+	232 -> 236
+	230[label= statementList1]
+	230 -> 231
+	230 -> 232
+	241[label=nodo_nulo]
+	244[label= Int]
+	243[label= variableType1]
+	243 -> 244
+	245[label= tiempo]
+	246[label=nodo_nulo]
+	248[label= "="]
+	250[label= 60]
+	249[label= value1]
+	249 -> 250
+	247[label= initiateVar]
+	247 -> 248
+	247 -> 249
+	242[label= variableDec]
+	242 -> 243
+	242 -> 245
+	242 -> 246
+	242 -> 247
+	240[label= statementList2]
+	240 -> 241
+	240 -> 242
+	229[label= statementlist]
+	229 -> 230
+	229 -> 240
+	253[label= Int]
+	252[label= variableType1]
+	252 -> 253
+	254[label= cant]
+	255[label=nodo_nulo]
+	257[label= "="]
+	259[label= 3]
+	258[label= value1]
+	258 -> 259
+	256[label= initiateVar]
+	256 -> 257
+	256 -> 258
+	251[label= variableDec]
+	251 -> 252
+	251 -> 254
+	251 -> 255
+	251 -> 256
+	262[label= 5]
+	261[label= numberType1]
+	261 -> 262
+	264[label= Array]
+	265[label= color]
+	263[label= arrayT]
+	263 -> 264
+	263 -> 265
+	268[label= Int]
+	269[label= cant]
+	267[label= numberType2]
+	267 -> 268
+	267 -> 269
+	271[label= Int]
+	272[label= tiempo]
+	270[label= numberType2]
+	270 -> 271
+	270 -> 272
+	266[label= randomInFor]
+	266 -> 267
+	266 -> 270
+	276[label=nodo_nulo]
+	279[label= Int]
+	280[label= cant]
+	278[label= numberType2]
+	278 -> 279
+	278 -> 280
+	282[label= 3]
+	281[label= numberType1]
+	281 -> 282
+	277[label= statement5]
+	277 -> 278
+	277 -> 281
+	275[label= statementList1]
+	275 -> 276
+	275 -> 277
+	287[label=nodo_nulo]
+	290[label= Int]
+	291[label= tiempo]
+	289[label= numberType2]
+	289 -> 290
+	289 -> 291
+	293[label= 10]
+	292[label= numberType1]
+	292 -> 293
+	288[label= statement6]
+	288 -> 289
+	288 -> 292
+	286[label= statementList1]
+	286 -> 287
+	286 -> 288
+	295[label=nodo_nulo]
+	296[label=nodo_nulo]
+	294[label= statementList2]
+	294 -> 295
+	294 -> 296
+	285[label= statementlist]
+	285 -> 286
+	285 -> 294
+	297[label=nodo_nulo]
+	298[label=nodo_nulo]
+	284[label= block]
+	284 -> 285
+	284 -> 297
+	284 -> 298
+	299[label=nodo_nulo]
+	283[label= statementList2]
+	283 -> 284
+	283 -> 299
+	274[label= statementlist]
+	274 -> 275
+	274 -> 283
+	300[label=nodo_nulo]
+	301[label=nodo_nulo]
+	273[label= block]
+	273 -> 274
+	273 -> 300
+	273 -> 301
+	302[label= "FOREND"]
+	260[label= statement7]
+	260 -> 261
+	260 -> 263
+	260 -> 266
+	260 -> 273
+	260 -> 302
+	228[label= block]
+	228 -> 229
+	228 -> 251
+	228 -> 260
+	303[label=nodo_nulo]
+	227[label= statementList2]
+	227 -> 228
+	227 -> 303
+	216[label= statementlist]
+	216 -> 217
+	216 -> 227
+	304[label=nodo_nulo]
+	305[label=nodo_nulo]
+	215[label= block]
+	215 -> 216
+	215 -> 304
+	215 -> 305
+	306[label=nodo_nulo]
+	214[label= statementList2]
+	214 -> 215
+	214 -> 306
+	203[label= statementlist]
+	203 -> 204
+	203 -> 214
+	307[label=nodo_nulo]
+	308[label=nodo_nulo]
+	202[label= block]
+	202 -> 203
+	202 -> 307
+	202 -> 308
+	309[label=nodo_nulo]
+	201[label= statementList2]
+	201 -> 202
+	201 -> 309
+	161[label= statementlist]
+	161 -> 162
+	161 -> 201
+	310[label=nodo_nulo]
+	311[label=nodo_nulo]
+	160[label= block]
+	160 -> 161
+	160 -> 310
+	160 -> 311
+	312[label=nodo_nulo]
+	159[label= statementList2]
+	159 -> 160
+	159 -> 312
+	148[label= statementlist]
+	148 -> 149
+	148 -> 159
+	313[label=nodo_nulo]
+	314[label=nodo_nulo]
+	147[label= block]
+	147 -> 148
+	147 -> 313
+	147 -> 314
+	315[label=nodo_nulo]
+	146[label= statementList2]
+	146 -> 147
+	146 -> 315
+	135[label= statementlist]
+	135 -> 136
+	135 -> 146
+	316[label=nodo_nulo]
+	317[label=nodo_nulo]
+	134[label= block]
+	134 -> 135
+	134 -> 316
+	134 -> 317
+	318[label=nodo_nulo]
+	133[label= statementList2]
+	133 -> 134
+	133 -> 318
+	99[label= statementlist]
+	99 -> 100
+	99 -> 133
+	319[label=nodo_nulo]
+	320[label=nodo_nulo]
+	98[label= block]
+	98 -> 99
+	98 -> 319
+	98 -> 320
+	321[label= "}"]
+	4[label= subB]
+	4 -> 5
+	4 -> 97
+	4 -> 98
+	4 -> 321
+	322[label= "game"]
+	332[label=nodo_nulo]
+	333[label=nodo_nulo]
+	331[label= statementList1]
+	331 -> 332
+	331 -> 333
+	335[label=nodo_nulo]
+	338[label= Int]
+	337[label= variableType1]
+	337 -> 338
+	339[label= miFila]
+	340[label=nodo_nulo]
+	342[label= "="]
+	344[label= 5]
+	343[label= value1]
+	343 -> 344
+	341[label= initiateVar]
+	341 -> 342
+	341 -> 343
+	336[label= variableDec]
+	336 -> 337
+	336 -> 339
+	336 -> 340
+	336 -> 341
+	334[label= statementList2]
+	334 -> 335
+	334 -> 336
+	330[label= statementlist]
+	330 -> 331
+	330 -> 334
+	347[label= Int]
+	346[label= variableType1]
+	346 -> 347
+	348[label= miCol]
+	349[label=nodo_nulo]
+	351[label= "="]
+	353[label= 5]
+	352[label= value1]
+	352 -> 353
+	350[label= initiateVar]
+	350 -> 351
+	350 -> 352
+	345[label= variableDec]
+	345 -> 346
+	345 -> 348
+	345 -> 349
+	345 -> 350
+	354[label=nodo_nulo]
+	329[label= block]
+	329 -> 330
+	329 -> 345
+	329 -> 354
+	355[label=nodo_nulo]
+	328[label= statementList1]
+	328 -> 329
+	328 -> 355
+	357[label=nodo_nulo]
+	360[label= Texto]
+	361[label= 10]
+	359[label= variableType2]
+	359 -> 360
+	359 -> 361
+	362[label= miArreglo]
+	364[label= 25]
+	363[label= arrayStruct]
+	363 -> 364
+	365[label=nodo_nulo]
+	358[label= variableDec]
+	358 -> 359
+	358 -> 362
+	358 -> 363
+	358 -> 365
+	356[label= statementList2]
+	356 -> 357
+	356 -> 358
+	327[label= statementlist]
+	327 -> 328
+	327 -> 356
+	366[label=nodo_nulo]
+	368[label= miArreglo]
+	370[label= 1]
+	369[label= numberType1]
+	369 -> 370
+	372[label= "="]
+	374[label= "Azul"]
+	373[label= value2]
+	373 -> 374
+	371[label= initiateVar]
+	371 -> 372
+	371 -> 373
+	367[label= statement12]
+	367 -> 368
+	367 -> 369
+	367 -> 371
+	326[label= block]
+	326 -> 327
+	326 -> 366
+	326 -> 367
+	376[label= miArreglo]
+	378[label= 2]
+	377[label= numberType1]
+	377 -> 378
+	380[label= "="]
+	382[label= "Rojo"]
+	381[label= value2]
+	381 -> 382
+	379[label= initiateVar]
+	379 -> 380
+	379 -> 381
+	375[label= statement12]
+	375 -> 376
+	375 -> 377
+	375 -> 379
+	325[label= statementList1]
+	325 -> 326
+	325 -> 375
+	390[label=nodo_nulo]
+	392[label= miArreglo]
+	394[label= 3]
+	393[label= numberType1]
+	393 -> 394
+	396[label= "="]
+	398[label= "Verde"]
+	397[label= value2]
+	397 -> 398
+	395[label= initiateVar]
+	395 -> 396
+	395 -> 397
+	391[label= statement12]
+	391 -> 392
+	391 -> 393
+	391 -> 395
+	389[label= statementList1]
+	389 -> 390
+	389 -> 391
+	400[label=nodo_nulo]
+	403[label= Int]
+	402[label= variableType1]
+	402 -> 403
+	404[label= miPuntaje]
+	406[label= 25]
+	405[label= arrayStruct]
+	405 -> 406
+	407[label=nodo_nulo]
+	401[label= variableDec]
+	401 -> 402
+	401 -> 404
+	401 -> 405
+	401 -> 407
+	399[label= statementList2]
+	399 -> 400
+	399 -> 401
+	388[label= statementlist]
+	388 -> 389
+	388 -> 399
+	408[label=nodo_nulo]
+	410[label= miPuntaje]
+	412[label= 1]
+	411[label= numberType1]
+	411 -> 412
+	414[label= "="]
+	416[label= 1000]
+	415[label= value1]
+	415 -> 416
+	413[label= initiateVar]
+	413 -> 414
+	413 -> 415
+	409[label= statement12]
+	409 -> 410
+	409 -> 411
+	409 -> 413
+	387[label= block]
+	387 -> 388
+	387 -> 408
+	387 -> 409
+	418[label= miPuntaje]
+	420[label= 2]
+	419[label= numberType1]
+	419 -> 420
+	422[label= "="]
+	424[label= 1500]
+	423[label= value1]
+	423 -> 424
+	421[label= initiateVar]
+	421 -> 422
+	421 -> 423
+	417[label= statement12]
+	417 -> 418
+	417 -> 419
+	417 -> 421
+	386[label= statementList1]
+	386 -> 387
+	386 -> 417
+	429[label=nodo_nulo]
+	431[label= miPuntaje]
+	433[label= 3]
+	432[label= numberType1]
+	432 -> 433
+	435[label= "="]
+	437[label= 2000]
+	436[label= value1]
+	436 -> 437
+	434[label= initiateVar]
+	434 -> 435
+	434 -> 436
+	430[label= statement12]
+	430 -> 431
+	430 -> 432
+	430 -> 434
+	428[label= statementList1]
+	428 -> 429
+	428 -> 430
+	442[label=nodo_nulo]
+	445[label= Int]
+	446[label= miFila]
+	444[label= numberType2]
+	444 -> 445
+	444 -> 446
+	448[label= Int]
+	449[label= miCol]
+	447[label= numberType2]
+	447 -> 448
+	447 -> 449
+	443[label= statement9]
+	443 -> 444
+	443 -> 447
+	441[label= statementList1]
+	441 -> 442
+	441 -> 443
+	454[label=nodo_nulo]
+	457[label= Int]
+	458[label= miFila]
+	456[label= numberType2]
+	456 -> 457
+	456 -> 458
+	460[label= Int]
+	461[label= miCol]
+	459[label= numberType2]
+	459 -> 460
+	459 -> 461
+	463[label= Array]
+	464[label= miArreglo]
+	462[label= arrayT]
+	462 -> 463
+	462 -> 464
+	466[label= Array]
+	467[label= miPuntaje]
+	465[label= arrayT]
+	465 -> 466
+	465 -> 467
+	455[label= statement8]
+	455 -> 456
+	455 -> 459
+	455 -> 462
+	455 -> 465
+	453[label= statementList1]
+	453 -> 454
+	453 -> 455
+	469[label=nodo_nulo]
+	470[label=nodo_nulo]
+	468[label= statementList2]
+	468 -> 469
+	468 -> 470
+	452[label= statementlist]
+	452 -> 453
+	452 -> 468
+	471[label=nodo_nulo]
+	472[label=nodo_nulo]
+	451[label= block]
+	451 -> 452
+	451 -> 471
+	451 -> 472
+	473[label=nodo_nulo]
+	450[label= statementList2]
+	450 -> 451
+	450 -> 473
+	440[label= statementlist]
+	440 -> 441
+	440 -> 450
+	474[label=nodo_nulo]
+	475[label=nodo_nulo]
+	439[label= block]
+	439 -> 440
+	439 -> 474
+	439 -> 475
+	476[label=nodo_nulo]
+	438[label= statementList2]
+	438 -> 439
+	438 -> 476
+	427[label= statementlist]
+	427 -> 428
+	427 -> 438
+	477[label=nodo_nulo]
+	478[label=nodo_nulo]
+	426[label= block]
+	426 -> 427
+	426 -> 477
+	426 -> 478
+	479[label=nodo_nulo]
+	425[label= statementList2]
+	425 -> 426
+	425 -> 479
+	385[label= statementlist]
+	385 -> 386
+	385 -> 425
+	480[label=nodo_nulo]
+	481[label=nodo_nulo]
+	384[label= block]
+	384 -> 385
+	384 -> 480
+	384 -> 481
+	482[label=nodo_nulo]
+	383[label= statementList2]
+	383 -> 384
+	383 -> 482
+	324[label= statementlist]
+	324 -> 325
+	324 -> 383
+	483[label=nodo_nulo]
+	484[label=nodo_nulo]
+	323[label= block]
+	323 -> 324
+	323 -> 483
+	323 -> 484
+	485[label= "}"]
+	3[label= subB]
+	3 -> 4
+	3 -> 322
+	3 -> 323
+	3 -> 485
+	486[label= "game"]
+	493[label=nodo_nulo]
+	494[label=nodo_nulo]
+	492[label= statementList1]
+	492 -> 493
+	492 -> 494
+	496[label=nodo_nulo]
+	499[label= Int]
+	498[label= variableType1]
+	498 -> 499
+	500[label= dist]
+	502[label= 5]
+	501[label= arrayStruct]
+	501 -> 502
+	503[label=nodo_nulo]
+	497[label= variableDec]
+	497 -> 498
+	497 -> 500
+	497 -> 501
+	497 -> 503
+	495[label= statementList2]
+	495 -> 496
+	495 -> 497
+	491[label= statementlist]
+	491 -> 492
+	491 -> 495
+	504[label=nodo_nulo]
+	506[label= dist]
+	508[label= 1]
+	507[label= numberType1]
+	507 -> 508
+	510[label= "="]
+	512[label= 450]
+	511[label= value1]
+	511 -> 512
+	509[label= initiateVar]
+	509 -> 510
+	509 -> 511
+	505[label= statement12]
+	505 -> 506
+	505 -> 507
+	505 -> 509
+	490[label= block]
+	490 -> 491
+	490 -> 504
+	490 -> 505
+	514[label= dist]
+	516[label= 2]
+	515[label= numberType1]
+	515 -> 516
+	518[label= "="]
+	520[label= 350]
+	519[label= value1]
+	519 -> 520
+	517[label= initiateVar]
+	517 -> 518
+	517 -> 519
+	513[label= statement12]
+	513 -> 514
+	513 -> 515
+	513 -> 517
+	489[label= statementList1]
+	489 -> 490
+	489 -> 513
+	525[label=nodo_nulo]
+	527[label= dist]
+	529[label= 3]
+	528[label= numberType1]
+	528 -> 529
+	531[label= "="]
+	533[label= 500]
+	532[label= value1]
+	532 -> 533
+	530[label= initiateVar]
+	530 -> 531
+	530 -> 532
+	526[label= statement12]
+	526 -> 527
+	526 -> 528
+	526 -> 530
+	524[label= statementList1]
+	524 -> 525
+	524 -> 526
+	538[label=nodo_nulo]
+	540[label= dist]
+	542[label= 4]
+	541[label= numberType1]
+	541 -> 542
+	544[label= "="]
+	546[label= 600]
+	545[label= value1]
+	545 -> 546
+	543[label= initiateVar]
+	543 -> 544
+	543 -> 545
+	539[label= statement12]
+	539 -> 540
+	539 -> 541
+	539 -> 543
+	537[label= statementList1]
+	537 -> 538
+	537 -> 539
+	551[label=nodo_nulo]
+	553[label= dist]
+	555[label= 5]
+	554[label= numberType1]
+	554 -> 555
+	557[label= "="]
+	559[label= 550]
+	558[label= value1]
+	558 -> 559
+	556[label= initiateVar]
+	556 -> 557
+	556 -> 558
+	552[label= statement12]
+	552 -> 553
+	552 -> 554
+	552 -> 556
+	550[label= statementList1]
+	550 -> 551
+	550 -> 552
+	564[label=nodo_nulo]
+	567[label= 5]
+	566[label= numberType1]
+	566 -> 567
+	568[label= var1]
+	571[label=nodo_nulo]
+	574[label= 500]
+	573[label= numberType1]
+	573 -> 574
+	577[label= Array]
+	578[label= dist]
+	579[label= var1]
+	576[label= arrayType]
+	576 -> 577
+	576 -> 578
+	576 -> 579
+	575[label= xType]
+	575 -> 576
+	581[label= 25]
+	580[label= numberType1]
+	580 -> 581
+	572[label= statement10]
+	572 -> 573
+	572 -> 575
+	572 -> 580
+	570[label= statementList1]
+	570 -> 571
+	570 -> 572
+	583[label=nodo_nulo]
+	584[label=nodo_nulo]
+	582[label= statementList2]
+	582 -> 583
+	582 -> 584
+	569[label= statementlist]
+	569 -> 570
+	569 -> 582
+	585[label= "FEnd"]
+	565[label= statement11]
+	565 -> 566
+	565 -> 568
+	565 -> 569
+	565 -> 585
+	563[label= statementList1]
+	563 -> 564
+	563 -> 565
+	587[label=nodo_nulo]
+	588[label=nodo_nulo]
+	586[label= statementList2]
+	586 -> 587
+	586 -> 588
+	562[label= statementlist]
+	562 -> 563
+	562 -> 586
+	589[label=nodo_nulo]
+	590[label=nodo_nulo]
+	561[label= block]
+	561 -> 562
+	561 -> 589
+	561 -> 590
+	591[label=nodo_nulo]
+	560[label= statementList2]
+	560 -> 561
+	560 -> 591
+	549[label= statementlist]
+	549 -> 550
+	549 -> 560
+	592[label=nodo_nulo]
+	593[label=nodo_nulo]
+	548[label= block]
+	548 -> 549
+	548 -> 592
+	548 -> 593
+	594[label=nodo_nulo]
+	547[label= statementList2]
+	547 -> 548
+	547 -> 594
+	536[label= statementlist]
+	536 -> 537
+	536 -> 547
+	595[label=nodo_nulo]
+	596[label=nodo_nulo]
+	535[label= block]
+	535 -> 536
+	535 -> 595
+	535 -> 596
+	597[label=nodo_nulo]
+	534[label= statementList2]
+	534 -> 535
+	534 -> 597
+	523[label= statementlist]
+	523 -> 524
+	523 -> 534
+	598[label=nodo_nulo]
+	599[label=nodo_nulo]
+	522[label= block]
+	522 -> 523
+	522 -> 598
+	522 -> 599
+	600[label=nodo_nulo]
+	521[label= statementList2]
+	521 -> 522
+	521 -> 600
+	488[label= statementlist]
+	488 -> 489
+	488 -> 521
+	601[label=nodo_nulo]
+	602[label=nodo_nulo]
+	487[label= block]
+	487 -> 488
+	487 -> 601
+	487 -> 602
+	603[label= "}"]
+	2[label= subB]
+	2 -> 3
+	2 -> 486
+	2 -> 487
+	2 -> 603
+	1[label=program]
+	1->2}

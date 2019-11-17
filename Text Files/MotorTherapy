@@ -1,0 +1,89 @@
+Begin
+
+game{
+
+    Int alt = 400;
+    Int lat = 850;
+    Int cantidad = 5;
+
+    Dow(Int cantidad)
+
+        Balloon(Int alt,Int lat);
+        Inc(Int alt, 70);
+        Dec(Int lat, 100);
+
+    Enddo;
+
+}
+
+
+game{
+
+    Texto(10) color(10);
+    Array color(1) = "azul";
+    Array color(2) = "rojo";
+    Array color(3) = "amarillo";
+    Array color(4) = "morado";
+    Array color(5) = "turqueza";
+    Int puntaje(10);
+    Array puntaje(1) = 1000;
+    Array puntaje(2) = 2000;
+    Array puntaje(3) = 3000;
+    Array puntaje(4) = 4000;
+    Array puntaje(5) = 5000;
+
+    Int tiempo = 60;
+    Int cant = 3;
+
+    FOR 5 times using Array color
+
+        Random(Int cant,Int tiempo);
+        Inc(Int cant, 3);
+        Dec(Int tiempo, 10);
+
+    FOREND;
+
+}
+
+
+game{
+
+    Int miFila = 5;
+    Int miCol = 5;
+
+    Texto(10) miArreglo(25);
+    Array miArreglo(1) = "Azul";
+    Array miArreglo(2) = "Rojo";
+    Array miArreglo(3) = "Verde";
+
+    Int miPuntaje(25);
+    Array miPuntaje(1) = 1000;
+    Array miPuntaje(2) = 1500;
+    Array miPuntaje(3) = 2000;
+
+    TelaArana(Int miFila,Int miCol);
+
+    ForAsignWord(Int miFila, Int miCol) DO
+        AsignWord(Array miArreglo,Array miPuntaje);
+
+}
+
+
+game{
+
+    Int dist(5);
+
+    Array dist(1) = 450;
+    Array dist(2) = 350;
+    Array dist(3) = 500;
+    Array dist(4) = 600;
+    Array dist(5) = 550;
+
+    FOR 5 times using var1
+
+        Object(500, Array dist(var1), 25);
+
+    FEnd;
+
+}
+END;
